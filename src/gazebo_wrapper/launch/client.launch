@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="gazebo_ros" type="gzclient" name="gazebo_client"/>
-</launch>
