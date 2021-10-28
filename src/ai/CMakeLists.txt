@@ -186,8 +186,6 @@ endif()
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 
-set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES OUTPUT_NAME FuzzyLiteDemo)
-set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES OUTPUT_NAME FuzzyLiteDemo IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
 set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES DEBUG_POSTFIX d)
 
 
