@@ -1,9 +1,19 @@
 #include "fl/Headers.h"
+#include "ros/ros.h"
+#include "ros/package.h"
+#include <ros/console.h>
+#include <string>
+#include "std_msgs/String.h"
 
+#include <sstream>
+
+using namespace std;
+using namespace fl;
 
 int main(int _argc, char **_argv){
- using namespace fl;
-    Engine* engine = FllImporter().fromFile("ObstacleAvoidance.fll");
+    string src_folder = ros::package::getPath("ai") + "/src";
+    ROS_INFO("AI Source folder: %s", src_folder.c_str());
+    Engine* engine = FllImporter().fromFile(src_folder + "/fuzzy_logic.fll");
 
     std::string status;
     if (not engine->isReady(&status))

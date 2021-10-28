@@ -4,12 +4,54 @@ project(ai)
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
+
+# Fuzzy logic
+option(FL_BACKTRACE "Provide backtrace information in case of errors" ON)
+option(FL_STATIC "Statically link to fuzzylite libraries" ON)
+
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    set(FL_DEBUG ON)
+else()
+    set(FL_DEBUG OFF)
+endif()
+
+set(FL_SYSTEM_LIBRARY FALSE) #Finds the library installed in the system
+set(FL_LIBRARY_DIR)
+
+if (NOT FL_SYSTEM_LIBRARY)
+    #it is possible to find the FuzzyLiteLibrary locally as follows,
+    #assuming the submodule of fuzzylite is added to the ${PROJECT_SOURCE_DIR}:
+    set(FL_HOME ${PROJECT_SOURCE_DIR}/../../../fuzzylite)
+    set(FL_INCLUDE_DIR ${FL_HOME}/fuzzylite)
+    if (FL_DEBUG)
+        set(FL_LIBRARY_DIR ${FL_HOME}/debug/bin)
+    else()
+        set(FL_LIBRARY_DIR ${FL_HOME}/release/bin)
+    endif()
+    message("Finding FuzzyLiteLibrary locally at ${FL_LIBRARY_DIR}")
+
+    include_directories(${FL_INCLUDE_DIR})
+endif()
+
+set(FL_POSTFIX)
+if (FL_STATIC)
+    set(FL_POSTFIX "-static")
+endif()
+if (FL_DEBUG)
+    set(FL_POSTFIX "${FL_POSTFIX}-debug")
+endif()
+
+set(FL_LIBRARY_NAME  fuzzylite${FL_POSTFIX})
+find_library (FuzzyLiteLibrary ${FL_LIBRARY_NAME} HINTS ${FL_LIBRARY_DIR})
+
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   gazebo
   roscpp
+  roslib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -132,13 +174,22 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/ai_node.cpp)
+add_executable(${PROJECT_NAME}_fuzzy_control src/fuzzy_control.cpp)
+
+if (NOT FL_STATIC)
+    target_compile_definitions(${PROJECT_NAME}_fuzzy_control PRIVATE FL_IMPORT_LIBRARY)
+endif()
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+
+set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES OUTPUT_NAME FuzzyLiteDemo)
+set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES OUTPUT_NAME FuzzyLiteDemo IMPORT_PREFIX tmp-) #To prevent LNK1149 in Windows
+set_target_properties(${PROJECT_NAME}_fuzzy_control PROPERTIES DEBUG_POSTFIX d)
+
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -148,6 +199,9 @@ include_directories(
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+
+target_link_libraries (${PROJECT_NAME}_fuzzy_control ${FuzzyLiteLibrary} ${BacktraceLibrary} ${catkin_LIBRARIES})
+
 
 #############
 ## Install ##
