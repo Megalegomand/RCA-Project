@@ -1,0 +1,38 @@
+[System]
+Name='TheSteeringFuzzyMemberFunctions'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=0
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='delta_omga'
+Range=[-3.142 3.142]
+NumMFs=5
+MF1='Z':'gaussmf',[0.0591 0.006]
+MF2='PM':'gbellmf',[0.345 4 1.268]
+MF3='PB':'sigmf',[15.9 0.166]
+MF4='NM':'gbellmf',[0.345 4 -1.268]
+MF5='NB':'sigmf',[-14.6 -0.157248677248677]
+
+[Input2]
+Name='delta_alpha'
+Range=[-1.15 1.15]
+NumMFs=1
+MF1='mf2':'gbellmf',[0.0814 1.69 0]
+
+[Output1]
+Name='Total_Steering'
+Range=[0 1]
+NumMFs=3
+MF1='mf1':'trimf',[-0.416666666666667 0 0.416666666666667]
+MF2='mf2':'trimf',[0.0833333333333333 0.5 0.916666666666667]
+MF3='mf3':'trimf',[0.583333333333333 1 1.41666666666667]
+
+[Rules]
