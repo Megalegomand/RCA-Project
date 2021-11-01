@@ -1,0 +1,50 @@
+[System]
+Name='TheVelocityFuzzyMemberFunctions'
+Type='mamdani'
+Version=2.0
+NumInputs=3
+NumOutputs=1
+NumRules=0
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='Speed_of_the_vehcle_(v)'
+Range=[0 25]
+NumMFs=4
+MF1='Z':'zmf',[0.1704 1.755]
+MF2='S':'dsigmf',[4.72 0.89 1.66 7.18]
+MF3='M':'gbellmf',[4.82883597883597 4.25 12.4]
+MF4='B':'smf',[14.9 20.0066137566138]
+
+[Input2]
+Name='distance_to_target_(d)'
+Range=[0 500]
+NumMFs=3
+MF1='ZS':'trapmf',[0.910497354497369 10.9144973544974 28.9144973544974 47.9144973544974]
+MF2='M':'dsigmf',[0.782 40.3439153439154 0.0698 161]
+MF3='B':'smf',[102 197.751322751323]
+
+[Input3]
+Name='change_of_speed_(delta_v)'
+Range=[-0.1 0.1]
+NumMFs=3
+MF1='N':'zmf',[-0.0192941798941799 0.000105820105820099]
+MF2='Z':'gaussmf',[0.00657 0.00152169312169314]
+MF3='P':'smf',[0.000112 0.02]
+
+[Output1]
+Name='delta_zigma_gb1'
+Range=[-0.2 0.1]
+NumMFs=6
+MF1='PS':'dsigmf',[968 0.00552 306.453726748245 0.0409]
+MF2='Z':'gaussmf',[0.00371 1.38777878078145e-17]
+MF3='PB':'smf',[0.0283 0.0527777777777778]
+MF4='NS':'dsigmf',[262 -0.0623015873015873 909 -0.00592]
+MF5='NB':'zmf',[-0.167063492063492 -0.142]
+MF6='NM':'dsigmf',[308 -0.154 347 -0.0623015873015873]
+
+[Rules]
