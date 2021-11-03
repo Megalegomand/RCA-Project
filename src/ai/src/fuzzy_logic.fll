@@ -23,3 +23,66 @@ RuleBlock: mamdani
   activation: General
   rule: if obstacle is left then mSteer is right
   rule: if obstacle is right then mSteer is left
+
+
+
+Engine: ObstaclesAvoidanceModule
+
+InputVariable: distance
+	enabled: true
+	range: 0.000 80.000
+	lock-range: false
+	term: Z zmf [0.3 20]
+	term: S dsigmf [0.5 8 2 18]
+	term: B	smf [16 20]
+
+InputVariable: angleToObstacle
+	enabled: true
+	Range: [-3.1415 3.1415]
+	lock-range: false
+	term: NM zmf [-1.4 -0.5]
+	term: Z zmf [0.3 20]
+	term: PM smf [0.5 1.4]
+	term: NS smf [16 20]
+	term: PS gaussmf [0.3 0.6]
+
+OutputVariable: SteeringVar2
+ 	enabled: true
+	range: 0.000 1.000
+	lock-range: false
+	aggregation: Maximum
+	defuzzifier: Centroid 100
+	default: nan
+	lock-previous: false
+	term: NM zmf [-0.6 -0.3]
+	term: Z gaussmf [0.05 0]
+	term: PS dsigmf [88 0.06 35 0.45]
+	term: PM smf [0.3 0.6]
+	term: NS dsigmf [35 -0.45 88 -0.06]
+
+RuleBlock: mamdani
+  enabled: true
+  conjunction: none
+  disjunction: none
+  implication: AlgebraicProduct
+  activation: General
+
+rule: If distance is Z and angleToObstacle is NM then SteeringVar2 
+rule: If distance is Z and angleToObstacle is NS then SteeringVar2 
+rule: If distance is Z and angleToObstacle is Z then SteeringVar2  
+rule: If distance is Z and angleToObstacle is PS then SteeringVar2 
+rule: If distance is Z and angleToObstacle is PM then SteeringVar2 
+rule: If distance is S and angleToObstacle is NM then SteeringVar2 
+rule: If distance is S and angleToObstacle is NS then SteeringVar2 
+rule: If distance is S and angleToObstacle is Z then SteeringVar2  
+rule: If distance is S and angleToObstacle is PS then SteeringVar2 
+rule: If distance is S and angleToObstacle is PM then SteeringVar2
+rule: If distance is B and angleToObstacle is NM then SteeringVar2 
+rule: If distance is B and angleToObstacle is NS then SteeringVar2 
+rule: If distance is B and angleToObstacle is Z then SteeringVar2  
+rule: If distance is B and angleToObstacle is PS then SteeringVar2 
+rule: If distance is B and angleToObstacle is PM then SteeringVar2 
+
+
+
+	

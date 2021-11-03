@@ -12,7 +12,7 @@ AggMethod='max'
 DefuzzMethod='centroid'
 
 [Input1]
-Name='alpha'
+Name='angleSteering'
 Range=[-3.142 3.142]
 NumMFs=5
 MF1='Z':'gaussmf',[0.1 0]
