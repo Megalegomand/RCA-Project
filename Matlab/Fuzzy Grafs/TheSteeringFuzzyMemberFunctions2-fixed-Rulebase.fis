@@ -1,0 +1,69 @@
+[System]
+Name='TheSteeringFuzzyMemberFunctions2-fixed-Rulebase'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=25
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='alpha'
+Range=[-3.142 3.142]
+NumMFs=5
+MF1='Z':'gaussmf',[0.0591 0.006]
+MF2='PM':'gbellmf',[0.345 4 1.268]
+MF3='PB':'sigmf',[15.9 0.166]
+MF4='NM':'gbellmf',[0.345 4 -1.268]
+MF5='NB':'sigmf',[-14.6 -0.157248677248677]
+
+[Input2]
+Name='delta_omega'
+Range=[-3.142 3.142]
+NumMFs=5
+MF1='Z':'gaussmf',[0.0591 0.006]
+MF2='PB':'gbellmf',[0.345 4 1.268]
+MF3='NB':'gbellmf',[0.345 4 -1.268]
+MF4='NM':'sigmf',[-14.6 -0.1572]
+MF5='PM':'sigmf',[15.9 0.166]
+
+[Output1]
+Name='delta_alpha_1'
+Range=[-1.15 1.15]
+NumMFs=5
+MF1='NM':'dsigmf',[24.5 -0.7393 52 -0.08857]
+MF2='Z':'gbellmf',[0.0814 1.69 0]
+MF3='PM':'dsigmf',[24.5 0.7454 52 0.09465]
+MF4='PB':'sigmf',[18.1 0.721]
+MF5='NB':'sigmf',[-17.2 -0.7271]
+
+[Rules]
+5 3, 2 (1) : 1
+5 4, 2 (1) : 1
+5 1, 3 (1) : 1
+5 5, 4 (1) : 1
+5 2, 4 (1) : 1
+4 3, 2 (1) : 1
+4 4, 2 (1) : 1
+4 1, 2 (1) : 1
+4 5, 4 (1) : 1
+4 2, 4 (1) : 1
+1 3, 1 (1) : 1
+1 4, 1 (1) : 1
+1 1, 2 (1) : 1
+1 5, 3 (1) : 1
+1 2, 3 (1) : 1
+2 3, 5 (1) : 1
+2 4, 1 (1) : 1
+2 1, 2 (1) : 1
+2 5, 2 (1) : 1
+2 2, 2 (1) : 1
+3 3, 5 (1) : 1
+3 4, 1 (1) : 1
+3 1, 1 (1) : 1
+3 5, 2 (1) : 1
+3 2, 2 (1) : 1
