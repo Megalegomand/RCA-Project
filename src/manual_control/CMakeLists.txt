@@ -140,6 +140,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/manual_control_node.cpp)
 add_executable(manual_control src/manual_control.cpp)
+add_executable(ros_manual_control src/ros_manual_control.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -156,6 +157,7 @@ add_executable(manual_control src/manual_control.cpp)
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(manual_control ${catkin_LIBRARIES})
+target_link_libraries(ros_manual_control ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -209,6 +211,7 @@ target_link_libraries(manual_control ${catkin_LIBRARIES})
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 target_link_libraries(manual_control ${OpenCV_LIBS} ${GAZEBO_PROTO_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_link_libraries(ros_manual_control ${OpenCV_LIBS} ${GAZEBO_PROTO_LIBRARIES} ${GAZEBO_LIBRARIES})
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

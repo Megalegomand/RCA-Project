@@ -172,10 +172,13 @@
         <use_parent_model_frame>true</use_parent_model_frame>
       </axis>
     </joint>
-    <plugin filename="libDiffDrivePlugin.so" name="diff_drive">
-      <left_joint>left_wheel_hinge</left_joint>
-      <right_joint>right_wheel_hinge</right_joint>
-      <torque>5</torque>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="diff_drive">
+      <leftJoint>left_wheel_hinge</leftJoint>
+      <rightJoint>right_wheel_hinge</rightJoint>
+      <wheelTorque>5</wheelTorque>
+      <commandTopic>/robot/control</commandTopic>
+      <updateRate>100</updateRate>
+      <robotBaseFrame>pioneer2dx</robotBaseFrame>
     </plugin>
   </model>
 </sdf>
