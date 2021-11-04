@@ -2,6 +2,8 @@
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <env name="GAZEBO_MODEL_PATH" value="$(find env_sim)/models" />
   <env name="GAZEBO_PLUGIN_PATH" value="$(find env_sim)/plugins:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins/:$GAZEBO_PLUGIN_PATH" />
+  <env name="GAZEBO_MODEL_DATABASE_URI" value="" />
+  
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find env_sim)/worlds/smallworld.world"/>
     <!-- more default parameters can be changed here -->
