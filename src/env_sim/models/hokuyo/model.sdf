@@ -52,10 +52,14 @@
             <stddev>0.03</stddev>
           </noise>
         </ray>
-        <plugin name="laser" filename="libRayPlugin.so" />
+        <!-- <plugin name="laser" filename="libRayPlugin.so" /> -->
+        <plugin name="laser" filename="libgazebo_ros_laser.so">
+          <topicName>/robot/laser/scan</topicName>
+          <frameName>hokuyo::link</frameName>
+        </plugin>
         <always_on>0</always_on>
         <update_rate>10</update_rate>
-        <visualize>true</visualize>
+        <visualize>true</visualize>man
       </sensor>
     </link>
   </model>
