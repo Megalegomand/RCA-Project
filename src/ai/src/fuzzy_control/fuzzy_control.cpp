@@ -2,7 +2,10 @@
 
 FuzzyControl::FuzzyControl()
 {
-    lidar_sub = n.subscribe("/robot/laser/scan", 1, &FuzzyControl::lidar_callback, this);
+    lidar_sub = n.subscribe("/robot/laser/scan", 1, 
+                            &FuzzyControl::lidar_callback, this);
+
+    movement_pub = n.advertise<geometry_msgs::Twist>("/robot/control", 100);
 }
 
 void FuzzyControl::lidar_callback(const sensor_msgs::LaserScan::ConstPtr scan)
