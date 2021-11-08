@@ -3,12 +3,13 @@
 #include "ros/package.h"
 #include <ros/console.h>
 #include <string>
-#include "std_msgs/String.h"
+#include "sensor_msgs/LaserScan.h"
 
 #include <sstream>
 
 using namespace std;
 using namespace fl;
+using namespace ros;
 
 Engine init_fuzzy()
 {
@@ -165,13 +166,23 @@ Engine init_fuzzy()
     return engine;
 }
 
+void lidar_callback(const sensor_msgs::LaserScanPtr)
+{
+
+}
+
 int main(int _argc, char **_argv)
 {
+    init(_argc, _argv, "fuzzy_control");
+    NodeHandle n;
+
+    Subscriber sub = n.subscribe("chatter", 1000, lidar_callback);
+    
     Engine engine = init_fuzzy();
 
     std::string status;
     if (not engine.isReady(&status))
-        throw Exception("[engine error] engine is not ready:n" + status, FL_AT);
+        throw fl::Exception("[engine error] engine is not ready:n" + status, FL_AT);
 
     InputVariable *obstacle = engine.getInputVariable("angleSteering");
     OutputVariable *steer = engine.getOutputVariable("SteeringVar1");
