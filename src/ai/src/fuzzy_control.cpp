@@ -10,11 +10,11 @@
 using namespace std;
 using namespace fl;
 
-int main(int _argc, char **_argv)
+Engine init_fuzzy()
 {
-    Engine *engine = new Engine;
-    engine->setName("TargetSteeringModule");
-    engine->setDescription("");
+    Engine engine = Engine();
+    engine.setName("TargetSteeringModule");
+    engine.setDescription("");
 
     InputVariable *angleSteering = new InputVariable;
     angleSteering->setName("angleSteering");
@@ -27,6 +27,7 @@ int main(int _argc, char **_argv)
     angleSteering->addTerm(new Sigmoid("PB", 16, 0.15));
     angleSteering->addTerm(new Bell("NM", 0.35, 4, -1.27));
     angleSteering->addTerm(new Sigmoid("NB", -16, -0.15));
+    engine.addInputVariable(angleSteering);
 
     InputVariable *angleTarget = new InputVariable;
     angleTarget->setName("angleTarget");
@@ -39,6 +40,7 @@ int main(int _argc, char **_argv)
     angleSteering->addTerm(new Sigmoid("PB", 16, 0.15));
     angleSteering->addTerm(new Bell("NM", 0.35, 4, -1.27));
     angleSteering->addTerm(new Sigmoid("NB", -16, -0.15));
+    engine.addInputVariable(angleTarget);
 
     OutputVariable *SteeringVar1 = new OutputVariable;
     SteeringVar1->setName("SteeringVar1");
@@ -55,6 +57,7 @@ int main(int _argc, char **_argv)
     SteeringVar1->addTerm(new SigmoidDifference("PM", 24.5, 0.74, 52, 0.1));
     SteeringVar1->addTerm(new Sigmoid("PB", 18, 0.75));
     SteeringVar1->addTerm(new Sigmoid("NB", -18, -0.75));
+    engine.addOutputVariable(SteeringVar1);
 
     RuleBlock *mamdani1 = new RuleBlock;
     mamdani1->setName("mamdani1");
@@ -65,32 +68,32 @@ int main(int _argc, char **_argv)
     mamdani1->setImplication(new AlgebraicProduct);
     mamdani1->setActivation(new General);
     mamdani1->setActivation(new General);
-    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is NB then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is NM then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is Z then SteeringVar1 is PM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is PM then SteeringVar1 is PB ", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is PB then SteeringVar1 is PB ", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is NB then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is NM then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is Z then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is PM then SteeringVar1 is PB", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is PB then SteeringVar1 is PB", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is NB then SteeringVar1 is NM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is NM then SteeringVar1 is NM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is Z then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is PM then SteeringVar1 is PM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is PB then SteeringVar1 is PM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is NB then SteeringVar1 is NB", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is NM then SteeringVar1 is NM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is Z then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is PM then SteeringVar1 is Z", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is PB then SteeringVar1 is Z ", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is NB then SteeringVar1 is NB", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is NM then SteeringVar1 is NM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is Z then SteeringVar1 is NM", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is PM then SteeringVar1 is Z ", engine));
-    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is PB then SteeringVar1 is Z", engine));
-    engine->addRuleBlock(mamdani1);
+    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is NB then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is NM then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is Z then SteeringVar1 is PM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is PM then SteeringVar1 is PB ", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NB and angleTarget is PB then SteeringVar1 is PB ", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is NB then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is NM then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is Z then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is PM then SteeringVar1 is PB", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is NM and angleTarget is PB then SteeringVar1 is PB", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is NB then SteeringVar1 is NM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is NM then SteeringVar1 is NM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is Z then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is PM then SteeringVar1 is PM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is Z and angleTarget is PB then SteeringVar1 is PM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is NB then SteeringVar1 is NB", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is NM then SteeringVar1 is NM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is Z then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is PM then SteeringVar1 is Z", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PM and angleTarget is PB then SteeringVar1 is Z ", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is NB then SteeringVar1 is NB", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is NM then SteeringVar1 is NM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is Z then SteeringVar1 is NM", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is PM then SteeringVar1 is Z ", &engine));
+    mamdani1->addRule(Rule::parse("if angleSteering is PB and angleTarget is PB then SteeringVar1 is Z", &engine));
+    engine.addRuleBlock(mamdani1);
 
     InputVariable *distance = new InputVariable;
     distance->setName("distance");
@@ -101,6 +104,7 @@ int main(int _argc, char **_argv)
     distance->addTerm(new ZShape("Z", 0.3, 20));
     distance->addTerm(new SigmoidDifference("S", 0.5, 8, 2, 18));
     distance->addTerm(new SShape("B", 16, 20));
+    engine.addInputVariable(distance);
 
     InputVariable *angleToObstacle = new InputVariable;
     angleToObstacle->setName("angleToObstacle");
@@ -113,6 +117,7 @@ int main(int _argc, char **_argv)
     angleToObstacle->addTerm(new SShape("PM", 0.5, 1.4));
     angleToObstacle->addTerm(new SShape("NS", 16, 20));
     angleToObstacle->addTerm(new Gaussian("PS", 0.3, 0.6));
+    engine.addInputVariable(angleToObstacle);
 
     OutputVariable *SteeringVar2 = new OutputVariable;
     SteeringVar2->setName("SteeringVar2");
@@ -129,6 +134,7 @@ int main(int _argc, char **_argv)
     SteeringVar2->addTerm(new SigmoidDifference("PS", 88, 0.06, 35, 0.45));
     SteeringVar2->addTerm(new SShape("PM", 0.3, 0.6));
     SteeringVar2->addTerm(new SigmoidDifference("NS", 35, -0.45, 88, -0.06));
+    engine.addOutputVariable(SteeringVar2);
 
     RuleBlock *mamdani2 = new RuleBlock;
     mamdani2->setName("mamdani2");
@@ -139,35 +145,42 @@ int main(int _argc, char **_argv)
     mamdani2->setImplication(new AlgebraicProduct);
     mamdani2->setActivation(new General);
     mamdani2->setActivation(new General);
-    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is NM then SteeringVar2 is PM", engine));
-    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is NS then SteeringVar2 is PM", engine));
-    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is Z then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is PS then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is PM then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is NM then SteeringVar2 is PM", engine));
-    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is NS then SteeringVar2 is PS", engine));
-    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is Z then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is PS then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is PM then SteeringVar2 is NM", engine));
-    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is NM then SteeringVar2 is Z", engine));
-    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is NS then SteeringVar2 is Z", engine));
-    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is Z then SteeringVar2 is Z", engine));
-    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is PS then SteeringVar2 is Z", engine));
-    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is PM then SteeringVar2 is Z", engine));
-    engine->addRuleBlock(mamdani2);
+    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is NM then SteeringVar2 is PM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is NS then SteeringVar2 is PM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is Z then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is PS then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is Z and angleToObstacle is PM then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is NM then SteeringVar2 is PM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is NS then SteeringVar2 is PS", &engine));
+    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is Z then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is PS then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is S and angleToObstacle is PM then SteeringVar2 is NM", &engine));
+    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is NM then SteeringVar2 is Z", &engine));
+    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is NS then SteeringVar2 is Z", &engine));
+    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is Z then SteeringVar2 is Z", &engine));
+    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is PS then SteeringVar2 is Z", &engine));
+    mamdani2->addRule(Rule::parse("if distance is B and angleToObstacle is PM then SteeringVar2 is Z", &engine));
+    engine.addRuleBlock(mamdani2);
+
+    return engine;
+}
+
+int main(int _argc, char **_argv)
+{
+    Engine engine = init_fuzzy();
 
     std::string status;
-    if (not engine->isReady(&status))
+    if (not engine.isReady(&status))
         throw Exception("[engine error] engine is not ready:n" + status, FL_AT);
 
-    InputVariable *obstacle = engine->getInputVariable("angleSteering");
-    OutputVariable *steer = engine->getOutputVariable("SteeringVar1");
+    InputVariable *obstacle = engine.getInputVariable("angleSteering");
+    OutputVariable *steer = engine.getOutputVariable("SteeringVar1");
 
     for (int i = 0; i <= 50; ++i)
     {
         scalar location = obstacle->getMinimum() + i * (obstacle->range() / 50);
         obstacle->setValue(location);
-        engine->process();
+        engine.process();
         FL_LOG("obstacle.input = " << Op::str(location) << " => "
                                    << "steer.output = " << Op::str(steer->getValue()));
     }
