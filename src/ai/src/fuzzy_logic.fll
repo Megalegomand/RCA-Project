@@ -110,7 +110,7 @@ RuleBlock: mamdani
 rule: if distance is Z and angleToObstacle is NM then SteeringVar2 
 rule: if distance is Z and angleToObstacle is NS then SteeringVar2 
 rule: if distance is Z and angleToObstacle is Z then SteeringVar2  
-rule: if distance is Z and angleToObstacle is PS then SteeringVar2 
+rule: if distance is Z and angleToObstacle is PS then SteeringVar2
 rule: if distance is Z and angleToObstacle is PM then SteeringVar2 
 rule: if distance is S and angleToObstacle is NM then SteeringVar2 
 rule: if distance is S and angleToObstacle is NS then SteeringVar2 
