@@ -263,7 +263,7 @@ void FuzzyLiteWrapper::update(float *vel, float *turn_speed, float obs_distance,
     engine->process();
 
     // Update output
-    *vel = velocity_ov->getValue();
+    *vel = 1.0f;//velocity_ov->getValue();
     *turn_speed = turn_speed_ov->getValue();
 }
 
