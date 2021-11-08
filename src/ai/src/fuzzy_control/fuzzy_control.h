@@ -17,9 +17,20 @@ private:
 
     FuzzyLiteWrapper fl_wrapper;
 public:
-    FuzzyControl(/* args */);
+    /**
+     * @brief Construct a new Fuzzy Control object
+     */
+    FuzzyControl();
 
+    /**
+     * @brief Lidar callback function
+     * 
+     * @param scan Callback variable
+     */
     void lidar_callback(const sensor_msgs::LaserScan::ConstPtr scan);
 
+    /**
+     * @brief Destroy the Fuzzy Control object
+     */
     ~FuzzyControl();
 };
