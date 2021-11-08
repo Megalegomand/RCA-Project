@@ -175,8 +175,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 file(GLOB fuzzy_SRC
-     "src/fuzzy/*.h"
-     "src/fuzzy/*.cpp"
+     "src/fuzzy_control/*.h"
+     "src/fuzzy_control/*.cpp"
 )
 
 add_executable(${PROJECT_NAME}_fuzzy_control ${fuzzy_SRC})
