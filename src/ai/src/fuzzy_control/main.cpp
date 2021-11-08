@@ -4,6 +4,7 @@
 #include <ros/console.h>
 #include <string>
 #include "sensor_msgs/LaserScan.h"
+#include "fuzzy_control.h"
 
 #include <sstream>
 
@@ -166,18 +167,16 @@ Engine init_fuzzy()
     return engine;
 }
 
-void lidar_callback(const sensor_msgs::LaserScanPtr)
-{
-
-}
-
 int main(int _argc, char **_argv)
 {
     init(_argc, _argv, "fuzzy_control");
-    NodeHandle n;
-
-    Subscriber sub = n.subscribe("chatter", 1000, lidar_callback);
     
+    FuzzyControl fc;
+
+    ros::spin();
+
+    return 0;
+/*
     Engine engine = init_fuzzy();
 
     std::string status;
@@ -195,4 +194,5 @@ int main(int _argc, char **_argv)
         FL_LOG("obstacle.input = " << Op::str(location) << " => "
                                    << "steer.output = " << Op::str(steer->getValue()));
     }
+    */
 }
