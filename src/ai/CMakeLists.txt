@@ -174,7 +174,12 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_fuzzy_control src/fuzzy_control.cpp)
+file(GLOB fuzzy_SRC
+     "src/fuzzy_control/*.h"
+     "src/fuzzy_control/*.cpp"
+)
+
+add_executable(${PROJECT_NAME}_fuzzy_control ${fuzzy_SRC})
 
 if (NOT FL_STATIC)
     target_compile_definitions(${PROJECT_NAME}_fuzzy_control PRIVATE FL_IMPORT_LIBRARY)
