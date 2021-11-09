@@ -35,7 +35,7 @@ void FuzzyLiteWrapper::init_engine()
     obs_angle->setEnabled(true);
     obs_angle->setRange(-LIDAR_RANGE, LIDAR_RANGE);
     obs_angle->setLockValueInRange(false);
-    obs_angle->addTerm(new Ramp("left", -LIDAR_RANGE, 0.000));
+    obs_angle->addTerm(new Ramp("left", 0.0, -LIDAR_RANGE));
     obs_angle->addTerm(new Ramp("right", 0.000, LIDAR_RANGE));
     engine->addInputVariable(obs_angle);
 
@@ -49,8 +49,8 @@ void FuzzyLiteWrapper::init_engine()
     turn_speed->setDefuzzifier(new Centroid(100));
     turn_speed->setDefaultValue(fl::nan);
     turn_speed->setLockPreviousValue(false);
-    turn_speed->addTerm(new Ramp("left", -0.10, 0.000));
-    turn_speed->addTerm(new Ramp("right", 0.000, 0.10));
+    turn_speed->addTerm(new Ramp("left", 0.0, -0.1));
+    turn_speed->addTerm(new Ramp("right", 0.0, 0.10));
     engine->addOutputVariable(turn_speed);
 
     // OutputVariable *target_angle = new OutputVariable;
