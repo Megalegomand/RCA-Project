@@ -60,7 +60,6 @@ void FuzzyLiteWrapper::init_engine()
     obs_distance->setEnabled(true);
     obs_distance->setRange(0.000,10.000 );
     obs_distance->setLockValueInRange(false);
-    obs_distance->setLockPreviousValue(false);
     obs_distance->addTerm(new Ramp("close", 2.000, 0.000));
     obs_distance->addTerm(new Triangle("medium", 2.000, 6.000, 8.000));
     obs_distance->addTerm(new Ramp("far", 8.000, 10.000));
