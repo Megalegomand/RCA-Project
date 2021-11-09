@@ -1,4 +1,7 @@
+#include <math.h>
 #include "fuzzylite_wrapper.h"
+
+#define LIDAR_RANGE  (3*M_PI)/4
 
 FuzzyLiteWrapper::FuzzyLiteWrapper()
 {
@@ -30,25 +33,40 @@ void FuzzyLiteWrapper::init_engine()
     obs_angle->setName("obs_angle");
     obs_angle->setDescription("");
     obs_angle->setEnabled(true);
-    obs_angle->setRange(0.000, 1.000);
+    obs_angle->setRange(-LIDAR_RANGE, LIDAR_RANGE);
     obs_angle->setLockValueInRange(false);
-    obs_angle->addTerm(new Ramp("left", 1.000, 0.000));
-    obs_angle->addTerm(new Ramp("right", 0.000, 1.000));
+    obs_angle->addTerm(new Ramp("left", -LIDAR_RANGE, 0.000));
+    obs_angle->addTerm(new Ramp("right", 0.000, LIDAR_RANGE));
     engine->addInputVariable(obs_angle);
 
     OutputVariable *turn_speed = new OutputVariable;
     turn_speed->setName("turn_speed");
     turn_speed->setDescription("");
     turn_speed->setEnabled(true);
-    turn_speed->setRange(0.000, 1.000);
+    turn_speed->setRange(-1.00, 1.00);
     turn_speed->setLockValueInRange(false);
     turn_speed->setAggregation(new Maximum);
     turn_speed->setDefuzzifier(new Centroid(100));
     turn_speed->setDefaultValue(fl::nan);
     turn_speed->setLockPreviousValue(false);
-    turn_speed->addTerm(new Ramp("left", 1.000, 0.000));
-    turn_speed->addTerm(new Ramp("right", 0.000, 1.000));
+    turn_speed->addTerm(new Ramp("left", -0.10, 0.000));
+    turn_speed->addTerm(new Ramp("right", 0.000, 0.10));
     engine->addOutputVariable(turn_speed);
+
+    // OutputVariable *target_angle = new OutputVariable;
+    // turn_speed->setName("target_angle");
+    // turn_speed->setDescription("");
+    // turn_speed->setEnabled(true);
+    // turn_speed->setRange(-0.400, 0.400);
+    // turn_speed->setLockValueInRange(false);
+    // turn_speed->setAggregation(new Maximum);
+    // turn_speed->setDefuzzifier(new Centroid(100));
+    // turn_speed->setDefaultValue(fl::nan);
+    // turn_speed->setLockPreviousValue(false);
+    // turn_speed->addTerm(new Ramp("left", -0.400, 0.000));
+    // turn_speed->addTerm(new Ramp("right", 0.000, 0.400));
+    // engine->addOutputVariable(turn_speed);
+
 
     RuleBlock *mamdani = new RuleBlock;
     mamdani->setName("mamdani");
