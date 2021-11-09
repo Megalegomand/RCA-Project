@@ -97,8 +97,6 @@ void FuzzyLiteWrapper::init_engine()
     velocity->addTerm(new Ramp("fast", 0.90, 1.40));
     engine->addOutputVariable(velocity);
 
-
-
     RuleBlock *mamdani = new RuleBlock;
     mamdani->setName("mamdani");
     mamdani->setDescription("");
@@ -141,7 +139,7 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is close then turn_speed is left", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is far_right and obs_distance is medium then turn_speed is center", engine));
+        Rule::parse("if obs_angle is far_right and obs_distance is medium t>hen turn_speed is center", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is far then turn_speed is center", engine));
     
