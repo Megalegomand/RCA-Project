@@ -35,11 +35,11 @@ void FuzzyLiteWrapper::init_engine()
     obs_angle->setEnabled(true);
     obs_angle->setRange(-LIDAR_RANGE, LIDAR_RANGE);
     obs_angle->setLockValueInRange(false);
-    obs_angle->addTerm(new Ramp("far_left", -M_PI/8, -LIDAR_RANGE));
-    obs_angle->addTerm(new Triangle("left", -0.100,-M_PI/8, -M_PI));
+    obs_angle->addTerm(new Ramp("far_left", -M_PI, -LIDAR_RANGE));
+    obs_angle->addTerm(new Triangle("left", -0.200,-M_PI/8, -M_PI));
     obs_angle->addTerm(new Triangle("center", -0.200, 0.000, 0.200));
-    obs_angle->addTerm(new Triangle("right", 0.100, M_PI/8, M_PI));
-    obs_angle->addTerm(new Ramp("far_right", M_PI/8, LIDAR_RANGE));
+    obs_angle->addTerm(new Triangle("right", 0.200, M_PI/8, M_PI));
+    obs_angle->addTerm(new Ramp("far_right", M_PI, LIDAR_RANGE));
     engine->addInputVariable(obs_angle);
 
     // InputVariable *target_angle = new InputVariable;
@@ -139,7 +139,7 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is close then turn_speed is left", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is far_right and obs_distance is medium t>hen turn_speed is center", engine));
+        Rule::parse("if obs_angle is far_right and obs_distance is medium then turn_speed is center", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is far then turn_speed is center", engine));
     
