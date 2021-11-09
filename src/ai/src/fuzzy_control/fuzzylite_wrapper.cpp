@@ -12,15 +12,13 @@ FuzzyLiteWrapper::FuzzyLiteWrapper()
         throw Exception("[engine error] engine is not ready:n" + status,
                         FL_AT);
 
-    //obs_distance_iv = engine->getInputVariable("distance");
+    obs_distance_iv = engine->getInputVariable("obs_distance");
     obs_angle_iv = engine->getInputVariable("obs_angle");
-    // target_distance_iv = engine->getInputVariable("angleSteering");
-    // target_angle_iv = engine->getInputVariable("angleTarget");
+    //target_distance_iv = engine->getInputVariable("angleSteering");
+    //target_angle_iv = engine->getInputVariable("angleTarget");
 
-    // TODO Implement velocity control
-    // velocity_ov = engine->getOutputVariable("");
+    velocity_ov = engine->getOutputVariable("velocity");
     turn_speed_ov = engine->getOutputVariable("turn_speed");
-    ;
 }
 
 void FuzzyLiteWrapper::init_engine()
@@ -103,7 +101,7 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->setName("mamdani");
     mamdani->setDescription("");
     mamdani->setEnabled(true);
-    mamdani->setConjunction(fl::null);
+    mamdani->setConjunction(new AlgebraicProduct);
     mamdani->setDisjunction(fl::null);
     mamdani->setImplication(new AlgebraicProduct);
     mamdani->setActivation(new General);
@@ -181,6 +179,7 @@ void FuzzyLiteWrapper::init_engine()
         Rule::parse("if obs_angle is far_right and obs_distance is medium then velocity is fast", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is far then velocity is fast", engine));
+    engine->addRuleBlock(mamdani);
 }
 
 void FuzzyLiteWrapper::update(float *vel, float *turn_speed,
@@ -188,13 +187,13 @@ void FuzzyLiteWrapper::update(float *vel, float *turn_speed,
                               float target_distance, float target_angle)
 {
     // Update input values
-    //obs_distance_iv->setValue(obs_distance);
+    obs_distance_iv->setValue(obs_distance);
     obs_angle_iv->setValue(obs_angle);
 
     engine->process();
 
     // Update output
-    *vel = 0.5f; // velocity_ov->getValue();
+    *vel = velocity_ov->getValue();
     *turn_speed = turn_speed_ov->getValue();
 }
 
