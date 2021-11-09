@@ -11,7 +11,7 @@ int main(int _argc, char **_argv)
 {
     init(_argc, _argv, "fuzzy_control");
     
-    FuzzyControl fc();
+    FuzzyControl fc;
 
     spin();
 
