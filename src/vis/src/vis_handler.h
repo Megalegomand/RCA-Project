@@ -9,7 +9,7 @@ private:
 public:
     VisHandler();
 
-    void camera_callback(const sensor_msgs::ImageConstPtr image);
+    void camera_callback(const sensor_msgs::ImageConstPtr call_img);
 
     ~VisHandler();
 };

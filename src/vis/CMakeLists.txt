@@ -9,6 +9,7 @@ project(vis)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  cv_bridge
 )
 
 find_package( OpenCV REQUIRED )
@@ -136,7 +137,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/vis_node.cpp)
 
-add_executable(${PROJECT_NAME}_node src/vis_node.cpp)
+add_executable(${PROJECT_NAME}_node src/vis_node.cpp src/vis_handler.h src/vis_handler.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
