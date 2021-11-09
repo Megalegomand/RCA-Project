@@ -42,17 +42,17 @@ void FuzzyLiteWrapper::init_engine()
     obs_angle->addTerm(new Ramp("far_right", M_PI/8, LIDAR_RANGE));
     engine->addInputVariable(obs_angle);
 
-    InputVariable *target_angle = new InputVariable;
-    target_angle->setName("target_angle");
-    target_angle->setDescription("");
-    target_angle->setEnabled(true);
-    target_angle->setRange(-LIDAR_RANGE, LIDAR_RANGE);
-    target_angle->setLockValueInRange(false);
-    target_angle->setLockPreviousValue(false);
-    target_angle->addTerm(new Ramp("left", 0.000, -LIDAR_RANGE));
-    target_angle->addTerm(new Triangle("center", -0.500, 0.000, 0.500));
-    target_angle->addTerm(new Ramp("right", 0.000, LIDAR_RANGE));
-    engine->addInputVariable(target_angle);
+    // InputVariable *target_angle = new InputVariable;
+    // target_angle->setName("target_angle");
+    // target_angle->setDescription("");
+    // target_angle->setEnabled(true);
+    // target_angle->setRange(-LIDAR_RANGE, LIDAR_RANGE);
+    // target_angle->setLockValueInRange(false);
+    // target_angle->setLockPreviousValue(false);
+    // target_angle->addTerm(new Ramp("left", 0.000, -LIDAR_RANGE));
+    // target_angle->addTerm(new Triangle("center", -0.500, 0.000, 0.500));
+    // target_angle->addTerm(new Ramp("right", 0.000, LIDAR_RANGE));
+    // engine->addInputVariable(target_angle);
 
     InputVariable *obs_distance = new InputVariable;
     obs_distance->setName("obs_distance");
@@ -108,11 +108,80 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->setDisjunction(fl::null);
     mamdani->setImplication(new AlgebraicProduct);
     mamdani->setActivation(new General);
+
+    //Ruleblock for turn_speed -------------------------------------------------------------------------------
+
     mamdani->addRule(
-        Rule::parse("if obs_angle is far_left then turn_speed is right", engine));
+        Rule::parse("if obs_angle is far_left and obs_distance is close then turn_speed is right", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is right then turn_speed is left", engine));
-    engine->addRuleBlock(mamdani);
+        Rule::parse("if obs_angle is far_left and obs_distance is medium then turn_speed is center", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_left and obs_distance is far then turn_speed is center", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is close then turn_speed is fast_right", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is medium then turn_speed is right", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is far then turn_speed is center", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is close then turn_speed is fast_right", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is medium then turn_speed is right", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is far then turn_speed is center", engine));
+
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is close then turn_speed is fast_left", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is medium then turn_speed is left", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is far then turn_speed is center", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is close then turn_speed is left", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is medium then turn_speed is center", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is far then turn_speed is center", engine));
+    
+    //Ruleblock for velocity -------------------------------------------------------------------------------
+
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_left and obs_distance is close then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_left and obs_distance is medium then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_left and obs_distance is far then velocity is fast", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is close then velocity is medium", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is medium then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is left and obs_distance is far then velocity is fast", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is close then velocity is slow", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is medium then velocity is medium", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is center and obs_distance is far then velocity is fast", engine));
+
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is close then velocity is medium", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is medium then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is right and obs_distance is far then velocity is fast", engine));
+    
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is close then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is medium then velocity is fast", engine));
+    mamdani->addRule(
+        Rule::parse("if obs_angle is far_right and obs_distance is far then velocity is fast", engine));
 }
 
 void FuzzyLiteWrapper::update(float *vel, float *turn_speed,
