@@ -144,35 +144,35 @@ void FuzzyLiteWrapper::init_engine()
     //Ruleblock for velocity -------------------------------------------------------------------------------
 
     mamdani->addRule(
-        Rule::parse("if obs_angle is far_left and obs_distance is close then velocity is fast", engine));
+        Rule::parse("if obs_angle is far_left and obs_distance is close then velocity is slow", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_left and obs_distance is medium then velocity is fast", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_left and obs_distance is far then velocity is fast", engine));
     
     mamdani->addRule(
-        Rule::parse("if obs_angle is left and obs_distance is close then velocity is medium", engine));
+        Rule::parse("if obs_angle is left and obs_distance is close then velocity is slow", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is left and obs_distance is medium then velocity is fast", engine));
+        Rule::parse("if obs_angle is left and obs_distance is medium then velocity is medium", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is left and obs_distance is far then velocity is fast", engine));
     
     mamdani->addRule(
         Rule::parse("if obs_angle is center and obs_distance is close then velocity is slow", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is center and obs_distance is medium then velocity is medium", engine));
+        Rule::parse("if obs_angle is center and obs_distance is medium then velocity is slow", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is center and obs_distance is far then velocity is fast", engine));
 
     mamdani->addRule(
-        Rule::parse("if obs_angle is right and obs_distance is close then velocity is medium", engine));
+        Rule::parse("if obs_angle is right and obs_distance is close then velocity is slow", engine));
     mamdani->addRule(
-        Rule::parse("if obs_angle is right and obs_distance is medium then velocity is fast", engine));
+        Rule::parse("if obs_angle is right and obs_distance is medium then velocity is medium", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is right and obs_distance is far then velocity is fast", engine));
     
     mamdani->addRule(
-        Rule::parse("if obs_angle is far_right and obs_distance is close then velocity is fast", engine));
+        Rule::parse("if obs_angle is far_right and obs_distance is close then velocity is slow", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is medium then velocity is fast", engine));
     mamdani->addRule(
