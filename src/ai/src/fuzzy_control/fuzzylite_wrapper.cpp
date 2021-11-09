@@ -103,7 +103,7 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->setName("mamdani");
     mamdani->setDescription("");
     mamdani->setEnabled(true);
-    mamdani->setConjunction(fl::null);
+    mamdani->setConjunction(new Minimum);
     mamdani->setDisjunction(fl::null);
     mamdani->setImplication(new AlgebraicProduct);
     mamdani->setActivation(new General);
@@ -181,6 +181,7 @@ void FuzzyLiteWrapper::init_engine()
         Rule::parse("if obs_angle is far_right and obs_distance is medium then velocity is fast", engine));
     mamdani->addRule(
         Rule::parse("if obs_angle is far_right and obs_distance is far then velocity is fast", engine));
+    engine->addRuleBlock(mamdani);
 }
 
 void FuzzyLiteWrapper::update(float *vel, float *turn_speed,
