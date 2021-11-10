@@ -104,7 +104,7 @@ void FuzzyLiteWrapper::init_engine()
     velocity->setEnabled(true);
     velocity->setRange(0, 1.40);
     velocity->setLockValueInRange(false);
-    velocity->setAggregation(new AlgebraicProduct); // before maximum
+    velocity->setAggregation(new Maximum); // before maximum
     velocity->setDefuzzifier(new Centroid(100));
     velocity->setDefaultValue(fl::nan);
     velocity->setLockPreviousValue(false);
