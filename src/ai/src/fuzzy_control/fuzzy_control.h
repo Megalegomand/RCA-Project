@@ -16,6 +16,8 @@ private:
     Publisher movement_pub;
 
     FuzzyLiteWrapper fl_wrapper;
+
+    geometry_msgs::Twist rel_target;
 public:
     /**
      * @brief Construct a new Fuzzy Control object
