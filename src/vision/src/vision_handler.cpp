@@ -1,4 +1,4 @@
-#include "vis_handler.h"
+#include "vision_handler.h"
 
 using namespace cv;
 using namespace std;
@@ -32,12 +32,14 @@ void VisHandler::camera_callback(const sensor_msgs::ImageConstPtr call_img)
     Mat canny;
     Canny(blurred, canny, 10, 20);
 
-    imshow("Lul", canny);
-
     vector<Vec3f> circles;
 
+    cvtColor(blurred, canny, CV_BGR2GRAY);
+
+    imshow("Lul", canny);
+
     HoughCircles(canny, circles, HOUGH_GRADIENT,
-                 2, canny.rows/4, 200, 100 );
+                 1, canny.rows/4, 20, 10);
 
     for( size_t i = 0; i < circles.size(); i++ )
     {
