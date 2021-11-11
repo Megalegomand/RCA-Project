@@ -87,7 +87,7 @@ void FuzzyLiteWrapper::init_engine()
     turn_speed->setEnabled(true);
     turn_speed->setRange(-0.40, 0.40);
     turn_speed->setLockValueInRange(false);
-    turn_speed->setAggregation(new Maximum);
+    turn_speed->setAggregation(new Maximum());
     turn_speed->setDefuzzifier(new Centroid(100));
     turn_speed->setDefaultValue(fl::nan);
     turn_speed->setLockPreviousValue(false);
@@ -104,7 +104,7 @@ void FuzzyLiteWrapper::init_engine()
     velocity->setEnabled(true);
     velocity->setRange(0, 1.40);
     velocity->setLockValueInRange(false);
-    velocity->setAggregation(new AlgebraicProduct); // before maximum
+    velocity->setAggregation(new Maximum()); // before maximum
     velocity->setDefuzzifier(new Centroid(100));
     velocity->setDefaultValue(fl::nan);
     velocity->setLockPreviousValue(false);
@@ -117,7 +117,7 @@ void FuzzyLiteWrapper::init_engine()
     mamdani->setName("mamdani");
     mamdani->setDescription("");
     mamdani->setEnabled(true);
-    mamdani->setConjunction(new AlgebraicProduct); // before minimum
+    mamdani->setConjunction(new Minimum()); // before minimum
     mamdani->setDisjunction(fl::null);
     mamdani->setImplication(new AlgebraicProduct);
     mamdani->setActivation(new General);
