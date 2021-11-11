@@ -27,6 +27,16 @@ void VisHandler::camera_callback(const sensor_msgs::ImageConstPtr call_img)
     }
 
     imshow("Test", cv_ptr->image);
+    
+    Mat blurred;
+    GaussianBlur(cv_ptr->image, blurred, Size(7, 7), 0);
+
+    imshow("Blur", blurred);
+
+    Mat canny;
+    Canny(blurred, canny, 10, 20);
+
+    imshow("Lul", canny);
 
     waitKey(100);
 }
