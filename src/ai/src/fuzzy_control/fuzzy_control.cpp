@@ -41,6 +41,20 @@ void FuzzyControl::lidar_callback(const sensor_msgs::LaserScan::ConstPtr scan)
     ROS_INFO("Angle %5f : Range %5f : Velocity %3f : Turn speed %3f",
              min_angle, min_range, velocity, turn_speed);
 }
+// float FuzzyControl::target_angle(Point goal)
+// {
+//     float angle
+
+
+//     return angle
+// }
+// float FuzzyControl::target_(Point goal)
+// {
+//     float angle
+
+    
+//     return angle
+// }
 
 FuzzyControl::~FuzzyControl()
 {

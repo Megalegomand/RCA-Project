@@ -31,6 +31,20 @@ public:
      */
     void lidar_callback(const sensor_msgs::LaserScan::ConstPtr scan);
 
+    // /**
+    //  * @brief Returns the respect angle to the target from robot
+    //  * 
+    //  * @param goal Position of the target /goal
+    //  */
+    // float target_angle(Point goal);
+
+    // /**
+    //  * @brief Returns the distance from the robot to the target
+    //  * 
+    //  * @param goal Position of the target /goal
+    //  */
+    // float target_distance(Point goal);
+
     /**
      * @brief Destroy the Fuzzy Control object
      */
