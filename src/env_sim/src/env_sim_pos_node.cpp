@@ -6,7 +6,7 @@
 bool position_callback(robot::Position::Request& req, robot::Position::Response& res)
 {
     gazebo_msgs::GetModelState model_state;
-    model_state.request.model_name = "";
+    model_state.request.model_name = "pioneer2dx";
     if (ros::service::call("/gazebo/get_model_state", model_state))
     {
         res.pose = model_state.response.pose;
