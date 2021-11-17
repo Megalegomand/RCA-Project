@@ -9,14 +9,7 @@ using namespace cv;
 
 class State
 {
-public:
-
-State();
-State(Mat* map, int x_coordinate_, int y_coordinate_); // vector <State *> connections );
-void setCurrentState(Mat *map, bool status);
-~State();
-
-
+	
 private:
 	// location of State in the envoriment
 	int x_coordinate;
@@ -29,5 +22,15 @@ private:
 
 	// points properties
 	int thickness = -1;
+
+public:
+
+State();
+State(Mat* map, int x_coordinate_, int y_coordinate_); // vector <State *> connections );
+void setCurrentState(Mat *map, bool status);
+~State();
+
+
+
 };
 
