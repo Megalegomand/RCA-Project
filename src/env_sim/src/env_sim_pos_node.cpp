@@ -1,9 +1,9 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 #include "gazebo_msgs/GetModelState.h"
-#include "robot/Position.h"
+#include "robot/GetPose.h"
 
-bool position_callback(robot::Position::Request& req, robot::Position::Response& res)
+bool position_callback(robot::GetPose::Request& req, robot::GetPose::Response& res)
 {
     gazebo_msgs::GetModelState model_state;
     model_state.request.model_name = "pioneer2dx";

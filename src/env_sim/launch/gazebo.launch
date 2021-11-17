@@ -8,4 +8,6 @@
     <arg name="world_name" value="$(find env_sim)/worlds/smallworld.world"/>
     <!-- more default parameters can be changed here -->
   </include>
+
+  <node name="env_sim_position_node" pkg="env_sim" type="env_sim_position_node" />
 </launch>

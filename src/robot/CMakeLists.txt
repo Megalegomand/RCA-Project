@@ -59,7 +59,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Service1.srv
 #   Service2.srv
 # )
-add_service_files(FILES Position.srv)
+add_service_files(
+    FILES 
+    GetPose.srv
+    GetPoint.srv
+    SetPoint.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
