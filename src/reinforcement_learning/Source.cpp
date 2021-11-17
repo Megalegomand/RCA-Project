@@ -34,9 +34,9 @@ int main(int argc, char** argv) {
 	State sixteen(&map, 55, 75);
 	State seventeen(&map, 8, 45);
 
-	ten.setCurrentState(&map, true);
-	ten.setCurrentState(&map, false);
-	ten.setCurrentState(&map, true);
+	ten.set_current_state(&map, true);
+	ten.set_current_state(&map, false);
+	ten.set_current_state(&map, true);
 
 cv::imshow("Map", map);
 
