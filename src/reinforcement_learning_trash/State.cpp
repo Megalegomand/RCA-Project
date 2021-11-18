@@ -48,7 +48,7 @@ void State::set_reward(int value)
 	reward = value;
 }
 
-void set_connected_states(vector<State*>child)
+void State::set_connected_states(Mat *map, vector<State*>child)
 {
 	connected_states = child;
 
