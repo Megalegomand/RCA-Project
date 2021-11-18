@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include <vector>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -25,11 +26,15 @@ private:
 
 	// Memory / buffer
 	vector<State*> memory;
+	int memory_size = 2000;
 
 
 public:
     Agent();
     Agent(State* start_state,vector<State*> state_size);
 	void take_action();
+	float set_exploration_proba();
+	void store_episode();
+	void train();
     ~Agent();
 };
