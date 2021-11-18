@@ -141,7 +141,8 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/robot_node.cpp)
-add_executable(${PROJECT_NAME}_constant_target_node src/robot_constant_target_node.cpp)
+add_executable(${PROJECT_NAME}_constant_target src/robot_constant_target.cpp)
+add_executable(${PROJECT_NAME}_target_node src/robot_target_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,13 +153,17 @@ add_executable(${PROJECT_NAME}_constant_target_node src/robot_constant_target_no
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(${PROJECT_NAME}_constant_target_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_constant_target ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_target_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(${PROJECT_NAME}_constant_target_node
+target_link_libraries(${PROJECT_NAME}_constant_target
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(${PROJECT_NAME}_target_node
   ${catkin_LIBRARIES}
 )
 
