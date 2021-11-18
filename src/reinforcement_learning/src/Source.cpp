@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 	vector<State*> connnect_ten ={&one, &two};
 	vector<State*> connnect_eleven ={&one, &two};
 	vector<State*> connnect_tvelve ={&one, &two};
-	vector<State*> connnect_thirteen ={&one, &two};>
+	vector<State*> connnect_thirteen ={&one, &two};
 	vector<State*> connnect_fourteen ={&one, &two};
 	vector<State*> connnect_fiveteen ={&one, &two};
 	vector<State*> connnect_sixteen ={&one, &two};
