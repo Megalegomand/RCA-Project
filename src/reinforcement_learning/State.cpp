@@ -3,7 +3,7 @@
 State::State()
 {
 }
-
+//vector child / sibling vector af s
 State::State(Mat* map, int x_coordinate_, int y_coordinate_) // vector <State*> connections)
 {
 	x_coordinate = x_coordinate_;
@@ -17,7 +17,7 @@ State::State(Mat* map, int x_coordinate_, int y_coordinate_) // vector <State*> 
 		thickness, LINE_8);
 }
 
-void State::setCurrentState(Mat *map, bool status) 
+void State::set_current_state(Mat *map, bool status) 
 {
 	if (status == true)
 	{
@@ -39,6 +39,17 @@ void State::setCurrentState(Mat *map, bool status)
 	}
 	
 
+}
+void State::set_reward(int value)
+{
+	reward = value;
+}
+
+int State::get_reward()
+{
+	int temp_reward = reward;
+	reward = 0;
+	return temp_reward;
 }
 
 State::~State()
