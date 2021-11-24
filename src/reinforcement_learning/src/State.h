@@ -14,6 +14,10 @@ private:
 	// location of State in the envoriment
 	int x_coordinate;
 	int y_coordinate;
+	Point center_pt;
+
+	//Siblings /children /connected states
+	vector<State*> connected_states;
 
 	//state status (current or not)
 	bool current = false;
@@ -27,13 +31,14 @@ private:
 public:
 
 State();
-State(Mat* map, int x_coordinate_, int y_coordinate_); // vector <State *> connections );
+State(Mat* map, int x_coordinate_, int y_coordinate_); // vector <State*> connections );
 void set_current_state(Mat *map, bool status);
 void set_reward(int value);
+void set_connected_states(Mat *map, vector<State*>child);
 int get_reward();
+Point get_center();
+State get_current_state();
 ~State();
-
-
 
 };
 

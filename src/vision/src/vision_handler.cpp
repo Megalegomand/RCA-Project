@@ -23,23 +23,74 @@ void VisHandler::camera_callback(const sensor_msgs::ImageConstPtr call_img)
     }
 
     imshow("Test", cv_ptr->image);
-    
-    Mat blurred;
-    GaussianBlur(cv_ptr->image, blurred, Size(7, 7), 0);
+    Mat undist;
 
-    imshow("Blur", blurred);
+    undistort(cv_ptr->image, undist,InputArray(cam_matrix),InputArray(dist_vec),InputArray(cam_matrix));
+    
+    // Image smoothing using gaussian, median, average, and bilateral
+    Mat gaus_blurred, median_blurred, avg_blur, bi_blur;
+
+    GaussianBlur(undist, gaus_blurred, Size(5, 5), 0);
+
+    medianBlur(undist,median_blurred ,5);
+
+    bilateralFilter(undist, bi_blur,9,75,75);
+
+    blur(undist,avg_blur,Size(3,3),Point(1,1));
+
+
+    imshow("Median blur",median_blurred);
+    imshow("Gaus blur", gaus_blurred);
+    imshow("Bilateral blur", bi_blur);
+    imshow("Gaus blur", avg_blur);
 
     Mat canny;
-    Canny(blurred, canny, 10, 20);
+    Canny(gaus_blurred, canny, 10, 20);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     vector<Vec3f> circles;
 
-    cvtColor(blurred, canny, CV_BGR2GRAY);
+    cvtColor(gaus_blurred, canny, CV_BGR2GRAY);
 
     imshow("Lul", canny);
 
+    
+
     HoughCircles(canny, circles, HOUGH_GRADIENT,
-                 1, canny.rows/4, 20, 10);
+                 1, canny.rows/4, 40, 10,1,30);
 
     for( size_t i = 0; i < circles.size(); i++ )
     {
