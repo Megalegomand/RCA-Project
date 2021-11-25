@@ -27,7 +27,7 @@ class VisHandler
                                       0.0,
                                       0.0,
                                       1.0};
-    std::vector<double> dist_vec = {0.25, 0.12, 0.00028, 0.00005, 0.0};
+    std::vector<double> dist_vec = {-0.25, 0.12, -0.00028, -0.00005, 0.0};
 
   public:
     VisHandler();
