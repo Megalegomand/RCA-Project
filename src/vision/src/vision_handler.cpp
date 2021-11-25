@@ -31,8 +31,10 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
 
     Mat cam_matrix =
         Mat(3, 3, CV_64FC1, this->cam_matrix.data());
+    Mat dist_matrix =
+        Mat(5, 1, CV_64FC1, this->dist_vec.data());
     ROS_INFO("Test");
-    undistort(cv_ptr->image, undist, cam_matrix, InputArray(dist_vec));
+    undistort(cv_ptr->image, undist, cam_matrix, dist_matrix);
 
     ROS_INFO("Test");
 
