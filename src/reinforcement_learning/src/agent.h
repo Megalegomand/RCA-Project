@@ -1,10 +1,12 @@
+#pragma once
+
 #include <iostream>
 #include <math.h>
 #include <vector>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include "State.h"
+#include "state.h"
 
 using namespace std;
 using namespace cv;
