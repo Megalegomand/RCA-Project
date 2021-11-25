@@ -10,6 +10,8 @@ project(vision)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   cv_bridge
+  message_filters
+  sensor_msgs
 )
 
 find_package( OpenCV REQUIRED )
