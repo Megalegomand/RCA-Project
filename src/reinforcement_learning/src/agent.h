@@ -7,6 +7,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "state.h"
+#include "envoriment.h"
 
 using namespace std;
 using namespace cv;
@@ -16,7 +17,7 @@ class Agent
 	
 private:
 	// Envoriment Parameters
-	vector<State*> n_states;
+	int n_states;
 	State* current_state;
 
 	// Q-learning parameters
@@ -33,7 +34,7 @@ private:
 
 public:
     Agent();
-    Agent(State* start_state,vector<State*> state_size);
+    Agent(Envoriment *map);
 	void take_action();
 	float set_exploration_proba();
 	void store_episode();

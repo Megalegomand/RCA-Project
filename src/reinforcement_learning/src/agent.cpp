@@ -4,13 +4,13 @@ Agent::Agent()
 {
 }
 
-Agent::Agent(State* start_state, vector<State*> state_size)
+Agent::Agent(Envoriment *map)
 {
-    current_state = start_state;
-    n_states = state_size;
+    //current_state = start_state;ca
+    n_states = map->get_envoriment()->size();
     
 }
-
+ 
 void Agent::take_action()
 {
 
