@@ -70,6 +70,8 @@ Envoriment::Envoriment(Mat map)
 		envoriment.push_back(state_temp);
 		state_temp.clear();
 	}
+    // ---- Set state relation
+    
 }
 
 vector<vector<State>>* Envoriment::get_envoriment()

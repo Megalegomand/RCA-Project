@@ -31,6 +31,9 @@ private:
 	vector<State*> memory;
 	int memory_size = 2000;
 
+	// Agents position and color (current_State)
+	
+
 
 public:
     Agent();
