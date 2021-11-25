@@ -6,7 +6,7 @@ Agent::Agent()
 
 Agent::Agent(Envoriment *map)
 {
-    //current_state = start_state;
+    //current_state = start_state;ca
     n_states = map->get_envoriment()->size();
     
 }

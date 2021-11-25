@@ -70,6 +70,15 @@ Envoriment::Envoriment(Mat map)
 		envoriment.push_back(state_temp);
 		state_temp.clear();
 	}
+}
+
+vector<vector<State>>* Envoriment::get_envoriment()
+{
+    return &envoriment;
+}
+
+void Envoriment::show_enoriment()
+{
 
 	for (auto i : envoriment)
 	{
@@ -81,10 +90,6 @@ Envoriment::Envoriment(Mat map)
 	}
 }
 
-vector<vector<State>>* Envoriment::get_envoriment()
-{
-    return &envoriment;
-}
 
 Envoriment::~Envoriment()
 {
