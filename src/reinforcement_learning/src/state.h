@@ -29,7 +29,7 @@ private:
 	bool current = false;
 
 	//state reward of current state
-	int reward = 0;
+	int reward;
 
 	// points properties
 	int thickness = -1;

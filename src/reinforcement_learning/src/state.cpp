@@ -26,7 +26,7 @@ State::State( int x_coordinate_, int y_coordinate_, int reward_) // vector <Stat
 	x_coordinate = x_coordinate_;
 	y_coordinate = y_coordinate_;
 	
-	reward_ = reward;
+	reward = reward_;
 
 	center_pt = Point(y_coordinate, x_coordinate + 2);
 

@@ -13,11 +13,11 @@ using namespace std;
 using namespace cv;
 
 // Mapping of states in envoriment
-	// White pix is neutral:
-	// Black pix is walls:
-	// Red   pix is traps:
-	// Green pix is low reward:
-	// Blue  pix is high reward:
+// White pix is neutral:
+// Black pix is walls:
+// Red   pix is traps:
+// Green pix is low reward:
+// Blue  pix is high reward:
 
 void mapping(cv::Mat map)
 {
@@ -30,85 +30,69 @@ void mapping(cv::Mat map)
 	int green_val = 1;
 	int blue_val = 5;
 
-	vector<vector<int>> representation;
 	vector<vector<State>> envoriment;
 
 	for (int i = 0; i < rows; i++)
 	{
-		vector<int>temp;
-		vector<State>state_temp;
+		vector<State> state_temp;
 
-		for(int y = 0; y < cols; y++)
+		for (int y = 0; y < cols; y++)
 		{
-			vector <int> pixel ={(int)map.at<cv::Vec3b>(i,y)[0], (int)map.at<cv::Vec3b>(i,y)[1], (int)map.at<cv::Vec3b>(i,y)[2]};
-			cout << pixel[0] <<pixel[1] << pixel[2] << endl;
+			vector<int> pixel = {(int)map.at<cv::Vec3b>(i, y)[0], (int)map.at<cv::Vec3b>(i, y)[1], (int)map.at<cv::Vec3b>(i, y)[2]};
 
 			// if pixel is white
-			if(pixel[0] == 255 & pixel[1] == 255 & pixel[2] == 255)
+			if (pixel[0] == 255 & pixel[1] == 255 & pixel[2] == 255)
 			{
-				temp.push_back(0);
 
-				State white_state(i,y,white_val);
+				State white_state(i, y, white_val);
 				state_temp.push_back(white_state);
 
-				cout << 0 << endl;
 			}
 			// if pixel is black
-			if(pixel[0] == 0 & pixel[1] == 0 & pixel[2] == 0)
-			{
-				temp.push_back(-1);
+			if (pixel[0] == 0 & pixel[1] == 0 & pixel[2] == 0)
+			{;
 
-				State black_state(i,y,black_val);
+				State black_state(i, y, black_val);
 				state_temp.push_back(black_state);
 
-				cout << -1 << endl;
 			}
 			// if pixel is red
-			if(pixel[0] == 0 & pixel[1] == 0 & pixel[2] == 255)
+			if (pixel[0] == 0 & pixel[1] == 0 & pixel[2] == 255)
 			{
-				temp.push_back(-5);
 
-				State red_state(i,y,red_val);
+				State red_state(i, y, red_val);
 				state_temp.push_back(red_state);
 
-				cout << -5 << endl;
 			}
 			// if pixel is green
-			if(pixel[0] == 0 & pixel[1] == 255 & pixel[2] == 0)
+			if (pixel[0] == 0 & pixel[1] == 255 & pixel[2] == 0)
 			{
-				temp.push_back(1);
 
-				State green_state(i,y,green_val);
+				State green_state(i, y, green_val);
 				state_temp.push_back(green_state);
 
-				cout << 1 << endl;
 			}
 			// if pixel is blue
-			if(pixel[0] == 255 & pixel[1] == 0 & pixel[2] == 0)
+			if (pixel[0] == 255 & pixel[1] == 0 & pixel[2] == 0)
 			{
-				temp.push_back(5);
 
-				State blue_state(i,y,blue_val);
+				State blue_state(i, y, blue_val);
 				state_temp.push_back(blue_state);
 
-				cout << 5 << endl;
 			}
 		}
-		representation.push_back(temp);
 		envoriment.push_back(state_temp);
-		temp.clear();
 		state_temp.clear();
 	}
 
-	for(auto i : representation)
+	for (auto i : envoriment)
 	{
-		for(auto y : i)
+		for (auto y : i)
 		{
-			cout << y;
+			cout << y.get_reward();
 		}
 		cout << endl;
 	}
-
 }
 
 int main(int argc, char **argv)
@@ -159,30 +143,30 @@ int main(int argc, char **argv)
 	// vector<State *> connect_seventeen = {&one, &two};
 
 	// one.set_connected_states(map, connect_one);
-		// two.set_connected_states(map, connect_two);
-		// three.set_connected_states(map, connect_three);
-		// four.set_connected_states(map, connect_four);
-		// five.set_connected_states(map, connect_five);
-		// six.set_connected_states(map, connect_six);
-		// seven.set_connected_states(map, connect_seven);
-		// eight.set_connected_states(map, connect_eight);
-		// nine.set_connected_states(map, connect_nine);
-		// ten.set_connected_states(map, connect_ten);
-		// eleven.set_connected_states(map, connect_eleven);
-		// tvelve.set_connected_states(map, connect_tvelve);
-		// thirteen.set_connected_states(map, connect_thirteen);
-		// fourteen.set_connected_states(map, connect_fourteen);
-		// fiveteen.set_connected_states(map, connect_fiveteen);
-		// sixteen.set_connected_states(map, connect_sixteen);
-		// seventeen.set_connected_states(map, connect_seventeen);
+	// two.set_connected_states(map, connect_two);
+	// three.set_connected_states(map, connect_three);
+	// four.set_connected_states(map, connect_four);
+	// five.set_connected_states(map, connect_five);
+	// six.set_connected_states(map, connect_six);
+	// seven.set_connected_states(map, connect_seven);
+	// eight.set_connected_states(map, connect_eight);
+	// nine.set_connected_states(map, connect_nine);
+	// ten.set_connected_states(map, connect_ten);
+	// eleven.set_connected_states(map, connect_eleven);
+	// tvelve.set_connected_states(map, connect_tvelve);
+	// thirteen.set_connected_states(map, connect_thirteen);
+	// fourteen.set_connected_states(map, connect_fourteen);
+	// fiveteen.set_connected_states(map, connect_fiveteen);
+	// sixteen.set_connected_states(map, connect_sixteen);
+	// seventeen.set_connected_states(map, connect_seventeen);
 
 	// ten.set_current_state(map, true);
 	// ten.set_current_state(map, false);
 	// ten.set_current_state(map, true);
 
-    // cv::line(map, one.get_center(), ten.get_center(),cv::Scalar(0,255,0), 1, cv::LINE_8, 0);
-    // cv::line(map, Point(8,9), ten.get_center(),cv::Scalar(255,0,0), 1, cv::LINE_8, 0);
- 	// cv::line(map, one.get_center(), Point(115,20),cv::Scalar(255,0,0), 1, cv::LINE_8, 0);
+	// cv::line(map, one.get_center(), ten.get_center(),cv::Scalar(0,255,0), 1, cv::LINE_8, 0);
+	// cv::line(map, Point(8,9), ten.get_center(),cv::Scalar(255,0,0), 1, cv::LINE_8, 0);
+	// cv::line(map, one.get_center(), Point(115,20),cv::Scalar(255,0,0), 1, cv::LINE_8, 0);
 
 	cv::imshow("Map", map);
 	mapping(map);
