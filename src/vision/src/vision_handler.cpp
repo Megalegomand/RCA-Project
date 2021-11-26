@@ -27,12 +27,11 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat *img = &cv_ptr->image;
+    Mat img = cv_ptr->image;
 
-    imshow("Test12", *img);
+    imshow("Test12", img);
 
     bool undistort_bool = false;
-    ROS_INFO("%i", n.getParam("undistort", undistort_bool));
     if (n.getParam("undistort", undistort_bool))
     {
         if (undistort_bool)
@@ -40,31 +39,39 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
             Mat cam_matrix = Mat(3, 3, CV_64FC1, this->cam_matrix.data());
             Mat dist_matrix = Mat(5, 1, CV_64FC1, this->dist_vec.data());
             Mat undistort_img;
-            undistort(*img, undistort_img, cam_matrix, dist_matrix);
-            img = &undistort_img;
+            undistort(img, undistort_img, cam_matrix, dist_matrix);
+            img = undistort_img;
 
-            imshow("Unidst", *img);
+            imshow("Unidst", img);
         }
     }
 
     string blur_type;
     int blur_size = 0;
-    if (n.getParam("blur_type", blur_type) && n.getParam("blur_size", blur_size))
+    if (n.getParam("blur_type", blur_type) &&
+        n.getParam("blur_size", blur_size))
     {
         Mat blur_img;
         if (blur_type == "gaussian")
-            GaussianBlur(*img, blur_img, Size(blur_size, blur_size), 0);
-            img = &blur_img;
+        {
+            GaussianBlur(img, blur_img, Size(blur_size, blur_size), 0);
+            img = blur_img;
+        }
         else if (blur_type == "median")
-            medianBlur(*img, blur_img, blur_size);
-            img = &blur_img;
+        {
+            medianBlur(img, blur_img, blur_size);
+            img = blur_img;
+        }
         else if (blur_type == "average")
-            blur(*img, blur_img, Size(blur_size, blur_size));
-            img = &blur_img;
-        else if (blur_type == "none")
-            ;
+        {
+            blur(img, blur_img, Size(blur_size, blur_size));
+            img = blur_img;
+        }
+        else
+        {
+        }
 
-        imshow("Blur", *img);
+        imshow("Blur", img);
     }
 
     waitKey(10);
