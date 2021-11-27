@@ -10,7 +10,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
-#include <vector>
+#include "vector"
 
 class VisHandler
 {
@@ -18,7 +18,7 @@ class VisHandler
     ros::NodeHandle n;
     ros::Subscriber camera_sub;
     ros::Subscriber camera_info_sub;
-    cv::Mat cam_matrix;
+    cv::Mat camera_matrix;
     cv::Mat distortion_vector;
 
   public:

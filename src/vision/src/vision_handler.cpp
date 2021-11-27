@@ -8,17 +8,38 @@ using namespace ros::topic;
 
 VisHandler::VisHandler()
 {
-    n = ros::NodeHandle("~");
+    n = ros::NodeHandle();
 
-    // Get camera and distortion matrix
-    CameraInfo cam_info = *waitForMessage<CameraInfo>(
-        "robot/camera_info", n, ros::DURATION_MAX);
+    // Get camera info
+    CameraInfoConstPtr cam_info =
+        waitForMessage<CameraInfo>("/robot/camera_info", n);
 
-    // cam_matrix = Mat(3, 3, CV_64FC1, cam_info->K.data());
-    // distortion_vector = Mat(5, 1, CV_64FC1, cam_info->D.data());
+    // Make sure it exists
+    if (!cam_info)
+    {
+        ROS_ERROR("No camera info found");
+    }
+    else
+    {
+        // Update camera parameters
+        camera_matrix = Mat(3, 3, CV_64FC1);
+        for (int i = 0; i < 9; i++) 
+        {
+            double* data = (double*) camera_matrix.data;
+            data[i] = cam_info->K[i];
+        }
 
-    camera_sub =
-        n.subscribe("/robot/image_raw", 1, &VisHandler::camera_callback, this);
+        distortion_vector = Mat(cam_info->D.size(), 1, CV_64FC1);
+        for (int i = 0; i < cam_info->D.size(); i++) 
+        {
+            double* data = (double*) distortion_vector.data;
+            data[i] = cam_info->D[i];
+        }
+
+        // Get image from Gazebo
+        camera_sub = n.subscribe("/robot/image_raw", 1,
+                                 &VisHandler::camera_callback, this);
+    }
 }
 
 void VisHandler::camera_callback(const ImageConstPtr &call_img)
@@ -40,12 +61,12 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     imshow("Test12", img);
 
     bool undistort_bool = false;
-    if (n.getParam("undistort", undistort_bool))
+    if (n.getParam("/vision_node/undistort", undistort_bool))
     {
         if (undistort_bool)
         {
             Mat undistort_img;
-            undistort(img, undistort_img, cam_matrix, distortion_vector);
+            undistort(img, undistort_img, camera_matrix, distortion_vector);
             img = undistort_img;
 
             imshow("Unidst", img);
@@ -54,8 +75,8 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
 
     string blur_type;
     int blur_size = 0;
-    if (n.getParam("blur_type", blur_type) &&
-        n.getParam("blur_size", blur_size))
+    if (n.getParam("/vision_node/blur_type", blur_type) &&
+        n.getParam("/vision_node/blur_size", blur_size))
     {
         Mat blur_img;
         if (blur_type == "gaussian")
@@ -80,7 +101,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         imshow("Blur", img);
     }
 
-    waitKey(10);
+    waitKey();
 
     return;
     /*
