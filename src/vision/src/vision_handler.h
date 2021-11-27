@@ -18,22 +18,13 @@ class VisHandler
     ros::NodeHandle n;
     ros::Subscriber camera_sub;
     ros::Subscriber camera_info_sub;
-    std::vector<double> cam_matrix = {277.19135641132203,
-                                      0.0,
-                                      160.5,
-                                      0.0,
-                                      277.19135641132203,
-                                      120.5,
-                                      0.0,
-                                      0.0,
-                                      1.0};
-    std::vector<double> dist_vec = {-0.25, 0.12, -0.00028, -0.00005, 0.0};
+    cv::Mat cam_matrix;
+    cv::Mat distortion_vector;
 
   public:
     VisHandler();
 
     void camera_callback(const sensor_msgs::ImageConstPtr &call_img);
-    void camera_info_callback(const sensor_msgs::CameraInfoConstPtr &cam_info);
 
     ~VisHandler();
 };

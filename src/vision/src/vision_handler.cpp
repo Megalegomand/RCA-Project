@@ -4,10 +4,18 @@ using namespace cv;
 using namespace std;
 using namespace sensor_msgs;
 using namespace message_filters;
+using namespace ros::topic;
 
 VisHandler::VisHandler()
 {
     n = ros::NodeHandle("~");
+
+    // Get camera and distortion matrix
+    CameraInfo cam_info = *waitForMessage<CameraInfo>(
+        "robot/camera_info", n, ros::DURATION_MAX);
+
+    // cam_matrix = Mat(3, 3, CV_64FC1, cam_info->K.data());
+    // distortion_vector = Mat(5, 1, CV_64FC1, cam_info->D.data());
 
     camera_sub =
         n.subscribe("/robot/image_raw", 1, &VisHandler::camera_callback, this);
@@ -36,10 +44,8 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     {
         if (undistort_bool)
         {
-            Mat cam_matrix = Mat(3, 3, CV_64FC1, this->cam_matrix.data());
-            Mat dist_matrix = Mat(5, 1, CV_64FC1, this->dist_vec.data());
             Mat undistort_img;
-            undistort(img, undistort_img, cam_matrix, dist_matrix);
+            undistort(img, undistort_img, cam_matrix, distortion_vector);
             img = undistort_img;
 
             imshow("Unidst", img);
