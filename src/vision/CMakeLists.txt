@@ -209,5 +209,11 @@ target_link_libraries(${PROJECT_NAME}_node ${OpenCV_LIBS} )
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(blur_test test/blur_test.test src/test/blur_test.cpp)
+  target_link_libraries(blur_test ${catkin_LIBRARIES})
+endif()
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

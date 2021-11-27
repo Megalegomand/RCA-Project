@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find env_sim)/launch/gazebo-big.launch" />
+    <node name="vision_node" pkg="vision" type="vision_node" />
+    <test test-name="blur_test" pkg="vision" type="blur_test" />
+</launch>
