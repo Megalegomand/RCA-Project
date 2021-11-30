@@ -60,7 +60,10 @@ vector<State*> State::get_connected_states()
 
 void State::show_connected_states()
 {
-
+	for(int i = 0; i < connected_states.size(); i++)
+	{
+		cout << "X =" << connected_states[i]->get_location().first << "," << "Y =" << connected_states[i]->get_location().second << endl;
+	}
 }
 
 
