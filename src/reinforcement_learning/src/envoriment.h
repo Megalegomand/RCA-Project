@@ -23,7 +23,7 @@ class Envoriment
         Envoriment();
         Envoriment(Mat map);
         vector<vector<State>>* get_envoriment(); 
-        void show_enoriment();
+        void show_envoriment();
         ~Envoriment();
 
 };

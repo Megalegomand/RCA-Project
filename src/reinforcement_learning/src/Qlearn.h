@@ -24,7 +24,7 @@ private:
 public:
 
 Qlearn();
-Qlearn(int x_coordinate_, int y_coordinate_, int reward_);
+Qlearn();
 ~Qlearn();
 
 };

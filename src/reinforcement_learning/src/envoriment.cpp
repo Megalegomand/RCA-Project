@@ -89,7 +89,7 @@ vector<vector<State>>* Envoriment::get_envoriment()
     return &envoriment;
 }
 
-void Envoriment::show_enoriment()
+void Envoriment::show_envoriment()
 {
 
 	for (auto i : envoriment)

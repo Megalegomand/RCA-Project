@@ -13,6 +13,12 @@ State::State( int x_coordinate_, int y_coordinate_, int reward_) // vector <Stat
 
 }
 
+pair State::get_location()
+{	
+	pair <int, int> location = { x_coordinate, y_coordinate };
+	return location;
+}
+
 void State::set_current_state(Mat map, bool status) 
 {
 	if (status == true)
@@ -38,6 +44,11 @@ void State::set_reward(int value)
 	reward = value;
 }
 
+int State::get_reward()
+{
+	return reward;
+}
+
 void State::set_connected_states(State* child)
 {
 	return connected_states.push_back(child);
@@ -47,10 +58,12 @@ vector<State*> State::get_connected_states()
 	return connected_states;
 }
 
-int State::get_reward()
+void State::show_connected_states()
 {
-	return reward;
+
 }
+
+
 
 State::~State()
 {

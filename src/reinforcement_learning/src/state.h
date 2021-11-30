@@ -33,11 +33,14 @@ public:
 
 State();
 State(int x_coordinate_, int y_coordinate_, int reward_); // Mat map // vector <State*> connections );
+pair get_location();
 void set_current_state(Mat map, bool status);
 void set_reward(int value);
-void set_connected_states(State* child);
-vector<State*> get_connected_states();
 int get_reward();
+void set_connected_states(State* child);
+void show_connected_states();
+vector<State*> get_connected_states();
+
 ~State();
 
 };
