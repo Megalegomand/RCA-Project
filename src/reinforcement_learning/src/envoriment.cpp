@@ -70,8 +70,18 @@ Envoriment::Envoriment(Mat map)
 		envoriment.push_back(state_temp);
 		state_temp.clear();
 	}
-    // ---- Set state relation
-    
+    // ---- Set state relationship
+	for (int i = 0; i < envoriment.size(); i++)
+	{
+
+		for (int y = 0; y < envoriment.size(); y++)
+		{
+			envoriment[i][y].set_connected_states(&envoriment[i-1][y]); // Upper state
+			envoriment[i][y].set_connected_states(&envoriment[i+1][y]); // Lower state
+			envoriment[i][y].set_connected_states(&envoriment[i][y-1]); // Left state
+			envoriment[i][y].set_connected_states(&envoriment[i-1][y+1]); // Right state
+		}
+	}
 }
 
 vector<vector<State>>* Envoriment::get_envoriment()

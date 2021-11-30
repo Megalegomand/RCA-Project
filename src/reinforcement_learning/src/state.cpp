@@ -31,9 +31,8 @@ void State::set_current_state(Mat map, bool status)
 		map.at<Vec3b>(xy) = { 0,255,0 };
 		current = false;
 	}
-	
-
 }
+
 void State::set_reward(int value)
 {
 	reward = value;

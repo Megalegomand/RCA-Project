@@ -16,6 +16,8 @@ class Envoriment
 
         vector<vector<State>> envoriment;
 
+        enum action { UP, DOWN, LEFT, RIGHT };
+
     public:
 
         Envoriment();
