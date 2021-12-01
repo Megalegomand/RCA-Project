@@ -23,16 +23,16 @@ VisHandler::VisHandler()
     {
         // Update camera parameters
         camera_matrix = Mat(3, 3, CV_64FC1);
-        for (int i = 0; i < 9; i++) 
+        for (int i = 0; i < 9; i++)
         {
-            double* data = (double*) camera_matrix.data;
+            double *data = (double *)camera_matrix.data;
             data[i] = cam_info->K[i];
         }
 
         distortion_vector = Mat(cam_info->D.size(), 1, CV_64FC1);
-        for (int i = 0; i < cam_info->D.size(); i++) 
+        for (int i = 0; i < cam_info->D.size(); i++)
         {
-            double* data = (double*) distortion_vector.data;
+            double *data = (double *)distortion_vector.data;
             data[i] = cam_info->D[i];
         }
 
@@ -56,7 +56,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat img = cv_ptr->image;
+    Mat img = cv_ptr->image.clone();
 
     imshow("Test12", img);
 
@@ -101,51 +101,39 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         imshow("Blur", img);
     }
 
-    waitKey();
+    // Turn img gray for Hough
+    cvtColor(img, img, CV_BGR2GRAY);
 
-    return;
-    /*
-        // Image smoothing using gaussian, median, average, and bilateral
-        Mat gaus_blurred, median_blurred, avg_blur, bi_blur;
+    vector<Vec3f> circles;
+    double known_radius = 0.5;
+    string distancestring;
+    double distance;
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.rows / 4, 40, 0.9,
+                 1, 51);
 
-        GaussianBlur(undist, gaus_blurred, Size(5, 5), 0);
+    for (size_t i = 0; i < circles.size(); i++)
+    {
+        Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+        int radius = cvRound(circles[i][2]);
+        // draw the circle center
+        circle(cv_ptr->image, center, 3, Scalar(0, 255, 0), -1, 8, 0);
+        // draw the circle outline
+        circle(cv_ptr->image, center, radius, Scalar(0, 0, 255), 3, 8, 0);
+        distance = (2 * known_radius * camera_matrix.at<double>(1, 1)) / (radius * 2);
+        distancestring = to_string(distance);
+        putText(cv_ptr->image,               //target image
+                distancestring,              //text
+                cv::Point(10, img.rows / 2), //top-left position
+                cv::FONT_HERSHEY_DUPLEX,
+                1.0,
+                CV_RGB(118, 185, 0), //font color
+                2);
+    }
+    namedWindow("circles", 1);
 
-        medianBlur(undist, median_blurred, 5);
+    imshow("circles", cv_ptr->image);
 
-        bilateralFilter(undist, bi_blur, 9, 75, 75);
-
-        blur(undist, avg_blur, Size(3, 3), Point(1, 1));
-
-        imshow("Median blur", median_blurred);
-        imshow("Gaus blur", gaus_blurred);
-        imshow("Bilateral blur", bi_blur);
-        imshow("Gaus blur", avg_blur);
-
-        Mat canny;
-        Canny(gaus_blurred, canny, 10, 20);
-
-        vector<Vec3f> circles;
-
-        cvtColor(gaus_blurred, canny, CV_BGR2GRAY);
-
-        imshow("Lul", canny);
-
-        HoughCircles(canny, circles, HOUGH_GRADIENT, 1, canny.rows / 4, 40, 10,
-       1, 30);
-
-        for (size_t i = 0; i < circles.size(); i++)
-        {
-            Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-            int radius = cvRound(circles[i][2]);
-            // draw the circle center
-            circle(cv_ptr->image, center, 3, Scalar(0, 255, 0), -1, 8, 0);
-            // draw the circle outline
-            circle(cv_ptr->image, center, radius, Scalar(0, 0, 255), 3, 8, 0);
-        }
-        namedWindow("circles", 1);
-        imshow("circles", cv_ptr->image);
-
-        waitKey(500);*/
+    waitKey(500);
 }
 
 VisHandler::~VisHandler()
