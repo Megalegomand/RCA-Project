@@ -23,7 +23,7 @@ private:
 
 public:
 
-Qlearn();
+Qlearn(); // ha' en take action()
 Qlearn();
 ~Qlearn();
 

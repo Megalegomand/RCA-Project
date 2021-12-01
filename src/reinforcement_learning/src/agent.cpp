@@ -10,7 +10,12 @@ Agent::Agent(Envoriment *map)
     n_states = map->get_envoriment()->size();
     
 }
- 
+
+void set_random_starting_state()
+{
+
+}
+
 void Agent::take_action()
 {
 
