@@ -81,7 +81,7 @@ Envoriment::Envoriment(Mat map)
 			envoriment[i][y].set_connected_states(&envoriment[i-1][y]); // Upper state
 			envoriment[i][y].set_connected_states(&envoriment[i+1][y]); // Lower state
 			envoriment[i][y].set_connected_states(&envoriment[i][y-1]); // Left state
-			envoriment[i][y].set_connected_states(&envoriment[i-1][y+1]); // Right state
+			envoriment[i][y].set_connected_states(&envoriment[i][y+1]); // Right state
 			}
 		}
 	}

@@ -7,6 +7,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "state.h"
+#include "agent.h"
 #include "envoriment.h"
 
 using namespace std;
@@ -24,7 +25,8 @@ private:
 public:
 
 Qlearn(); // ha' en take action()
-Qlearn();
+Qlearn(Envoriment* states, Agent* agent);
+void QUpdate();
 ~Qlearn();
 
 };

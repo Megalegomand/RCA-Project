@@ -12,15 +12,18 @@
 using namespace std;
 using namespace cv;
 
+enum class Action { UP, DOWN, LEFT, RIGHT };
+
 class Agent
 {
 	
 private:
 	// Envoriment Parameters
+	Envoriment* envoriment;
 	int n_states;
 	State* current_state;
 
-	// Q-learning parameters
+	// learning parameters
 	float lr = 0.001;
     float gamma = 0.99;
     float exploration_proba = 1.0;
@@ -31,14 +34,20 @@ private:
 	vector<State*> memory;
 	int memory_size = 2000;
 
-	// Agents position and color (current_State)
+	// Possible actions
 	
+
+	// Agents position and color (current_State)
+	vector <int> agent_color ={0,60,255}; // Orange color
+
+
 public:
 
     Agent();
     Agent(Envoriment *map);
-	void set_random_starting_state();
-	void take_action(); // i Q learn
+	void set_current_state(Mat map, int x, int y);
+	void set_random_starting_state(Mat map);
+	void take_action(Mat map, Action action); // i Q learn
 	float set_exploration_proba();
 	float get_lr();
 	float get_gamma();
