@@ -66,8 +66,6 @@ void State::show_connected_states()
 	}
 }
 
-
-
 State::~State()
 {
 }

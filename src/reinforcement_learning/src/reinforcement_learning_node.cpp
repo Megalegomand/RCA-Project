@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	
 	Envoriment big_world(map);
 	big_world.show_envoriment();
+	big_world.get_state(1,1)->show_connected_states();
 
 	//---------------------------------------------------------------------------
 

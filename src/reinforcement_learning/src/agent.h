@@ -33,12 +33,12 @@ private:
 
 	// Agents position and color (current_State)
 	
-
-
 public:
+
     Agent();
     Agent(Envoriment *map);
-	void take_action();
+	void set_random_starting_state();
+	void take_action(); // i Q learn
 	float set_exploration_proba();
 	float get_lr();
 	float get_gamma();
@@ -48,4 +48,5 @@ public:
 	void store_episode();
 	void train();
     ~Agent();
+
 };

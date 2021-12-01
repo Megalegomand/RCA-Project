@@ -74,12 +74,15 @@ Envoriment::Envoriment(Mat map)
 	for (int i = 0; i < envoriment.size(); i++)
 	{
 
-		for (int y = 0; y < envoriment.size(); y++)
-		{
+		for (int y = 0; y < envoriment[0].size(); y++)
+		{	
+			if(envoriment[i][y].get_reward() != black_val)
+			{
 			envoriment[i][y].set_connected_states(&envoriment[i-1][y]); // Upper state
 			envoriment[i][y].set_connected_states(&envoriment[i+1][y]); // Lower state
 			envoriment[i][y].set_connected_states(&envoriment[i][y-1]); // Left state
 			envoriment[i][y].set_connected_states(&envoriment[i-1][y+1]); // Right state
+			}
 		}
 	}
 }
@@ -87,6 +90,10 @@ Envoriment::Envoriment(Mat map)
 vector<vector<State>>* Envoriment::get_envoriment()
 {
     return &envoriment;
+}
+State* Envoriment::get_state(int x, int y)
+{
+	return &envoriment[x][y];
 }
 
 void Envoriment::show_envoriment()
@@ -101,7 +108,6 @@ void Envoriment::show_envoriment()
 		cout << endl;
 	}
 }
-
 
 Envoriment::~Envoriment()
 {
