@@ -13,7 +13,7 @@ State::State( int x_coordinate_, int y_coordinate_, int reward_) // vector <Stat
 
 }
 
-pair State::get_location()
+pair<int, int> State::get_location()
 {	
 	pair <int, int> location = { x_coordinate, y_coordinate };
 	return location;

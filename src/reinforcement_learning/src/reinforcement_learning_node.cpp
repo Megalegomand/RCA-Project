@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	//----------------Maps the states--------------------------------------------
 	
 	Envoriment big_world(map);
-	big_world.show_enoriment();
+	big_world.show_envoriment();
 
 	//---------------------------------------------------------------------------
 
