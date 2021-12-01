@@ -16,7 +16,7 @@ using namespace cv;
 int main(int argc, char **argv)
 {
 
-	// Loads in the map to be displayed-----------
+	// Loads in the map to be displayed------------------------------------------
 
 	cv::Mat map;
 	cv::namedWindow("Map", cv::WINDOW_NORMAL);
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	//----------------Maps the states--------------------------------------------
 	
 	Envoriment big_world(map);
-	big_world.show_enoriment();
+	big_world.show_envoriment();
 
 	//---------------------------------------------------------------------------
 

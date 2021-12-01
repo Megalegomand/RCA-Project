@@ -16,12 +16,14 @@ class Envoriment
 
         vector<vector<State>> envoriment;
 
+        enum action { UP, DOWN, LEFT, RIGHT };
+
     public:
 
         Envoriment();
         Envoriment(Mat map);
         vector<vector<State>>* get_envoriment(); 
-        void show_enoriment();
+        void show_envoriment();
         ~Envoriment();
 
 };

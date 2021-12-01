@@ -17,11 +17,6 @@ private:
 	int x_coordinate;
 	int y_coordinate;
 
-	Point center_pt;
-
-	Point p1;
-	Point p2;
-
 	//Siblings /children /connected states
 	vector<State*> connected_states;
 
@@ -38,12 +33,14 @@ public:
 
 State();
 State(int x_coordinate_, int y_coordinate_, int reward_); // Mat map // vector <State*> connections );
+pair<int,int> get_location();
 void set_current_state(Mat map, bool status);
 void set_reward(int value);
-void set_connected_states(Mat map, vector<State*>child);
 int get_reward();
-Point get_center();
-State get_current_state();
+void set_connected_states(State* child);
+void show_connected_states();
+vector<State*> get_connected_states();
+
 ~State();
 
 };
