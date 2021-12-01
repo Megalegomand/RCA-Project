@@ -56,7 +56,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat img = cv_ptr->image;
+    Mat img = cv_ptr->image.clone();
 
     imshow("Test12", img);
 
@@ -100,6 +100,9 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
 
         imshow("Blur", img);
     }
+
+    // Turn img gray for Hough
+    cvtColor(img, img, CV_BGR2GRAY);
 
     vector<Vec3f> circles;
     double known_radius = 0.5;
