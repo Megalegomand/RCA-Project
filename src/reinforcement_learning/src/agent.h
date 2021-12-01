@@ -40,6 +40,11 @@ public:
     Agent(Envoriment *map);
 	void take_action();
 	float set_exploration_proba();
+	float get_lr();
+	float get_gamma();
+	float get_exploration_proba();
+	float get_exploration_proba_decay();
+	float get_batch_size();
 	void store_episode();
 	void train();
     ~Agent();
