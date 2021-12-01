@@ -101,8 +101,6 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         imshow("Blur", img);
     }
 
-    waitKey();
-
     vector<Vec3f> circles;
     double known_radius = 0.5;
     string distancestring;
