@@ -20,12 +20,13 @@ class Qlearn
 private:
 
 	//States
-	vector<vector<State*>> Qtable;
+	vector<State*> Qtable;
 
 public:
 
 Qlearn(); // ha' en take action()
 Qlearn(Envoriment* states, Agent* agent);
+void QBellmanEq();
 void QUpdate();
 ~Qlearn();
 

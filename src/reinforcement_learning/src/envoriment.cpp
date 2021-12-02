@@ -13,7 +13,7 @@ Envoriment::Envoriment(Mat map)
 	int cols = map.cols;
 
 	int white_val = 1;
-	int black_val = -1;
+	int black_val = 0;
 	int red_val = -8;
 	int green_val = 5;
 	int blue_val = 8;
