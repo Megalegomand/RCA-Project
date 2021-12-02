@@ -19,8 +19,8 @@ class Qlearn
 	
 private:
 
-	//Siblings /children /connected states
-	vector<State*> Qtable;
+	//States
+	vector<vector<State*>> Qtable;
 
 public:
 

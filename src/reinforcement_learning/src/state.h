@@ -40,7 +40,6 @@ int get_reward();
 void set_connected_states(State* child);
 void show_connected_states();
 vector<State*> get_connected_states();
-
 ~State();
 
 };
