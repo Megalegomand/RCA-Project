@@ -20,7 +20,8 @@ class Qlearn
 private:
 
 	//States
-	vector<State*> Qtable;
+
+	vector<vector<State*>> Qtable;
 
 public:
 
