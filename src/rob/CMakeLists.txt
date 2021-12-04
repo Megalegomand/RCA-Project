@@ -9,6 +9,7 @@ project(rob)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib
 )
 
 find_package( OpenCV REQUIRED )
@@ -159,6 +160,7 @@ add_dependencies(${PROJECT_NAME}_navigation_node ${${PROJECT_NAME}_EXPORTED_TARG
 # )
 target_link_libraries(${PROJECT_NAME}_navigation_node
   ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
 )
 
 #############
