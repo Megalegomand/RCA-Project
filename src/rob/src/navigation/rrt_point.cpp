@@ -1,4 +1,4 @@
-#include "point.h"
+#include "rrt_point.h"
 
 RRTPoint::RRTPoint(int x, int y)
 {

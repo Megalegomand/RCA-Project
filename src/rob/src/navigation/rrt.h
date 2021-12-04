@@ -6,9 +6,9 @@
 class RRT
 {
 private:
-    cv::Mat map;
+    cv::Mat* map;
 public:
-    RRT(cv::Mat map, RRTPoint start);
+    RRT(cv::Mat* map, RRTPoint start);
     bool build(RRTPoint end);
     ~RRT();
 };

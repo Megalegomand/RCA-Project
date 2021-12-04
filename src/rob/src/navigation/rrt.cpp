@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-RRT::RRT(Mat map)
+RRT::RRT(Mat* map, RRTPoint start)
 {
     this->map = map;
 }
