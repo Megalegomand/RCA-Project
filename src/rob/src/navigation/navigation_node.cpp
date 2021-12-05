@@ -4,6 +4,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "string"
+#include "rrt.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +12,9 @@ int main(int argc, char *argv[])
 
     std::string map_path = ros::package::getPath("env_sim") + "/models/bigworld/meshes/floorplan.png";
     cv::Mat map = cv::imread(map_path);
-    
+
+    RRT rrt(map);
+
     cv::imshow("Kage", map);
 
     return 0;
