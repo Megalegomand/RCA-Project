@@ -4,12 +4,16 @@
 Qlearn::Qlearn()
 {
 }
-Qlearn::Qlearn(Envoriment* states_, Agent* agent_)
+Qlearn::Qlearn(Envoriment* states_)
 {
     states = states_;
-    agent = agent_;
+
+
 }
 void Qlearn::QBellmanEq()
+{
+}
+void Qlearn::train()
 {
 }
 void Qlearn::QUpdate()
