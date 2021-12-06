@@ -38,12 +38,12 @@ bool RRTPoint::collision_line(cv::Mat *map, RRTPoint *p)
     float a = angle(p);
     for (int i = 0; i < ceil(dist(p)); i++)
     {
-        float lx = cos(x) * i + x;
-        float ly = sin(x) * i + y;
-        if (map->at<Vec3b>((int)floor(lx), (int)floor(ly)) == Vec3b(0, 0, 0) ||
-            map->at<Vec3b>((int)ceil(lx), (int)floor(ly)) == Vec3b(0, 0, 0) ||
-            map->at<Vec3b>((int)floor(lx), (int)ceil(ly)) == Vec3b(0, 0, 0) ||
-            map->at<Vec3b>((int)ceil(lx), (int)ceil(ly)) == Vec3b(0, 0, 0))
+        float lx = cos(a) * i + x;
+        float ly = sin(a) * i + y;
+        if (map->at<Vec3b>((int)floor(ly), (int)floor(lx)) == Vec3b(0, 0, 0) ||
+            map->at<Vec3b>((int)ceil(ly), (int)floor(lx)) == Vec3b(0, 0, 0) ||
+            map->at<Vec3b>((int)floor(ly), (int)ceil(lx)) == Vec3b(0, 0, 0) ||
+            map->at<Vec3b>((int)ceil(ly), (int)ceil(lx)) == Vec3b(0, 0, 0))
         {
             return true;
         }

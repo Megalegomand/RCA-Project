@@ -81,7 +81,7 @@ bool RRT::build(RRTPoint end, bool vis)
         RRTPoint *q_near = closest(&q);
 
         float angle = q_near->angle(&q);
-        int step = std::min(step_size, (int) q.dist(q_near));
+        int step = std::min(step_size, (int)q.dist(q_near));
 
         RRTPoint q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
                                   q_near->get_y() + sin(angle) * step);
@@ -90,14 +90,25 @@ bool RRT::build(RRTPoint end, bool vis)
                  q.get_y(), q_near->get_x(), q_near->get_y(), q_new.get_x(),
                  q_new.get_y());
 
-        if (q_near->collision_free_line(q_new))
+        if (q_near->collision_line(map, &q_new) || exists(&q_new))
+        {
+            ROS_INFO("Collision");
             continue;
+        }
+
+        ROS_INFO("Kage");
+        nodes.push_back(q_new);
+        ROS_INFO("Kage");
 
         if (vis)
         {
             map_vis = map->clone();
             namedWindow("Visual", WINDOW_KEEPRATIO);
-            q.mark(&map_vis, Vec3b(255, 0, 255));
+            
+            for (RRTPoint p : nodes)
+            {
+                p.mark(&map_vis, Vec3b(255, 0, 255));
+            }
             q_near->mark(&map_vis, Vec3b(0, 0, 255));
             q_new.mark(&map_vis, Vec3b(255, 0, 0));
             imshow("Visual", map_vis);

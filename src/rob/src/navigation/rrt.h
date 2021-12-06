@@ -13,7 +13,7 @@ private:
     cv::Mat* map;
     cv::Mat map_vis;
     std::vector<RRTPoint> nodes;
-    int iterations = 100;
+    int iterations = 1000;
     int step_size = 10;
 
     RRTPoint random_point();
