@@ -90,6 +90,9 @@ bool RRT::build(RRTPoint end, bool vis)
                  q.get_y(), q_near->get_x(), q_near->get_y(), q_new.get_x(),
                  q_new.get_y());
 
+        if (q_near->collision_free_line(q_new))
+            continue;
+
         if (vis)
         {
             map_vis = map->clone();

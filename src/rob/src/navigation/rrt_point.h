@@ -16,5 +16,6 @@ public:
     float dist(RRTPoint* p);
     float angle(RRTPoint* p);
     void mark(cv::Mat* map, cv::Vec3b color);
+    bool collision_line(cv::Mat* map, RRTPoint *p);
     ~RRTPoint();
 };
