@@ -21,12 +21,15 @@ private:
 
 	//States
 
+	Envoriment* states;
+	Agent* agent;
+
 	vector<vector<State*>> Qtable;
 
 public:
 
 Qlearn(); // ha' en take action()
-Qlearn(Envoriment* states, Agent* agent);
+Qlearn(Envoriment* states_, Agent* agent_);
 void QBellmanEq();
 void QUpdate();
 ~Qlearn();

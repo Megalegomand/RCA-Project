@@ -20,11 +20,15 @@ private:
 	//Siblings /children /connected states
 	vector<State*> connected_states;
 
+
 	//state status (current or not)
 	bool current = false;
 
 	//state reward of current state
 	int reward;
+
+	// Q properties
+	float QValue = 0;
 
 	// points properties
 	int thickness = -1;

@@ -4,19 +4,10 @@
 Qlearn::Qlearn()
 {
 }
-Qlearn::Qlearn(Envoriment* states, Agent* agent)
+Qlearn::Qlearn(Envoriment* states_, Agent* agent_)
 {
-    for (int i = 0; i < states->get_envoriment()->size(); i++)
-    {
-        for (int y = 0; y < states->get_envoriment()[0].size(); y++)
-        {
-        
-        }
-        
-    }
-    
-
-
+    states = states_;
+    agent = agent_;
 }
 void Qlearn::QBellmanEq()
 {
