@@ -53,7 +53,22 @@ void State::set_reward(int value)
 {
 	reward = value;
 }
-
+bool State::set_isVisted()
+{
+	return isVisted = true;
+}
+int State::set_VisitedCounter()
+{
+	return VisitedCounter = VisitedCounter+1;
+}
+int State::reset_VisitedCounter()
+{
+	return VisitedCounter = 0;
+}
+int State::get_VisitedCounter()
+{
+	return VisitedCounter;
+}
 int State::get_reward()
 {
 	return reward;

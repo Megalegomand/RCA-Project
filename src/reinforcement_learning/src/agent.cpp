@@ -29,6 +29,8 @@ void Agent::set_current_state(Mat map, int x, int y)
     new_loc[2] = agent_color[2];
 
     map.at<Vec3b>(x, y) = new_loc;
+    envoriment->get_state(x, y)->set_isVisted();
+    envoriment->get_state(x, y)->set_VisitedCounter();
     current_state = envoriment->get_state(x, y);
 }
 
@@ -43,6 +45,7 @@ void Agent::set_random_starting_state(Mat map)
         int x = rand() % envoriment->get_envoriment()->size();
         int y = rand() % envoriment->get_envoriment()[0].size();
     }
+    starting_state = envoriment->get_state(x, y);
     set_current_state(map, x, y);
 }
 
@@ -128,6 +131,10 @@ float Agent::get_exploration_proba_decay()
 float Agent::get_batch_size()
 {
     return batch_size;
+}
+State* Agent::get_agent_location()
+{
+    return current_state;
 }
 
 // void Agent::store_episode()

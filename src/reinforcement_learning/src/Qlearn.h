@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <math.h>
+#include <random>
+#include <algorithm>
 #include <vector>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -21,6 +23,7 @@ private:
 
 	//States
 	Envoriment* states;
+	Agent* robot;
 	//Q-table
 	vector<vector<State*>> Qtable;
 	//Number of episodes
@@ -38,12 +41,14 @@ private:
 public:
 
 Qlearn(); // ha' en take action()
-Qlearn(int n_episodes_, Envoriment* states_);
+Qlearn(int n_episodes_, Envoriment* states_, Agent* agent_);
 void doAction();
-void getAction();
+State* getAction();
 void doEpisode();
 void train();
+void displayQTable();
 void QUpdate();
+void implementAgent();
 void ExportData();
 ~Qlearn();
 

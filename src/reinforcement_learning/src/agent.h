@@ -23,6 +23,7 @@ private:
 	Envoriment* envoriment;
 	int n_states;
 	State* current_state;
+	State* starting_state;
 
 	// learning parameters
 	float lr = 0.001;
@@ -55,6 +56,7 @@ public:
 	float get_exploration_proba();
 	float get_exploration_proba_decay();
 	float get_batch_size();
+	State* get_agent_location();
 	void store_episode();
 	/*void train(Qlearn* algo, int number_of_episode, int interations_pr_epi);*/
     ~Agent();
