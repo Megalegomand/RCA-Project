@@ -160,8 +160,9 @@ add_dependencies(${PROJECT_NAME}_navigation_node ${${PROJECT_NAME}_EXPORTED_TARG
 # )
 target_link_libraries(${PROJECT_NAME}_navigation_node
   ${catkin_LIBRARIES}
-  ${OpenCV_LIBS}
 )
+
+target_link_libraries(${PROJECT_NAME}_navigation_node ${OpenCV_LIBS} )
 
 #############
 ## Install ##

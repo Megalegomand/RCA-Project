@@ -23,9 +23,9 @@ float RRTPoint::dist(RRTPoint& p)
     return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
 }
 
-void RRTPoint::mark(Mat* map, Scalar color)
+void RRTPoint::mark(Mat* map, Vec3b color)
 {
-    map->at<Scalar>(y, x) = color;
+    map->at<Vec3b>(y, x) = color;
 }
 
 RRTPoint::~RRTPoint()

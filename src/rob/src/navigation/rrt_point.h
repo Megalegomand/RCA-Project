@@ -1,3 +1,5 @@
+#pragma once
+
 #include "vector"
 #include "math.h"
 #include <opencv2/core/core.hpp>
@@ -12,6 +14,6 @@ public:
     int get_x();
     int get_y();
     float dist(RRTPoint& p);
-    void mark(cv::Mat* map, cv::Scalar color);
+    void mark(cv::Mat* map, cv::Vec3b color);
     ~RRTPoint();
 };

@@ -1,8 +1,11 @@
+#pragma once
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "rrt_point.h"
 #include "vector"
+#include "ros/ros.h"
 
 class RRT
 {
@@ -13,14 +16,14 @@ private:
     int iterations = 100;
 
     RRTPoint random_point();
-    bool exists(RRTPoint& point);
-    RRTPoint* closest(RRTPoint& p);
+    bool exists(RRTPoint* point);
+    RRTPoint* closest(RRTPoint* p);
 
-    void init(cv::Mat& map, RRTPoint start);
+    void init(cv::Mat* map, RRTPoint start);
 public:
-    RRT(cv::Mat& map, RRTPoint start);
-    RRT(cv::Mat& map);
-    bool build(RRTPoint end);
+    RRT(cv::Mat* map, RRTPoint start);
+    RRT(cv::Mat* map);
+    bool build(RRTPoint end, bool vis = false);
     
     ~RRT();
 };
