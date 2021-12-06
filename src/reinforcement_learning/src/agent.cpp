@@ -53,33 +53,50 @@ void Agent::take_action(Mat map, Action action)
     switch (action)
     {
     case Action::UP:
-
+        if(current_state->get_connected_states()[0]->get_reward() != 0)
+        {
         x = current_state->get_connected_states()[0]->get_location().first;
         y = current_state->get_connected_states()[0]->get_location().second;
         set_current_state(map, x, y);
 
         break;
+        }
+        else
+            break;
     case Action::DOWN:
-
+        if(current_state->get_connected_states()[1]->get_reward() != 0)
+        {
         x = current_state->get_connected_states()[1]->get_location().first;
         y = current_state->get_connected_states()[1]->get_location().second;
         set_current_state(map, x, y);
 
         break;
+        }
+        else
+            break;
     case Action::LEFT:
-
+        if(current_state->get_connected_states()[2]->get_reward() != 0)
+        {
         x = current_state->get_connected_states()[2]->get_location().first;
         y = current_state->get_connected_states()[2]->get_location().second;
         set_current_state(map, x, y);
 
         break;
+        }
+        else
+            break;
     case Action::RIGHT:
 
+        if(current_state->get_connected_states()[3]->get_reward() != 0)
+        {
         x = current_state->get_connected_states()[3]->get_location().first;
         y = current_state->get_connected_states()[3]->get_location().second;
         set_current_state(map, x, y);
 
-        break;
+        break;  
+        }
+        else
+            break;
     }
 }
 
@@ -119,56 +136,6 @@ float Agent::get_batch_size()
 //                 State*->get_reward(),
 //                 next_state,
 //                 ended}); // mangler at den ved hvor den er "current_state"
-// }
-
-// void Agent::train(Qlearn* algo, int number_of_episode, int interations_pr_epi)
-// {
-    
-//     number_of_episode;
-//     interations_pr_epi;
-    
-//     for (int i = 0; i < number_of_episode; i++)
-//     {
-        
-//     current_state;
-    
-//     // // sum the rewards that the agent gets from the environment
-//     int total_episode_reward = 0;
-    
-//     for (int i = 0; i < interations_pr_epi; i++)
-//     {
-//         // //  if the sampled flaot is less than the exploration proba
-//         // //  we sample a float from a uniform distribution over 0 and 1
-//         // //      the agent selects arandom action
-//         // // else
-//         // //     he exploits his knowledge using the bellman equation 
-        
-//         if (random.uniform(0,1) < exploration_proba)
-//         {
-//             action = env.action_space.sample()
-//         }
-            
-//         else:
-//             action = np.argmax(Q_table[current_state,:])
-        
-//         // // The environment runs the chosen action and returns
-//         ////  the next state, a reward and true if the epiosed is ended.
-//         next_state, reward, done, _ = env.step(action)
-        
-//         //  // We update our Q-table using the Q-learning iteration
-//         Q_table[current_state, action] = (1-lr) * Q_table[current_state, action] +lr*(reward + gamma*max(Q_table[next_state,:]))
-//         total_episode_reward = total_episode_reward + reward
-        
-//         // // If the episode is finished, we leave the for loop
-//         if done:
-//             break
-//         current_state = next_state
-//     // // update the exploration proba using exponential decay formula 
-//     exploration_proba = max(min_exploration_proba, np.exp(-exploration_decreasing_decay*e))
-//     rewards_per_episode.append(total_episode_reward)
-
-//     } 
-//     }
 // }
 
 Agent::~Agent()

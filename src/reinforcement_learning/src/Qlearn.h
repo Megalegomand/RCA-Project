@@ -20,18 +20,31 @@ class Qlearn
 private:
 
 	//States
-
 	Envoriment* states;
-
+	//Q-table
 	vector<vector<State*>> Qtable;
+	//Number of episodes
+	int n_episodes;
+	// Parameters
+	float lr = 0.01;
+    float gamma = 0.3;
+    float epsilon = 1.0;
+    float epsilon_decay = 0.005;
+	float min_exploration_rate = 0.01;
+	float max_exploration_rate = 1.0;
+	int maxSteps = 100;
+
 
 public:
 
 Qlearn(); // ha' en take action()
-Qlearn(Envoriment* states_);
+Qlearn(int n_episodes_, Envoriment* states_);
+void doAction();
+void getAction();
+void doEpisode();
 void train();
-void QBellmanEq();
 void QUpdate();
+void ExportData();
 ~Qlearn();
 
 };

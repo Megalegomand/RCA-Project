@@ -39,7 +39,7 @@ private:
 	
 
 	// Agents position and color (current_State)
-	vector <int> agent_color ={0,60,255}; // Orange color
+	vector <int> agent_color ={255,0,255}; // magenta color
 
 
 public:

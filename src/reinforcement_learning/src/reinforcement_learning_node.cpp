@@ -53,6 +53,9 @@ int main(int argc, char **argv)
 			case 'd':
 			agent.take_action(map,Action::RIGHT);
 			break;
+			case 'r':
+			big_world.reset_map(map);
+			break;
 		}
 	}
 

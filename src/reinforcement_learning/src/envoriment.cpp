@@ -9,6 +9,7 @@ Envoriment::Envoriment()
 
 Envoriment::Envoriment(Mat map)
 {
+	
     int rows = map.rows;
 	int cols = map.cols;
 
@@ -94,6 +95,29 @@ vector<vector<State>>* Envoriment::get_envoriment()
 State* Envoriment::get_state(int x, int y)
 {
 	return &envoriment[x][y];
+}
+void Envoriment::reset_map(Mat map)
+{
+	for (int i = 0; i < envoriment.size(); i++)
+	{
+		for (int j = 0; j < envoriment[0].size(); j++)
+		{	// if state was original a red, green or blue state
+			if(envoriment[i][j].get_reward() == -8 || envoriment[i][j].get_reward() == 5 || envoriment[i][j].get_reward() == 8)
+			{
+
+			int x = envoriment[i][j].get_location().first;
+			int y = envoriment[i][j].get_location().second;
+
+			Vec3b &reset = map.at<Vec3b>(x, y);
+
+   			reset[0] = envoriment[i][j].get_color_val()[0];
+   		 	reset[1] = envoriment[i][j].get_color_val()[1];
+   		 	reset[2] = envoriment[i][j].get_color_val()[2];
+
+			map.at<Vec3b>(x, y) = reset;
+			}
+		}
+	}
 }
 
 void Envoriment::show_envoriment()

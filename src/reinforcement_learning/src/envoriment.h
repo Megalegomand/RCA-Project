@@ -22,6 +22,7 @@ class Envoriment
         Envoriment(Mat map);
         vector<vector<State>>* get_envoriment();
         State* get_state(int x, int y); 
+        void reset_map(Mat map); // does not work
         void show_envoriment();
         ~Envoriment();
 
