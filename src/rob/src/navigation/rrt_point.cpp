@@ -18,9 +18,14 @@ int RRTPoint::get_y()
     return y;
 }
 
-float RRTPoint::dist(RRTPoint& p)
+float RRTPoint::dist(RRTPoint* p)
 {
-    return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
+    return sqrt((x - p->x) * (x - p->x) + (y - p->y) * (y - p->y));
+}
+
+float RRTPoint::angle(RRTPoint* p)
+{
+    return atan2(p->y - y, p->x - x);
 }
 
 void RRTPoint::mark(Mat* map, Vec3b color)

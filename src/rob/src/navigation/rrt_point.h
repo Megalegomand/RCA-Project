@@ -13,7 +13,8 @@ public:
     RRTPoint(int x, int y);
     int get_x();
     int get_y();
-    float dist(RRTPoint& p);
+    float dist(RRTPoint* p);
+    float angle(RRTPoint* p);
     void mark(cv::Mat* map, cv::Vec3b color);
     ~RRTPoint();
 };

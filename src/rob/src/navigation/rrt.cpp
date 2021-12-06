@@ -59,13 +59,13 @@ RRTPoint *RRT::closest(RRTPoint *p)
     if (nodes.size() == 0)
         return nullptr;
 
-    float min_dist = p->dist(nodes[0]);
+    float min_dist = p->dist(&nodes[0]);
     RRTPoint *min_point = &nodes[0];
     for (int i = 1; i < nodes.size(); i++)
     {
-        if (p->dist(nodes[i]) < min_dist)
+        if (p->dist(&nodes[i]) < min_dist)
         {
-            min_dist = p->dist(nodes[i]);
+            min_dist = p->dist(&nodes[i]);
             min_point = &nodes[i];
         }
     }
@@ -80,8 +80,15 @@ bool RRT::build(RRTPoint end, bool vis)
         RRTPoint q = random_point();
         RRTPoint *q_near = closest(&q);
 
-        ROS_INFO("Q: (%i, %i), Q_near: (%i, %i)", q.get_x(), q.get_y(),
-                 q_near->get_x(), q_near->get_y());
+        float angle = q_near->angle(&q);
+        int step = std::min(step_size, (int) q.dist(q_near));
+
+        RRTPoint q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
+                                  q_near->get_y() + sin(angle) * step);
+
+        ROS_INFO("Q: (%i, %i), Q_near: (%i, %i), Q_new: (%i, %i)", q.get_x(),
+                 q.get_y(), q_near->get_x(), q_near->get_y(), q_new.get_x(),
+                 q_new.get_y());
 
         if (vis)
         {
@@ -89,6 +96,7 @@ bool RRT::build(RRTPoint end, bool vis)
             namedWindow("Visual", WINDOW_KEEPRATIO);
             q.mark(&map_vis, Vec3b(255, 0, 255));
             q_near->mark(&map_vis, Vec3b(0, 0, 255));
+            q_new.mark(&map_vis, Vec3b(255, 0, 0));
             imshow("Visual", map_vis);
             waitKey(0);
         }

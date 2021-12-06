@@ -14,6 +14,7 @@ private:
     cv::Mat map_vis;
     std::vector<RRTPoint> nodes;
     int iterations = 100;
+    int step_size = 10;
 
     RRTPoint random_point();
     bool exists(RRTPoint* point);
