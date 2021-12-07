@@ -8,7 +8,6 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "state.h"
 #include "envoriment.h"
-#include "Qlearn.h"
 
 using namespace std;
 using namespace cv;
@@ -56,6 +55,7 @@ public:
 	float get_exploration_proba();
 	float get_exploration_proba_decay();
 	float get_batch_size();
+	State* get_starting_state();
 	State* get_agent_location();
 	void store_episode();
 	/*void train(Qlearn* algo, int number_of_episode, int interations_pr_epi);*/

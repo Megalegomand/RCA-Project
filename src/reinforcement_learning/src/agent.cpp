@@ -132,6 +132,10 @@ float Agent::get_batch_size()
 {
     return batch_size;
 }
+State* Agent::get_starting_state()
+{
+    return starting_state;
+}
 State* Agent::get_agent_location()
 {
     return current_state;

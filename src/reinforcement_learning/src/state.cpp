@@ -20,11 +20,11 @@ pair<int, int> State::get_location()
 }
 void State::set_color_val(int b, int g, int r)
 {
-	color_val.push_back(b);
-	color_val.push_back(g);
-	color_val.push_back(r);
+	color_val[0] = b;
+	color_val[1] = g;
+	color_val[2] = r;
 }
-vector<int> State::get_color_val()
+Vec3b State::get_color_val()
 {
 	return color_val;
 }
@@ -53,6 +53,10 @@ void State::set_reward(int value)
 {
 	reward = value;
 }
+bool State::get_isVisted()
+{
+	return isVisted;
+}
 bool State::set_isVisted()
 {
 	return isVisted = true;
@@ -68,6 +72,14 @@ int State::reset_VisitedCounter()
 int State::get_VisitedCounter()
 {
 	return VisitedCounter;
+}
+void State::set_QValues(int index, double q_val)
+{
+	QValues[index] = q_val;
+}
+vector<double> State::get_QValues()
+{
+	return QValues;
 }
 int State::get_reward()
 {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "agent.h"
 #include <iostream>
 #include <math.h>
 #include <random>
@@ -9,47 +10,51 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "state.h"
-#include "agent.h"
 #include "envoriment.h"
-
-using namespace std;
-using namespace cv;
-
+#include "fstream"
 
 class Qlearn
 {
-	
-private:
 
+private:
 	//States
-	Envoriment* states;
-	Agent* robot;
+	Envoriment *states;
+	Agent *robot;
 	//Q-table
-	vector<vector<State*>> Qtable;
+	vector<vector<State *>> Qtable;
+	int index_action;
 	//Number of episodes
 	int n_episodes;
 	// Parameters
 	float lr = 0.01;
-    float gamma = 0.3;
-    float epsilon = 1.0;
-    float epsilon_decay = 0.005;
+	float gamma = 0.3;
+	float epsilon = 1.0;
+	float epsilon_decay = 0.005;
 	float min_exploration_rate = 0.01;
 	float max_exploration_rate = 1.0;
 	int maxSteps = 100;
 
+	// Results
+	double maxReward;
+
+	vector<double>expectedPrEpisode;
+	vector<int>AllEpisodes;
+	vector<float>AllEpsilon;
+	vector<float>All_lr;
+
+	ofstream DataCollection;
+	string filename = "QlearnTestNum1";
 
 public:
-
-Qlearn(); // ha' en take action()
-Qlearn(int n_episodes_, Envoriment* states_, Agent* agent_);
-void doAction();
-State* getAction();
-void doEpisode();
-void train();
-void displayQTable();
-void QUpdate();
-void implementAgent();
-void ExportData();
-~Qlearn();
-
+	Qlearn();
+	Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_);
+	State* getAction();
+	State* doAction(Mat map);
+	void doEpisode(Mat map);
+	void train(Mat map);
+	void displayQTable();
+	void QUpdate();
+	void implementAgent(Mat map);
+	void ExportData();
+	~Qlearn();
 };

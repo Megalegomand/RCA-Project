@@ -16,7 +16,7 @@ private:
 	// location of State in the envoriment
 	int x_coordinate;
 	int y_coordinate;
-	vector<int> color_val;
+	Vec3b color_val;
 
 	//Siblings /children /connected states
 	vector<State*> connected_states;
@@ -30,8 +30,8 @@ private:
 	//state reward of current state
 	int reward;
 
-	// Q properties
-	float QValue = 0;
+	// Q properties (UP, LOW, LEFT, RIGHT)
+	vector<double> QValues = {0,0,0,0};
 
 	// points properties
 	int thickness = -1;
@@ -42,13 +42,16 @@ State();
 State(int x_coordinate_, int y_coordinate_, int reward_); // Mat map // vector <State*> connections );
 pair<int,int> get_location();
 void set_color_val(int b, int g, int r);
-vector<int> get_color_val();
+Vec3b get_color_val();
 void set_current_state(Mat map, bool status);
 void set_reward(int value);
+bool get_isVisted();
 bool set_isVisted();
 int set_VisitedCounter();
 int reset_VisitedCounter();
 int get_VisitedCounter();
+void set_QValues(int index, double q_val);
+vector<double> get_QValues();
 int get_reward();
 void set_connected_states(State* child);
 void show_connected_states();
