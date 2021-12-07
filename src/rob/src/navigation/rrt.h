@@ -24,7 +24,7 @@ private:
     void init(cv::Mat* map, RRTPoint start);
 public:
     RRT(cv::Mat* map, RRTPoint start);
-    bool build(RRTPoint end, bool vis = false);
+    bool connect(RRTPoint end, bool vis = false);
     void visualize();
     RRTPoint wait_mouse();
     void mouse_callback(int event, int x, int y, int flags, void*userdata);

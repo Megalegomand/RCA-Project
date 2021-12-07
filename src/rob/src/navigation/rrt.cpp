@@ -16,8 +16,6 @@ void RRT::init(cv::Mat *map, RRTPoint start)
 
     nodes = vector<RRTPoint>();
     nodes.push_back(start);
-
-    mouse_clicked.acquire();
 }
 
 RRTPoint RRT::random_point()
@@ -64,7 +62,7 @@ int RRT::closest(RRTPoint *p)
     return min_index;
 }
 
-bool RRT::build(RRTPoint end, bool vis)
+bool RRT::connect(RRTPoint end, bool vis)
 {
     for (int i = 0; i < iterations; i++)
     {
