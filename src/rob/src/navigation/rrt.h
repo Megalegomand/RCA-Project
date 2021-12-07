@@ -13,18 +13,21 @@ class RRT
 private:
     cv::Mat* map;
     cv::Mat map_vis;
-    std::vector<RRTPoint*> nodes;
+    std::vector<RRTPoint> nodes;
     int iterations = 5000;
     int step_size = 10;
 
     RRTPoint random_point();
     bool exists(RRTPoint* point);
-    RRTPoint* closest(RRTPoint* p);
+    int closest(RRTPoint* p);
 
     void init(cv::Mat* map, RRTPoint start);
 public:
     RRT(cv::Mat* map, RRTPoint start);
     bool build(RRTPoint end, bool vis = false);
+    void visualize();
+    RRTPoint wait_mouse();
+    void mouse_callback(int event, int x, int y, int flags, void*userdata);
     
     ~RRT();
 };

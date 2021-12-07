@@ -6,6 +6,7 @@ RRTPoint::RRTPoint(int x, int y)
 {
     this->x = x;
     this->y = y;
+    parent_index = -1;
 }
 
 int RRTPoint::get_x()
@@ -54,6 +55,16 @@ bool RRTPoint::collision_line(cv::Mat *map, RRTPoint *p)
 bool RRTPoint::collision(Mat *map)
 {
     return map->at<Vec3b>(y, x) == Vec3b(0, 0, 0);
+}
+
+void RRTPoint::set_parent(int parent_index)
+{
+    this->parent_index = parent_index;
+}
+
+int RRTPoint::get_parent()
+{
+    return parent_index;
 }
 
 RRTPoint::~RRTPoint()

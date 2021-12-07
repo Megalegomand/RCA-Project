@@ -8,7 +8,7 @@ class RRTPoint
 {
 private:
     int x, y;
-    RRTPoint* parent;
+    int parent_index;
 public:
     RRTPoint(int x, int y);
     int get_x();
@@ -18,6 +18,7 @@ public:
     void mark(cv::Mat* map, cv::Vec3b color);
     bool collision_line(cv::Mat* map, RRTPoint *p);
     bool collision(cv::Mat* map);
-    void set_parent(RRTPoint* p);
+    void set_parent(int parent_index);
+    int get_parent();
     ~RRTPoint();
 };
