@@ -54,11 +54,13 @@ int main(int argc, char *argv[])
 
     RRTPoint start = wait_mouse();
     RRT rrt(&map, start);
-    RRTPoint end = wait_mouse();
-    ROS_INFO("%i", rrt.connect(end, true));
+    while (true)
+    {
+        RRTPoint end = wait_mouse();
+        ROS_INFO("%i", rrt.connect(end, false));
 
-    rrt.visualize();
-    cv::waitKey();
+        cv::waitKey();
+    }
 
     return 0;
 }

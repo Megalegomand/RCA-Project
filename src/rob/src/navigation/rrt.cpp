@@ -72,14 +72,15 @@ bool RRT::connect(RRTPoint end, bool vis)
         RRTPoint *q_near = &nodes[q_near_index];
         if (end.collision_line(map, q_near))
         {
+
             RRTPoint q = random_point();
-            int q_near_index = closest(&q);
-            RRTPoint *q_near = &nodes[q_near_index];
+            q_near_index = closest(&q);
+            q_near = &nodes[q_near_index];
 
             float angle = q_near->angle(&q);
             int step = std::min(step_size, (int)q.dist(q_near));
 
-            RRTPoint q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
+            q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
                                       q_near->get_y() + sin(angle) * step);
         }
 
@@ -92,7 +93,6 @@ bool RRT::connect(RRTPoint end, bool vis)
         if (q_near->collision_line(map, &q_new) || exists(&q_new) ||
             q_near->collision(map) || q_new.collision(map))
         {
-            // ROS_INFO("Collision");
             continue;
         }
 
@@ -108,8 +108,21 @@ bool RRT::connect(RRTPoint end, bool vis)
 
         nodes.push_back(q_new);
 
-        if (&q_new == &end)
+        if (q_new.get_x() == end.get_x() && q_new.get_y() == end.get_y())
         {
+            visualize();
+            RRTPoint* p = &nodes.back();
+            float distance = 0.0f;
+            while (p != &nodes.front()) {
+                RRTPoint* p_new = &nodes[p->get_parent()];
+                Point p1(p->get_x(), p->get_y());
+                Point p2(p_new->get_x(), p_new->get_y());
+                line(map_vis, p1, p2, Vec3b(0, 0, 255), 1);
+                distance+= p->dist(p_new);
+                p = p_new;
+            }
+            imshow("Visual", map_vis);
+            ROS_INFO("Distance: %f", distance);
             return true;
         }
     }
