@@ -66,16 +66,23 @@ bool RRT::connect(RRTPoint end, bool vis)
 {
     for (int i = 0; i < iterations; i++)
     {
-        RRTPoint q = random_point();
-        int q_near_index = closest(&q);
+        RRTPoint q_new = end;
+
+        int q_near_index = closest(&end);
         RRTPoint *q_near = &nodes[q_near_index];
-        assert(q_near != nullptr);
+        if (end.collision_line(map, q_near))
+        {
+            RRTPoint q = random_point();
+            int q_near_index = closest(&q);
+            RRTPoint *q_near = &nodes[q_near_index];
 
-        float angle = q_near->angle(&q);
-        int step = std::min(step_size, (int)q.dist(q_near));
+            float angle = q_near->angle(&q);
+            int step = std::min(step_size, (int)q.dist(q_near));
 
-        RRTPoint q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
-                                  q_near->get_y() + sin(angle) * step);
+            RRTPoint q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
+                                      q_near->get_y() + sin(angle) * step);
+        }
+
         q_new.set_parent(q_near_index);
 
         /*ROS_INFO("Q: (%i, %i), Q_near: (%i, %i), Q_new: (%i, %i)", q.get_x(),
@@ -85,7 +92,7 @@ bool RRT::connect(RRTPoint end, bool vis)
         if (q_near->collision_line(map, &q_new) || exists(&q_new) ||
             q_near->collision(map) || q_new.collision(map))
         {
-            //ROS_INFO("Collision");
+            // ROS_INFO("Collision");
             continue;
         }
 
@@ -94,14 +101,20 @@ bool RRT::connect(RRTPoint end, bool vis)
             visualize();
 
             q_near->mark(&map_vis, Vec3b(0, 0, 255));
-            q.mark(&map_vis, Vec3b(255, 0, 255));
+            //q.mark(&map_vis, Vec3b(255, 0, 255));
             q_new.mark(&map_vis, Vec3b(255, 0, 0));
+            waitKey();
         }
 
         nodes.push_back(q_new);
+
+        if (&q_new == &end)
+        {
+            return true;
+        }
     }
 
-    return true;
+    return false;
 }
 
 void RRT::visualize()
