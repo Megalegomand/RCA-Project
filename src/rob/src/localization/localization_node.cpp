@@ -1,5 +1,6 @@
-#include "ros/ros.h"
+#include "mcl.h"
 #include "ros/package.h"
+#include "ros/ros.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -13,10 +14,17 @@ int main(int argc, char *argv[])
     std::string map_path = ros::package::getPath("env_sim") +
                            "/models/bigworld/meshes/floor_plan.png";
     cv::Mat map = cv::imread(map_path);
-    cv::namedWindow("Visual");
 
     cv::resize(map, map, cv::Size(), 4.0f, 4.0f, cv::INTER_NEAREST);
 
+    ROS_INFO("Map size: (%i, %i)", map.cols, map.rows);
+
+    MCL mcl(&map);
+
+    mcl.randomize_particles();
+    mcl.visualize();
+
+    waitKey();
 
     return 0;
 }
