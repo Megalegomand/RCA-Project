@@ -8,7 +8,7 @@ class RRTPoint
 {
 private:
     int x, y;
-    std::vector<RRTPoint*> connections;
+    RRTPoint* parent;
 public:
     RRTPoint(int x, int y);
     int get_x();
@@ -17,5 +17,7 @@ public:
     float angle(RRTPoint* p);
     void mark(cv::Mat* map, cv::Vec3b color);
     bool collision_line(cv::Mat* map, RRTPoint *p);
+    bool collision(cv::Mat* map);
+    void set_parent(RRTPoint* p);
     ~RRTPoint();
 };

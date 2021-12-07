@@ -6,14 +6,15 @@
 #include "rrt_point.h"
 #include "vector"
 #include "ros/ros.h"
+#include "assert.h"
 
 class RRT
 {
 private:
     cv::Mat* map;
     cv::Mat map_vis;
-    std::vector<RRTPoint> nodes;
-    int iterations = 1000;
+    std::vector<RRTPoint*> nodes;
+    int iterations = 5000;
     int step_size = 10;
 
     RRTPoint random_point();
@@ -23,7 +24,6 @@ private:
     void init(cv::Mat* map, RRTPoint start);
 public:
     RRT(cv::Mat* map, RRTPoint start);
-    RRT(cv::Mat* map);
     bool build(RRTPoint end, bool vis = false);
     
     ~RRT();

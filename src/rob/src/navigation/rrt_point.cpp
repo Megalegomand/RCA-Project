@@ -51,6 +51,11 @@ bool RRTPoint::collision_line(cv::Mat *map, RRTPoint *p)
     return false;
 }
 
+bool RRTPoint::collision(Mat *map)
+{
+    return map->at<Vec3b>(y, x) == Vec3b(0, 0, 0);
+}
+
 RRTPoint::~RRTPoint()
 {
 }
