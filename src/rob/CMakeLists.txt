@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package( OpenCV REQUIRED )
 
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -148,6 +149,7 @@ add_executable(${PROJECT_NAME}_navigation_node ${NAV_SRC})
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 #set_target_properties(${PROJECT_NAME}_navigation_node PROPERTIES OUTPUT_NAME navigation_node PREFIX "")
+
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
