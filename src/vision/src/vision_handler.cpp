@@ -56,9 +56,11 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat img = cv_ptr->image.clone();
+    Mat img = imread("/homes/philip/Pictures/Test smalwrld.png"); //cv_ptr->image.clone();
 
     imshow("Test12", img);
+    /*imwrite("/home/philip/Pictures/Test.png",img);
+            return;*/
 
     bool undistort_bool = false;
     if (n.getParam("/vision_node/undistort", undistort_bool))
@@ -70,6 +72,9 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
             img = undistort_img;
 
             imshow("Unidst", img);
+            /*imwrite("/home/philip/Pictures/Undistorted.png",img);
+            return;*/
+            
         }
     }
 
@@ -99,39 +104,44 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         }
 
         imshow("Blur", img);
+        /*imwrite("/home/philip/Pictures/Blurres.png",img);
+        return;*/
     }
 
     // Turn img gray for Hough
     cvtColor(img, img, CV_BGR2GRAY);
+    /*vector<Mat> channels;
+    split(img,channels);*/
 
     vector<Vec3f> circles;
     double known_radius = 0.5;
     string distancestring;
     double distance;
-    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.rows / 4, 40, 0.9,
-                 1, 51);
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 100, 13.5,
+                 img.cols/16, 7/8* img.cols);
 
     for (size_t i = 0; i < circles.size(); i++)
     {
         Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
         int radius = cvRound(circles[i][2]);
         // draw the circle center
-        circle(cv_ptr->image, center, 3, Scalar(0, 255, 0), -1, 8, 0);
+        circle(img, center, 3, Scalar(0, 255, 0), -1, 8, 0);
         // draw the circle outline
-        circle(cv_ptr->image, center, radius, Scalar(0, 0, 255), 3, 8, 0);
+        circle(img, center, radius, Scalar(0, 255, 255), 3, 8, 0);
         distance = (2 * known_radius * camera_matrix.at<double>(1, 1)) / (radius * 2);
         distancestring = to_string(distance);
-        putText(cv_ptr->image,               //target image
+        putText(img,               //target image
                 distancestring,              //text
-                cv::Point(10, img.rows / 2), //top-left position
+                center, //center of circle
                 cv::FONT_HERSHEY_DUPLEX,
-                1.0,
+                0.5,
                 CV_RGB(118, 185, 0), //font color
                 2);
     }
     namedWindow("circles", 1);
 
-    imshow("circles", cv_ptr->image);
+    imshow("circles", img);
+    imwrite("/home/philip/Pictures/Test samlwrld.png",img);
 
     waitKey(500);
 }
