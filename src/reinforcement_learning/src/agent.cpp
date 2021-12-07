@@ -12,6 +12,7 @@ Agent::Agent(Envoriment *map)
 }
 void Agent::set_current_state(Mat map, int x, int y)
 {
+    ROS_INFO("%i,%i", x,y);
     // Recolor the old location to white
     Vec3b &old_loc = map.at<Vec3b>(current_state->get_location().first, current_state->get_location().second);
 
@@ -47,9 +48,10 @@ void Agent::set_random_starting_state(Mat map)
         y = rand() % envoriment->get_envoriment()[0].size();
     }
     ROS_INFO("kage3 %i, %i", x,y);
-    //starting_state = envoriment->get_state(x, y);
+    starting_state = envoriment->get_state(x, y); 
+    ROS_INFO("kage4 %i, %i", x,y);
     set_current_state(map, x, y);
-     ROS_INFO("kage4 %i, %i", x,y);
+    
 }
 
 void Agent::take_action(Mat map, Action action)
