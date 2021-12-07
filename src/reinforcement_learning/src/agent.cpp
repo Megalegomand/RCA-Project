@@ -36,17 +36,20 @@ void Agent::set_current_state(Mat map, int x, int y)
 
 void Agent::set_random_starting_state(Mat map)
 {
+    ROS_INFO("kage1");
     srand(clock());
     int x = rand() % envoriment->get_envoriment()->size();
     int y = rand() % envoriment->get_envoriment()[0].size();
-
+    	ROS_INFO("kage2");
     while (envoriment->get_state(x, y)->get_reward() == 0)
     {
-        int x = rand() % envoriment->get_envoriment()->size();
-        int y = rand() % envoriment->get_envoriment()[0].size();
+        x = rand() % envoriment->get_envoriment()->size();
+        y = rand() % envoriment->get_envoriment()[0].size();
     }
-    starting_state = envoriment->get_state(x, y);
+    ROS_INFO("kage3 %i, %i", x,y);
+    //starting_state = envoriment->get_state(x, y);
     set_current_state(map, x, y);
+     ROS_INFO("kage4 %i, %i", x,y);
 }
 
 void Agent::take_action(Mat map, Action action)
@@ -103,35 +106,35 @@ void Agent::take_action(Mat map, Action action)
     }
 }
 
-float Agent::set_exploration_proba()
-{
-    return exploration_proba = exploration_proba * exp(-exploration_proba);
-}
+// float Agent::set_exploration_proba()
+// {
+//     return exploration_proba = exploration_proba * exp(-exploration_proba);
+// }
 
-float Agent::get_lr()
-{
-    return lr;
-}
+// float Agent::get_lr()
+// {
+//     return lr;
+// }
 
-float Agent::get_gamma()
-{
-    return gamma;
-}
+// float Agent::get_gamma()
+// {
+//     return gamma;
+// }
 
-float Agent::get_exploration_proba()
-{
-    return exploration_proba;
-}
+// float Agent::get_exploration_proba()
+// {
+//     return exploration_proba;
+// }
 
-float Agent::get_exploration_proba_decay()
-{
-    return exploration_proba_decay;
-}
+// float Agent::get_exploration_proba_decay()
+// {
+//     return exploration_proba_decay;
+// }
 
-float Agent::get_batch_size()
-{
-    return batch_size;
-}
+// float Agent::get_batch_size()
+// {
+//     return batch_size;
+// }
 State* Agent::get_starting_state()
 {
     return starting_state;

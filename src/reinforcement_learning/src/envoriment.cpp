@@ -93,10 +93,12 @@ vector<vector<State>> *Envoriment::get_envoriment()
 {
 	return &envoriment;
 }
+
 State *Envoriment::get_state(int x, int y)
 {
 	return &envoriment[x][y];
 }
+
 void Envoriment::reset_map(Mat map)
 {
 	Vec3b red = {0,0,255};
@@ -115,7 +117,6 @@ void Envoriment::reset_map(Mat map)
 				int y = envoriment[i][j].get_location().second;
 
 				Vec3b reset = map.at<Vec3b>(x, y);
-				ROS_INFO("(%i, %i), (%i, %i)", i, j, x, y);
 
 				reset[0] = envoriment[i][j].get_color_val()[0];
 				reset[1] = envoriment[i][j].get_color_val()[1];
@@ -129,7 +130,6 @@ void Envoriment::reset_map(Mat map)
 
 void Envoriment::show_envoriment()
 {
-
 	for (auto i : envoriment)
 	{
 		for (auto y : i)

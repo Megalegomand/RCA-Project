@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ros/ros.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -25,11 +26,11 @@ private:
 	State* starting_state;
 
 	// learning parameters
-	float lr = 0.001;
-    float gamma = 0.99;
-    float exploration_proba = 1.0;
-    float exploration_proba_decay = 0.005;
-    float batch_size = 32;
+	// float lr = 0.001;
+    // float gamma = 0.99;
+    // float exploration_proba = 1.0;
+    // float exploration_proba_decay = 0.005;
+    // float batch_size = 32;
 
 	// Memory / buffer
 	vector<State*> memory;
@@ -49,12 +50,12 @@ public:
 	void set_current_state(Mat map, int x, int y);
 	void set_random_starting_state(Mat map);
 	void take_action(Mat map, Action action); // i Q learn
-	float set_exploration_proba();
-	float get_lr();
-	float get_gamma();
-	float get_exploration_proba();
-	float get_exploration_proba_decay();
-	float get_batch_size();
+	// float set_exploration_proba();
+	// float get_lr();
+	// float get_gamma();
+	// float get_exploration_proba();
+	// float get_exploration_proba_decay();
+	// float get_batch_size();
 	State* get_starting_state();
 	State* get_agent_location();
 	void store_episode();

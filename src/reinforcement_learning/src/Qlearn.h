@@ -50,10 +50,10 @@ public:
 	Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_);
 	State* getAction();
 	State* doAction(Mat map);
+	int get_largestIndex(int ele);
 	void doEpisode(Mat map);
 	void train(Mat map);
 	void displayQTable();
-	void QUpdate();
 	void implementAgent(Mat map);
 	void ExportData();
 	~Qlearn();

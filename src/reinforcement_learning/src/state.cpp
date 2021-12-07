@@ -63,11 +63,25 @@ bool State::set_isVisted()
 }
 int State::set_VisitedCounter()
 {
-	return VisitedCounter = VisitedCounter+1;
+	return VisitedCounter;
 }
 int State::reset_VisitedCounter()
 {
 	return VisitedCounter = 0;
+}
+State* State::best_choice()
+{
+	double best = 0;
+	int state_index;
+	for (int i = 0; i < get_connected_states().size(); i++)
+	{
+		if(best < get_QValues()[i])
+		{
+			best = get_QValues()[i];
+			state_index = i;
+		}
+	}
+	return get_connected_states()[state_index];
 }
 int State::get_VisitedCounter()
 {

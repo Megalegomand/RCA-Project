@@ -33,7 +33,6 @@ int main(int argc, char **argv)
 	big_world.get_state(1,1)->show_connected_states();
 	agent.set_random_starting_state(map);
 	//---------------------------------------------------------------------------
-
 	cv::imshow("Map", map);
 	while(true)
 	{
