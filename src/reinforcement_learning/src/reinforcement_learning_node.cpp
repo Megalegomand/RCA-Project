@@ -27,37 +27,57 @@ int main(int argc, char **argv)
 
 	//----------------Maps the states--------------------------------------------
 	
-	
 	Envoriment big_world(map);
 	Agent agent(&big_world);
+	Qlearn reinlearn(10000,&big_world,&agent);
 	big_world.show_envoriment();
 	big_world.get_state(1,1)->show_connected_states();
 	agent.set_random_starting_state(map);
+
 	//---------------------------------------------------------------------------
 	cv::imshow("Map", map);
-	while(true)
-	{
-		cv::imshow("Map", map);
-		int key = cv::waitKey(0);
-		switch (key)
-		{
-			case 'w':
-			agent.take_action(map,Action::UP);
-			break;
-			case 's':
-			agent.take_action(map,Action::DOWN);
-			break;
-			case 'a':
-			agent.take_action(map,Action::LEFT);
-			break;
-			case 'd':
-			agent.take_action(map,Action::RIGHT);
-			break;
-			case 'r':
-			big_world.reset_map(map);
-			break;
-		}
-	}
+
+	reinlearn.getAction();
+
+	reinlearn.train(map);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// while(true)
+	// {
+	// 	cv::imshow("Map", map);
+	// 	int key = cv::waitKey(0);
+	// 	switch (key)
+	// 	{
+	// 		case 'w':
+	// 		agent.take_action(map,Action::UP);
+	// 		break;
+	// 		case 's':
+	// 		agent.take_action(map,Action::DOWN);
+	// 		break;
+	// 		case 'a':
+	// 		agent.take_action(map,Action::LEFT);
+	// 		break;
+	// 		case 'd':
+	// 		agent.take_action(map,Action::RIGHT);
+	// 		break;
+	// 		case 'r':
+	// 		big_world.reset_map(map);
+	// 		break;
+	// 	}
+	// }
 
 	return 0;
 }

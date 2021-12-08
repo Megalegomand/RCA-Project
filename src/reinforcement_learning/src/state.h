@@ -45,8 +45,8 @@ public:
 	void set_reward(int value);
 	bool get_isVisted();
 	void set_isVisted();
-	int set_VisitedCounter();
-	int reset_VisitedCounter();
+	void set_VisitedCounter();
+	void reset_VisitedCounter();
 	State *best_choice();
 	int get_VisitedCounter();
 	void set_QValues(int index, double q_val);

@@ -12,14 +12,16 @@ Qlearn::Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_)
     n_episodes = n_episodes_;
     states = states_;
     robot = agent_;
+    maxReward =0.0;
 }
 
 State *Qlearn::getAction()
 {
     vector<State *> valid_actions = {};
+    valid_actions.clear();
     for (int i = 0; i < robot->get_agent_location()->get_connected_states().size(); i++)
     {
-        if (robot->get_agent_location()->get_connected_states()[i]->get_reward() != -8)
+        if (robot->get_agent_location()->get_connected_states()[i]->get_reward() != 0)
         {
             valid_actions.push_back(robot->get_agent_location()->get_connected_states()[i]);
         }
@@ -32,10 +34,14 @@ State *Qlearn::getAction()
     uniform_real_distribution<double> explore(0.0, 1.0);
 
     double exploration_rate_threshold = explore(rd);
+    // cout << epsilon << endl;
+    // cout << exploration_rate_threshold << endl;
 
     if (epsilon < exploration_rate_threshold)
     {
-        if (robot->get_agent_location()->get_VisitedCounter() == 0)
+        // cout << epsilon << endl;
+        // cout << exploration_rate_threshold << endl;
+        if (robot->get_agent_location()->get_VisitedCounter() > 1)
         {
             cout << "EX 1: Not visted" << endl;
             robot->get_agent_location()->set_VisitedCounter();
@@ -43,9 +49,9 @@ State *Qlearn::getAction()
             return robot->get_agent_location()->best_choice();
         }
         //Tror det skal være valid actions her er det altid 4 (men sorte bør ikke tælles med)
-        else if (robot->get_agent_location()->get_VisitedCounter() <= robot->get_agent_location()->get_connected_states().size())
+        else if (robot->get_agent_location()->get_VisitedCounter() <= valid_actions.size())
         {
-            if (robot->get_agent_location()->get_VisitedCounter() == robot->get_agent_location()->get_connected_states().size())
+            if (robot->get_agent_location()->get_VisitedCounter() == valid_actions.size())
             {
                 cout << "EX 3: reset visted counter" << endl;
                 robot->get_agent_location()->reset_VisitedCounter();
@@ -54,7 +60,7 @@ State *Qlearn::getAction()
             int element = robot->get_agent_location()->get_VisitedCounter();
             cout << "Element: " << element << endl;
 
-            int largestIndex = get_largestIndex(element);
+            int largestIndex = get_largestIndex(element, valid_actions);
             robot->get_agent_location()->set_VisitedCounter();
             cout << "EX 2: Used largest index " << endl;
 
@@ -62,25 +68,24 @@ State *Qlearn::getAction()
 
         }
     }
-
     index_action = dist(rd);
     return valid_actions[dist(rd)];
 }
 
 State *Qlearn::doAction(Mat map)
 {
-    State *action = getAction();
-    int x = action->get_location().first;
-    int y = action->get_location().second;
+    int x = getAction()->get_location().first;
+    int y = getAction()->get_location().second;
 
     double current_q_value = robot->get_agent_location()->get_QValues()[index_action];
-
     // get the action and set new action
     robot->set_current_state(map, x, y);
-
+    cout << "x: " << robot->get_agent_location()->get_location().first << endl;
+    cout << "y: " << robot->get_agent_location()->get_location().second << endl;
     double reward;
 
-    if (robot->get_agent_location()->get_isVisted() == true)
+
+    if (robot->get_agent_location()->get_VisitedCounter() > 1)
     {
         reward = 0;
     }
@@ -91,8 +96,7 @@ State *Qlearn::doAction(Mat map)
     cout << "Reward: " << reward << endl;
     maxReward += reward;
 
-    //vector<double>::iterator max = max_element(action->get_QValues().begin(), action->get_QValues().end());
-    // double future_sa_reward = *max;
+    //vect-le future_sa_reward = *max;
     double future_sa_reward =1.0;
 
     // Q Learning equation
@@ -104,15 +108,15 @@ State *Qlearn::doAction(Mat map)
     return robot->get_agent_location();
 }
 
-int Qlearn::get_largestIndex(int ele)
+int Qlearn::get_largestIndex(int ele, vector<State *> set_of_valid_actions)
 {
     double eleNumber;
     vector<double> temp = robot->get_agent_location()->get_QValues();
     sort(temp.begin(), temp.end());
 
     eleNumber = temp[ele];
-
-    for(int i = 0; i < robot->get_agent_location()->get_connected_states().size(); i++)
+    temp.clear();
+    for(int i = 0; i < set_of_valid_actions.size(); i++)
     {
         if(robot->get_agent_location()->get_QValues()[i] == double(eleNumber))
         {
@@ -139,7 +143,7 @@ void Qlearn::doEpisode(Mat map)
         if (steps == maxSteps)
         {
             cout << "Episode terminated successfully" << endl;
-            cout << "Maximum Reward" << maxReward << endl;
+            cout << "Maximum Reward: " << maxReward << endl;
 
             expectedPrEpisode.push_back(maxReward);
             maxReward = 0;
