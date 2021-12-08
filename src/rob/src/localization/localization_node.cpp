@@ -20,11 +20,14 @@ int main(int argc, char *argv[])
     ROS_INFO("Map size: (%i, %i)", map.cols, map.rows);
 
     MCL mcl(&map);
+    mcl.randomize_particles();
 
+    ros::spin();
+    /*
     mcl.randomize_particles();
     mcl.visualize();
 
     waitKey();
-
+*/
     return 0;
 }

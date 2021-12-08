@@ -7,6 +7,8 @@ MCL::MCL(Mat *map)
 {
     this->map = map;
     particles = vector<Particle>();
+
+    lidar_sub = nh.subscribe("/robot/laser/scan", 10, &MCL::lidar_callback, this);
 }
 
 void MCL::randomize_particles()
@@ -28,7 +30,7 @@ void MCL::randomize_particles()
         // Random angle
         float angle = static_cast<float>(rand()) /
                       (static_cast<float>(RAND_MAX / (2 * M_PI)));
-        particles.push_back(Particle(x, y, angle));
+        particles.push_back(Particle(x, y, angle, map));
     }
 }
 
@@ -40,6 +42,14 @@ void MCL::visualize()
         p.mark(&vis);
     }
     imshow("Localization", vis);
+}
+
+void MCL::lidar_callback(const sensor_msgs::LaserScanConstPtr& scan)
+{
+    for (Particle p : particles)
+    {
+        p.sensor_update(scan);
+    }
 }
 
 MCL::~MCL()

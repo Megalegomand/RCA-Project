@@ -9,12 +9,15 @@
 class MCL
 {
 private:
+    ros::NodeHandle nh;
+    ros::Subscriber lidar_sub;
     cv::Mat* map;
     std::vector<Particle> particles;
-    int particle_amount = 10000;
+    int particle_amount = 1000;
 public:
     MCL(cv::Mat* map);
     void randomize_particles();
     void visualize();
+    void lidar_callback(const sensor_msgs::LaserScanConstPtr& scan);
     ~MCL();
 };
