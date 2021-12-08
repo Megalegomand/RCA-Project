@@ -22,7 +22,7 @@ private:
 	// Envoriment Parameters
 	Envoriment* envoriment;
 	int n_states;
-	State* current_state;
+	pair <int,int> current_state;
 	State* starting_state;
 
 	// learning parameters
@@ -47,6 +47,7 @@ public:
 
     Agent();
     Agent(Envoriment *map);
+	State* get_current_state();
 	void set_current_state(Mat map, int x, int y);
 	void set_random_starting_state(Mat map);
 	void take_action(Mat map, Action action); // i Q learn

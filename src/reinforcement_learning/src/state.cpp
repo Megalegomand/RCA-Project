@@ -15,6 +15,7 @@ State::State(int x_coordinate_, int y_coordinate_, int reward_) // vector <State
 
 pair<int, int> State::get_location()
 {	
+	ROS_INFO("x: %i, y: %i", x_coordinate, y_coordinate);
 	pair <int, int> location = { x_coordinate, y_coordinate };
 	return location;
 }
@@ -57,9 +58,9 @@ bool State::get_isVisted()
 {
 	return isVisted;
 }
-bool State::set_isVisted()
+void State::set_isVisted()
 {
-	return isVisted = true;
+	isVisted = true;
 }
 int State::set_VisitedCounter()
 {
