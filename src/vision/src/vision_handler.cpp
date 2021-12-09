@@ -56,7 +56,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat img = imread("/homes/philip/Pictures/Test smalwrld.png"); //cv_ptr->image.clone();
+    Mat img = cv_ptr->image.clone();
 
     imshow("Test12", img);
     /*imwrite("/home/philip/Pictures/Test.png",img);
@@ -117,7 +117,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     double known_radius = 0.5;
     string distancestring;
     double distance;
-    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 100, 13.5,
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 200, 13.5,
                  img.cols/16, 7/8* img.cols);
 
     for (size_t i = 0; i < circles.size(); i++)
@@ -141,7 +141,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     namedWindow("circles", 1);
 
     imshow("circles", img);
-    imwrite("/home/philip/Pictures/Test samlwrld.png",img);
+    //imwrite("/home/philip/Pictures/Test samlwrld.png",img);
 
     waitKey(500);
 }
