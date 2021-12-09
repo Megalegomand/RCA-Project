@@ -14,6 +14,11 @@ Qlearn::Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_)
     robot = agent_;
     maxReward = 0.0;
     filename = ros::package::getPath("reinforcement_learning") + "/QlearnTestNum1.csv";
+    //DataCollection.open(filename, ofstream::out | ofstream::trunc);
+    //DataCollection.close();
+    DataCollection.open(filename);
+    
+
 }
 
 State *Qlearn::getAction()
@@ -34,7 +39,7 @@ State *Qlearn::getAction()
     // {
     //     cout << "valid " << i << ":" << valid_actions[i]->get_reward()<< endl;
     // }
-   // cout << "valid actions first :" << valid_actions.size() << endl;
+    // cout << "valid actions first :" << valid_actions.size() << endl;
     random_device rd;
 
     uniform_real_distribution<double> explore(0.0, 1.0);
@@ -59,12 +64,12 @@ State *Qlearn::getAction()
         {
             if (robot->get_agent_location()->get_VisitedCounter() == valid_actions.size())
             {
-               // cout << "EX 3: reset visted counter" << endl;
+                // cout << "EX 3: reset visted counter" << endl;
                 robot->get_agent_location()->reset_VisitedCounter();
             }
 
             int element = robot->get_agent_location()->get_VisitedCounter();
-           // cout << "Element: " << element << endl;
+            // cout << "Element: " << element << endl;
 
             int largestIndex = get_largestIndex(element, valid_actions);
             robot->get_agent_location()->set_VisitedCounter();
@@ -113,7 +118,7 @@ State *Qlearn::doAction(Mat map)
 
     // Q Learning equation
     double Q_value_for_state = current_q_value + lr * (reward + gamma * future_sa_reward - current_q_value);
-   // cout << Q_value_for_state << endl;
+    // cout << Q_value_for_state << endl;
     robot->get_agent_location()->set_QValues(index_action, Q_value_for_state);
     robot->get_agent_location()->set_isVisted();
 
@@ -140,7 +145,7 @@ int Qlearn::get_largestIndex(int ele, vector<State *> set_of_valid_actions)
     return -1;
 }
 
-void Qlearn::doEpisode(Mat map)
+double Qlearn::doEpisode(Mat map)
 {
     State *start_state = robot->get_starting_state();
     int steps = 0;
@@ -159,9 +164,10 @@ void Qlearn::doEpisode(Mat map)
             //cout << "Episode terminated successfully" << endl;
             //cout << "Maximum Reward: " << maxReward << endl;
 
-            expectedPrEpisode.push_back(maxReward);
+            //expectedPrEpisode.push_back(maxReward);
+            double mr = maxReward;
             maxReward = 0;
-            break;
+            return mr;
         }
     }
 }
@@ -171,24 +177,27 @@ void Qlearn::train(Mat map)
     //cout << "Bigger, better, stronger" << endl;
     for (int episode = 0; episode < n_episodes; episode++)
     {
-        AllEpisodes.push_back(episode);
+        //AllEpisodes.push_back(episode);
         if (episode % 1000 == 0)
             cout << "Episode number: " << episode << endl;
 
         robot->set_random_starting_state(map);
         states->reset_map(map);
 
-        doEpisode(map);
+        double maxReward = doEpisode(map);
 
-        AllEpsilon.push_back(epsilon);
-        All_lr.push_back(lr);
+        //AllEpsilon.push_back(epsilon);
+        //All_lr.push_back(lr);
+
+        ExportData(episode, maxReward, epsilon, lr);
 
         epsilon = min_exploration_rate + (max_exploration_rate - min_exploration_rate) * exp(-epsilon_decay * episode);
         //cout << epsilon << endl;
     }
 
     cout << "Training finished" << endl;
-    ExportData();
+    //ExportData();
+    DataCollection.close();
 }
 
 void Qlearn::displayQTable()
@@ -234,6 +243,12 @@ void Qlearn::ExportData()
         DataCollection << All_lr[i] << ",";
     }
 
+    DataCollection << endl;
+}
+
+void Qlearn::ExportData(int episode, double expected, double epsilon, double lr)
+{
+    DataCollection << episode << "," << expected << "," << epsilon << "," << lr;
     DataCollection << endl;
 }
 

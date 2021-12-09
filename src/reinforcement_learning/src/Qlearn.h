@@ -52,10 +52,11 @@ public:
 	State* getAction();
 	State* doAction(Mat map);
 	int get_largestIndex(int ele, vector<State *> set_of_valid_actions);
-	void doEpisode(Mat map);
+	double doEpisode(Mat map);
 	void train(Mat map);
 	void displayQTable();
 	void implementAgent(Mat map);
 	void ExportData();
+	void ExportData(int episode, double expected, double epsilon, double lr);
 	~Qlearn();
 };
