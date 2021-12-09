@@ -30,7 +30,8 @@ private:
 	int reward;
 
 	// Q properties (UP, LOW, LEFT, RIGHT)
-	vector<double> QValues = {0, 0, 0, 0};
+	vector<double> QValues = {0.0, 0.0, 0.0, 0.0};
+	vector<double> Valid_Qval;
 
 	// points properties
 	int thickness = -1;
@@ -51,6 +52,7 @@ public:
 	int get_VisitedCounter();
 	void set_QValues(int index, double q_val);
 	vector<double> get_QValues();
+	vector<double> get_valid_Qval();
 	int get_reward();
 	void set_connected_states(State *child);
 	void show_connected_states();

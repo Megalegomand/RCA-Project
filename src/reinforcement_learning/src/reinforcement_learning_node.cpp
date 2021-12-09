@@ -29,20 +29,42 @@ int main(int argc, char **argv)
 	
 	Envoriment big_world(map);
 	Agent agent(&big_world);
-	Qlearn reinlearn(10000,&big_world,&agent);
+	Qlearn reinlearn(1000,&big_world,&agent);
 	big_world.show_envoriment();
 	big_world.get_state(1,1)->show_connected_states();
 	agent.set_random_starting_state(map);
 
 	//---------------------------------------------------------------------------
-	cv::imshow("Map", map);
+	//cv::imshow("Map", map);
 
-	reinlearn.getAction();
+	//reinlearn.getAction();
 
 	reinlearn.train(map);
 
+	// map.at<Vec3b>(60, 18) ={208,224,64};
+	// map.at<Vec3b>(32, 32) ={208,224,64};
+	// map.at<Vec3b>(62, 54) ={208,224,64};
+	// map.at<Vec3b>(0, 62) ={208,224,64};
+	// map.at<Vec3b>(15, 8) ={208,224,64};
+	// map.at<Vec3b>(77, 65) ={208,224,64};
+	// map.at<Vec3b>(28, 52) ={208,224,64};
+	// map.at<Vec3b>(62, 80) ={208,224,64};
+	// map.at<Vec3b>(28, 37) ={208,224,64};
+	// map.at<Vec3b>(32, 84) ={208,224,64};
+	// map.at<Vec3b>(28, 52) ={208,224,64};
+	// map.at<Vec3b>(0, 4) ={208,224,64};
+	// map.at<Vec3b>(72, 65) ={208,224,64};
+	// map.at<Vec3b>(28, 37) ={208,224,64};
+	// map.at<Vec3b>(46, 66) ={208,224,64};
+	// map.at<Vec3b>(20, 31) ={208,224,64};
 
 
+
+while(true)
+{
+	cv::imshow("Map", map);
+	cv::waitKey(0);
+}
 
 
 

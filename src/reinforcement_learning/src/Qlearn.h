@@ -26,21 +26,21 @@ private:
 	//Number of episodes
 	int n_episodes;
 	// Parameters
-	float lr = 0.01;
-	float gamma = 0.3;
-	float epsilon = 1.0;
-	float epsilon_decay = 0.005;
-	float min_exploration_rate = 0.01;
-	float max_exploration_rate = 1.0;
-	int maxSteps = 100;
+	double lr = 0.01;
+	double gamma = 0.3;
+	double epsilon = 1.0;
+	double epsilon_decay = 0.005;
+	double min_exploration_rate = 0.01;
+	double max_exploration_rate = 1.0;
+	int maxSteps = 10;
 
 	// Results
 	double maxReward;
 
 	vector<double>expectedPrEpisode;
 	vector<int>AllEpisodes;
-	vector<float>AllEpsilon;
-	vector<float>All_lr;
+	vector<double>AllEpsilon;
+	vector<double>All_lr;
 
 	ofstream DataCollection;
 	string filename = "QlearnTestNum1";

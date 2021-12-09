@@ -46,7 +46,7 @@ void Agent::set_random_starting_state(Mat map)
     int x = rand() % envoriment->get_envoriment()->size();
     int y = rand() % envoriment->get_envoriment()[0].size();
 
-    while (envoriment->get_state(x, y)->get_reward() == 0)
+    while (envoriment->get_state(x, y)->get_color_val() == Vec3b{0,0,0})
     {
         x = rand() % envoriment->get_envoriment()->size();
         y = rand() % envoriment->get_envoriment()[0].size();
