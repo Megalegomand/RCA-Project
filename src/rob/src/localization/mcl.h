@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "math.h"
+#include <stdlib.h>
 
 class MCL
 {
@@ -13,11 +14,12 @@ private:
     ros::Subscriber lidar_sub;
     cv::Mat* map;
     std::vector<Particle> particles;
-    int particle_amount = 1000;
+    int particle_amount = 10000;
 public:
     MCL(cv::Mat* map);
     void randomize_particles();
     void visualize();
     void lidar_callback(const sensor_msgs::LaserScanConstPtr& scan);
+    void resample(std::vector<double> weights);
     ~MCL();
 };

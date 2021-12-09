@@ -42,14 +42,52 @@ void MCL::visualize()
         p.mark(&vis);
     }
     imshow("Localization", vis);
+    waitKey();
 }
 
 void MCL::lidar_callback(const sensor_msgs::LaserScanConstPtr& scan)
 {
+    double weight_sum = 0.0f;
+    vector<double> weights;
     for (Particle p : particles)
     {
-        p.sensor_update(scan);
+        double weight = p.get_likelihood(scan);
+        weight_sum += weight;
+        weights.push_back(weight);
     }
+    for (int i = 0; i < weights.size(); i++)
+    {
+        weights[i] *= 1 / weight_sum;
+    }
+
+    resample(weights);
+
+    visualize();
+}
+
+void MCL::resample(std::vector<double> weights)
+{
+    srand(clock());
+
+    vector<Particle> particles_ = vector<Particle>();
+    particles_.clear();
+    double delta = static_cast<float>(rand()) /
+                      (static_cast<float>(1.0f * RAND_MAX / (1 / particle_amount)));
+    double c = weights[0];
+    int i = 0;
+
+    for (int j = 0; j < particle_amount; j++)
+    {
+        double u = delta + j * 1.0f / particle_amount;
+        while (u > c)
+        {
+            i++;
+            c += weights[i];
+        }
+        particles_.push_back(particles[i]);
+    }
+
+    particles = particles_;
 }
 
 MCL::~MCL()

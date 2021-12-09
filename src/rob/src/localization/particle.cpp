@@ -6,6 +6,8 @@ using namespace std;
 
 Particle::Particle(float x, float y, float angle, Mat *map)
 {
+    map2real = REAL_WIDTH / map->cols;
+
     this->x = x;
     this->y = y;
     this->angle = angle;
@@ -14,37 +16,39 @@ Particle::Particle(float x, float y, float angle, Mat *map)
 
 float Particle::wall_distance(float angle)
 {
-    cv::Rect rect(cv::Point(), map->size());
-
-    float dist = 0.0f;
+    float x_diff = cos(this->angle + angle) + 0.5f;
+    float y_diff = sin(this->angle + angle) + 0.5f;
+    float x_ = x;
+    float y_ = y;
     while (true)
     {
-        Point p((int)x + cos(this->angle + angle) * dist + 0.5f,
-                (int)y + sin(this->angle + angle) * dist + 0.5f);
-        if (map->at<Vec3b>(p) == Vec3b(0, 0, 0) || !rect.contains(p))
+        int x_int = x_;
+        int y_int = y_;
+        if (map->at<Vec3b>(y_int, x_int) == Vec3b(0, 0, 0))
         {
             break;
         }
-
-        dist += 0.1f;
+        x_ += x_diff;
+        y_ += y_diff;
     }
-    return dist;
+    return sqrt(pow(x - round(x_), 2) + pow(y - round(y_), 2)) * map2real;
 }
 
 void Particle::mark(Mat *vis_map)
 {
     // Round to nearest int
     Point p1((int)x + 0.5f, (int)y + 0.5f);
-    Point p2((int)x + cos(angle) * MARK_DISTANCE + 0.5f,
-             (int)y + sin(angle) * MARK_DISTANCE + 0.5f);
-    line(*vis_map, p1, p2, Vec3b(255, 0, 0));
+    Point p2((int)x + cos(angle) * MARK_DISTANCE * (weight) * 1000 + 0.5f,
+             (int)y + sin(angle) * MARK_DISTANCE * (weight) * 1000 + 0.5f);
+    line(*vis_map, p1, p2, Vec3b(255, 0, 0), 1);
 }
 
-float Particle::sensor_update(const LaserScanConstPtr &scan)
+double Particle::get_likelihood(const LaserScanConstPtr &scan)
 {
     double likelihood = 1.0f;
-    for (int i = 0; i < scan->ranges.size(); i++)
+    for (int d = 0; d < LASER_DIVISIONS; d++)
     {
+        int i = d * scan->ranges.size() / LASER_DIVISIONS;
         float angle = scan->angle_min + scan->angle_increment * i;
         float measurement = scan->ranges[i];
         float estimation = wall_distance(angle);
@@ -53,15 +57,12 @@ float Particle::sensor_update(const LaserScanConstPtr &scan)
         {
             continue;
         }
-        ROS_INFO("%f", exp(-0.5f * pow((estimation - measurement), 2.0f) / pow(LASER_STD, 2.0f)) /
-            (LASER_STD * sqrt(2 * M_PI)));
-        likelihood *=
-            exp(-pow((estimation - measurement), 2) / pow(LASER_STD, 2) / 2.0) /
-            (LASER_STD * sqrt(2 * M_PI));
+        likelihood *= exp(-pow((estimation - measurement), 2) /
+                          pow(LASER_STD, 2) / 2.0) /
+                      (LASER_STD * sqrt(2 * M_PI));
     }
-    
-    ROS_INFO("likelihood: %f", likelihood);
-    return 0.0f;
+    weight = likelihood;
+    return likelihood;
 }
 
 Particle::~Particle()
