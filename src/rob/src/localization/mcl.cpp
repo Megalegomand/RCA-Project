@@ -2,6 +2,7 @@
 
 using namespace cv;
 using namespace std;
+using namespace tf;
 
 MCL::MCL(Mat *map)
 {
@@ -13,8 +14,14 @@ MCL::MCL(Mat *map)
     this->map = map;
     particles = vector<Particle>();
 
-    lidar_sub =
-        nh.subscribe("/robot/laser/scan", 1, &MCL::lidar_callback, this);
+    // lidar_sub =
+    //    nh.subscribe("/robot/laser/scan", 1, &MCL::lidar_callback, this);
+
+    lidar_sub.subscribe(nh, "/robot/laser/scan", 10);
+    odom_sub.subscribe(nh, "/robot/odom", 10);
+
+    sync.reset(new Sync(ParticleSyncPolicy(10), lidar_sub, odom_sub));
+    sync->registerCallback(boost::bind(&MCL::callback, this, _1, _2));
 }
 
 void MCL::randomize_particles()
@@ -52,14 +59,43 @@ void MCL::visualize()
         p.mark(&vis);
     }
     imshow("Localization", vis);
-    waitKey();
+    waitKey(10);
 }
 
-void MCL::lidar_callback(const sensor_msgs::LaserScanConstPtr &scan)
+void MCL::callback(const sensor_msgs::LaserScanConstPtr &scan,
+                   const nav_msgs::OdometryConstPtr &odom)
 {
+    Quaternion quat;
+    quaternionMsgToTF(odom->pose.pose.orientation, quat);
+    double a_z, a_y, a_x;
+    tf::Matrix3x3(quat).getEulerYPR(a_z, a_y, a_x);
+
+    float new_x = odom->pose.pose.position.x;
+    float new_y = odom->pose.pose.position.y;
+    float new_angle = a_z;
+    float diff_x = new_x - prev_x;
+    float diff_y = new_y - prev_y;
+    float diff_angle = new_angle - prev_angle;
+    ROS_INFO("%f %f %f", diff_x, diff_y, diff_angle);
+    prev_x = new_x;
+    prev_y = new_y;
+    prev_angle = new_angle;
+
+    default_random_engine dre;
+    normal_distribution<double> x_dist(diff_x, POS_STD);
+    normal_distribution<double> y_dist(diff_y, POS_STD);
+    normal_distribution<double> angle_dist(diff_angle, ANGLE_STD);
+
+    // Motion update
+    for (Particle& p : particles)
+    {
+        p.update_pose(x_dist(dre), y_dist(dre), angle_dist(dre));
+    }
+
+    // Sensor update
     double weight_sum = 0.0f;
     vector<double> weights;
-    for (Particle p : particles)
+    for (Particle& p : particles)
     {
         double weight = p.get_likelihood(scan);
         weight_sum += weight;
@@ -71,8 +107,6 @@ void MCL::lidar_callback(const sensor_msgs::LaserScanConstPtr &scan)
         weights[i] *= 1 / weight_sum;
         particles[i].norm_weight = weights[i];
     }
-
-    //visualize();
 
     resample(weights);
 

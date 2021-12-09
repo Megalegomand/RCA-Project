@@ -55,6 +55,10 @@
   <build_depend>roslib</build_depend>
   <build_export_depend>roslib</build_export_depend>
   <exec_depend>roslib</exec_depend>
+  <build_depend>message_filters</build_depend>
+  <build_export_depend>message_filters</build_export_depend>
+  <exec_depend>message_filters</exec_depend>
+  
 
 
   <!-- The export tag contains other, unspecified, tags -->

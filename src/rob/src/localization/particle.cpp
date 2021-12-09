@@ -4,13 +4,19 @@ using namespace cv;
 using namespace sensor_msgs;
 using namespace std;
 
-Particle::Particle(float x, float y, float angle, Mat *map, MCL *parent)
+Particle::Particle(float x_, float y_, float angle_, Mat *map_, MCL *parent_)
 {
-    this->x = x;
-    this->y = y;
-    this->angle = angle;
-    this->map = map;
-    this->parent = parent;
+    x = x_;
+    y = y_;
+    angle = angle_;
+    map = map_;
+    parent = parent_;
+}
+
+bool Particle::outside_bounds()
+{
+    return x < -REAL_WIDTH / 2 || x > REAL_WIDTH / 2 || y < -REAL_HEIGHT / 2 ||
+           y > REAL_HEIGHT / 2;
 }
 
 float Particle::wall_distance(float angle)
@@ -39,6 +45,9 @@ float Particle::wall_distance(float angle)
 
 void Particle::mark(Mat *vis_map)
 {
+    if (outside_bounds())
+        return;
+
     // Round to nearest int
     Point p1(parent->real2map_x(x), parent->real2map_y(y));
     Point p2(p1.x + cos(angle) * MARK_DISTANCE,
@@ -49,21 +58,23 @@ void Particle::mark(Mat *vis_map)
 
 double Particle::get_likelihood(const LaserScanConstPtr &scan)
 {
-    //Mat vis_map = map->clone();
-    //mark(&vis_map);
+    if (outside_bounds())
+        return 0;
 
     double likelihood = 1.0f;
     for (int d = 0; d < LASER_DIVISIONS; d++)
     {
-        //ROS_INFO("min: %f, max: %f", scan->angle_min, scan->angle_max);
+        // ROS_INFO("min: %f, max: %f", scan->angle_min, scan->angle_max);
         int i = d * scan->ranges.size() / LASER_DIVISIONS;
         float meas_angle = scan->angle_min + scan->angle_increment * i;
         float measurement = scan->ranges[i];
         float estimation = wall_distance(meas_angle);
 
-        //Point p2(parent->real2map_x(x + cos(meas_angle + angle) * estimation),
-        //         parent->real2map_y(y + sin(meas_angle + angle) * estimation));
-        //vis_map.at<Vec3b>(p2) = Vec3b(0, 255, 0);
+        // Point p2(parent->real2map_x(x + cos(meas_angle + angle) *
+        // estimation),
+        //         parent->real2map_y(y + sin(meas_angle + angle) *
+        //         estimation));
+        // vis_map.at<Vec3b>(p2) = Vec3b(0, 255, 0);
         // Point p3(parent->real2map_x(x + cos(meas_angle + angle) *
         // measurement), parent->real2map_y(y + sin(meas_angle + angle) *
         // measurement)); vis_map.at<Vec3b>(p3) = Vec3b(255, 0, 0);
@@ -77,11 +88,23 @@ double Particle::get_likelihood(const LaserScanConstPtr &scan)
                           pow(LASER_STD, 2) / 2.0) /
                       (LASER_STD * sqrt(2 * M_PI));
     }
-    //imshow("Localization", vis_map);
-    //waitKey();
+    // imshow("Localization", vis_map);
+    // waitKey();
 
     weight = likelihood;
     return likelihood;
+}
+
+void Particle::update_pose(float diff_x, float diff_y, float diff_angle)
+{
+    default_random_engine dre;
+    normal_distribution<double> x_dist(diff_x, POS_STD);
+    normal_distribution<double> y_dist(diff_y, POS_STD);
+    normal_distribution<double> angle_dist(diff_angle, ANGLE_STD);
+
+    x += x_dist(dre);
+    y += y_dist(dre);
+    angle += angle_dist(dre);
 }
 
 Particle::~Particle()

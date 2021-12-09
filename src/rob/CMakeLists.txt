@@ -10,6 +10,7 @@ project(rob)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
+  message_filters
 )
 
 find_package( OpenCV REQUIRED )

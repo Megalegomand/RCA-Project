@@ -180,6 +180,8 @@
       <updateRate>100</updateRate>
       <robotBaseFrame>pioneer2dx</robotBaseFrame>
       <odometryTopic>/robot/odom</odometryTopic>
+      <wheelDiameter>0.22</wheelDiameter>
+      <wheelSeparation>0.34</wheelSeparation>
     </plugin>
   </model>
 </sdf>
