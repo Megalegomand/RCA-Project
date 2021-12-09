@@ -17,7 +17,7 @@ Envoriment::Envoriment(Mat map)
 	int black_val = 0;
 	int red_val = -8;
 	int green_val = 5;
-	int blue_val = 8;
+	int blue_val = 80;
 
 	for (int i = 0; i < rows; i++)
 	{

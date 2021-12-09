@@ -33,7 +33,7 @@ private:
 	double epsilon_decay = 0.005;
 	double min_exploration_rate = 0.01;
 	double max_exploration_rate = 1.0;
-	int maxSteps = 1000;
+	int maxSteps = 10000;
 
 	// Results
 	double maxReward;
