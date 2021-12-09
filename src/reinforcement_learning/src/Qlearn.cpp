@@ -34,7 +34,7 @@ State *Qlearn::getAction()
     // {
     //     cout << "valid " << i << ":" << valid_actions[i]->get_reward()<< endl;
     // }
-    cout << "valid actions first :" << valid_actions.size() << endl;
+   // cout << "valid actions first :" << valid_actions.size() << endl;
     random_device rd;
 
     uniform_real_distribution<double> explore(0.0, 1.0);
@@ -49,7 +49,7 @@ State *Qlearn::getAction()
         // cout << exploration_rate_threshold << endl;
         if (robot->get_agent_location()->get_VisitedCounter() >= 1)
         {
-            cout << "EX 1: Not visted" << endl;
+            //cout << "EX 1: Not visted" << endl;
             robot->get_agent_location()->set_VisitedCounter();
 
             return robot->get_agent_location()->best_choice();
@@ -59,16 +59,16 @@ State *Qlearn::getAction()
         {
             if (robot->get_agent_location()->get_VisitedCounter() == valid_actions.size())
             {
-                cout << "EX 3: reset visted counter" << endl;
+               // cout << "EX 3: reset visted counter" << endl;
                 robot->get_agent_location()->reset_VisitedCounter();
             }
 
             int element = robot->get_agent_location()->get_VisitedCounter();
-            cout << "Element: " << element << endl;
+           // cout << "Element: " << element << endl;
 
             int largestIndex = get_largestIndex(element, valid_actions);
             robot->get_agent_location()->set_VisitedCounter();
-            cout << "EX 2: Used largest index " << endl;
+            //cout << "EX 2: Used largest index " << endl;
 
             return valid_actions[largestIndex];
         }
@@ -76,7 +76,7 @@ State *Qlearn::getAction()
 
     uniform_int_distribution<int> dist(0, valid_actions.size() - 1);
     index_action = dist(rd);
-    cout << "valid actions last :" << valid_actions.size() << endl;
+    // cout << "valid actions last :" << valid_actions.size() << endl;
 
     return valid_actions[dist(rd)];
 }
@@ -90,8 +90,8 @@ State *Qlearn::doAction(Mat map)
     double current_q_value = robot->get_agent_location()->get_valid_Qval()[index_action];
     // get the action and set new action
     robot->set_current_state(map, x, y);
-    cout << "x: " << robot->get_agent_location()->get_location().first << endl;
-    cout << "y: " << robot->get_agent_location()->get_location().second << endl;
+    // cout << "x: " << robot->get_agent_location()->get_location().first << endl;
+    // cout << "y: " << robot->get_agent_location()->get_location().second << endl;
     double reward;
 
     if (robot->get_agent_location()->get_VisitedCounter() > 1)
@@ -102,18 +102,18 @@ State *Qlearn::doAction(Mat map)
     {
         reward = robot->get_agent_location()->get_reward();
     }
-    cout << "Reward: " << reward << endl;
+    //cout << "Reward: " << reward << endl;
     maxReward += reward;
 
     //vect-le future_sa_reward = *max;
     vector<double> valid_qval = robot->get_agent_location()->get_valid_Qval();
     auto max = max_element(valid_qval.begin(), valid_qval.end());
     double future_sa_reward = *max;
-    cout << future_sa_reward << endl;
+    //cout << future_sa_reward << endl;
 
     // Q Learning equation
     double Q_value_for_state = current_q_value + lr * (reward + gamma * future_sa_reward - current_q_value);
-    cout << Q_value_for_state << endl;
+   // cout << Q_value_for_state << endl;
     robot->get_agent_location()->set_QValues(index_action, Q_value_for_state);
     robot->get_agent_location()->set_isVisted();
 
@@ -146,7 +146,7 @@ void Qlearn::doEpisode(Mat map)
     int steps = 0;
 
     int initReward = robot->get_agent_location()->get_reward();
-    cout << "State reward:  " << initReward << endl;
+    //cout << "State reward:  " << initReward << endl;
     maxReward += initReward;
 
     while (true)
@@ -156,8 +156,8 @@ void Qlearn::doEpisode(Mat map)
 
         if (steps == maxSteps)
         {
-            cout << "Episode terminated successfully" << endl;
-            cout << "Maximum Reward: " << maxReward << endl;
+            //cout << "Episode terminated successfully" << endl;
+            //cout << "Maximum Reward: " << maxReward << endl;
 
             expectedPrEpisode.push_back(maxReward);
             maxReward = 0;
@@ -168,22 +168,23 @@ void Qlearn::doEpisode(Mat map)
 
 void Qlearn::train(Mat map)
 {
-    cout << "Bigger, better, stronger" << endl;
+    //cout << "Bigger, better, stronger" << endl;
     for (int episode = 0; episode < n_episodes; episode++)
     {
         AllEpisodes.push_back(episode);
-        cout << "Episode number: " << episode << endl;
+        if (episode % 1000 == 0)
+            cout << "Episode number: " << episode << endl;
 
         robot->set_random_starting_state(map);
         states->reset_map(map);
 
         doEpisode(map);
 
-        AllEpisodes.push_back(epsilon);
+        AllEpsilon.push_back(epsilon);
         All_lr.push_back(lr);
 
         epsilon = min_exploration_rate + (max_exploration_rate - min_exploration_rate) * exp(-epsilon_decay * episode);
-        cout << epsilon << endl;
+        //cout << epsilon << endl;
     }
 
     cout << "Training finished" << endl;

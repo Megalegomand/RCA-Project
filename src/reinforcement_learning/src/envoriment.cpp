@@ -68,7 +68,7 @@ Envoriment::Envoriment(Mat map)
 				blue_state.set_color_val(255,0,0);
 				state_temp.push_back(blue_state);
 			}
-			ROS_INFO("%i,%i",i,y);
+			//ROS_INFO("%i,%i",i,y);
 		}
 		envoriment.push_back(state_temp);
 		state_temp.clear();
