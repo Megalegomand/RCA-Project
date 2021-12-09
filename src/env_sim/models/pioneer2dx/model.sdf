@@ -179,6 +179,7 @@
       <commandTopic>/robot/control</commandTopic>
       <updateRate>100</updateRate>
       <robotBaseFrame>pioneer2dx</robotBaseFrame>
+      <odometryTopic>/robot/odom</odometryTopic>
     </plugin>
   </model>
 </sdf>

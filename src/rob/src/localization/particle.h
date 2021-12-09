@@ -1,3 +1,4 @@
+#pragma once
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -6,12 +7,13 @@
 #include "vector"
 #include "math.h"
 #include "assert.h"
+#include "mcl.h"
 
-#define MARK_DISTANCE 3
+#define MARK_DISTANCE 10
 #define LASER_STD 1.0
 #define LASER_DIVISIONS 10
-#define REAL_WIDTH 84.67
-#define REAL_HEIGHT 56.45
+
+class MCL;
 
 class Particle
 {
@@ -20,12 +22,13 @@ private:
     float y;
     float angle;
     cv::Mat* map;
-    float map2real;
+    MCL* parent;
     float weight;
 
     float wall_distance(float angle);
 public:
-    Particle(float x, float y, float angle, cv::Mat* map);
+    double norm_weight;
+    Particle(float x, float y, float angle, cv::Mat* map, MCL* parent);
     void mark(cv::Mat* vis_map);
     double get_likelihood(const sensor_msgs::LaserScanConstPtr& scan);
     ~Particle();
