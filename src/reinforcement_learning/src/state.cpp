@@ -72,11 +72,11 @@ void State::reset_VisitedCounter()
 }
 State* State::best_choice()
 {
-	double best = 0;
+	double best = -1000.0;
 	int state_index;
 	for (int i = 0; i < get_QValues().size(); i++)
 	{
-		if(best < get_QValues()[i] && get_connected_states()[i]->get_color_val() != Vec3b{0,0,0})
+		if(best < get_QValues()[i] && get_connected_states()[i]->get_color_val() != Vec3b(0,0,0))
 		{
 			best = get_QValues()[i];
 			state_index = i;
@@ -90,7 +90,7 @@ int State::get_VisitedCounter()
 }
 void State::set_QValues(int index, double q_val)
 {
-	while(get_connected_states()[index]->get_color_val() == Vec3b{0,0,0} )
+	while(get_connected_states()[index]->get_color_val() == Vec3b(0,0,0) )
 	{
 		index++;
 		index = index % get_connected_states().size();
@@ -106,7 +106,7 @@ vector<double> State::get_valid_Qval()
 	Valid_Qval.clear();
 	for (int i = 0; i < QValues.size(); i++)
 	{
-		if(get_connected_states()[i]->get_color_val() != Vec3b{0,0,0})
+		if(get_connected_states()[i]->get_color_val() != Vec3b(0,0,0))
 		{
 			Valid_Qval.push_back(QValues[i]);
 		}

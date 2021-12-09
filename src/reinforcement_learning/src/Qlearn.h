@@ -12,6 +12,7 @@
 #include "state.h"
 #include "envoriment.h"
 #include "fstream"
+#include "ros/package.h"
 
 class Qlearn
 {
@@ -43,7 +44,7 @@ private:
 	vector<double>All_lr;
 
 	ofstream DataCollection;
-	string filename = "QlearnTestNum1";
+	string filename;
 
 public:
 	Qlearn();

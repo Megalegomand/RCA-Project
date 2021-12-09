@@ -13,6 +13,7 @@ Qlearn::Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_)
     states = states_;
     robot = agent_;
     maxReward = 0.0;
+    filename = ros::package::getPath("reinforcement_learning") + "/QlearnTestNum1.csv";
 }
 
 State *Qlearn::getAction()
@@ -51,12 +52,6 @@ State *Qlearn::getAction()
             cout << "EX 1: Not visted" << endl;
             robot->get_agent_location()->set_VisitedCounter();
 
-            if (robot->get_agent_location()->best_choice() == nullptr)
-            {
-                State* kage = robot->get_agent_location();
-                State* kage2 = robot->get_agent_location()->best_choice();
-                ROS_INFO("Kage");
-            }
             return robot->get_agent_location()->best_choice();
         }
         //Tror det skal være valid actions her er det altid 4 (men sorte bør ikke tælles med)
@@ -75,10 +70,6 @@ State *Qlearn::getAction()
             robot->get_agent_location()->set_VisitedCounter();
             cout << "EX 2: Used largest index " << endl;
 
-            if (valid_actions[largestIndex] == nullptr)
-            {
-                ROS_INFO("Kage");
-            }
             return valid_actions[largestIndex];
         }
     }
@@ -87,10 +78,6 @@ State *Qlearn::getAction()
     index_action = dist(rd);
     cout << "valid actions last :" << valid_actions.size() << endl;
 
-    if (valid_actions[dist(rd)] == nullptr)
-    {
-        ROS_INFO("Kage");
-    }
     return valid_actions[dist(rd)];
 }
 
