@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find env_sim)/launch/gazebo.launch">
+        <arg name="world" value="bigworld-no_marble" />
+    </include>
+</launch>

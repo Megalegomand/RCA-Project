@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
                            "/models/bigworld/meshes/floor_plan.png";
     cv::Mat map = cv::imread(map_path);
 
-    cv::resize(map, map, cv::Size(), 2.0f, 2.0f, cv::INTER_NEAREST);
+    cv::resize(map, map, cv::Size(), 4.0f, 4.0f, cv::INTER_NEAREST);
 
     ROS_INFO("Map size: (%i, %i)", map.cols, map.rows);
 

@@ -12,7 +12,7 @@
 
 #define MARK_DISTANCE 10
 #define LASER_STD 1.0
-#define LASER_DIVISIONS 10
+#define LASER_DIVISIONS 6
 
 class MCL;
 
