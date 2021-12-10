@@ -26,12 +26,12 @@ int main(int argc, char **argv)
 	map = cv::imread(floorplan_path); // change this to change map
 
 	//----------------Maps the states--------------------------------------------
-	
+
 	Envoriment big_world(map);
 	Agent agent(&big_world);
-	Qlearn reinlearn(100000,&big_world,&agent);
+	Qlearn reinlearn(100000, &big_world, &agent);
 	big_world.show_envoriment();
-	big_world.get_state(1,1)->show_connected_states();
+	big_world.get_state(1, 1)->show_connected_states();
 	agent.set_random_starting_state(map);
 
 	//---------------------------------------------------------------------------
@@ -58,24 +58,11 @@ int main(int argc, char **argv)
 	// map.at<Vec3b>(46, 66) ={208,224,64};
 	// map.at<Vec3b>(20, 31) ={208,224,64};
 
-
-
-while(true)
-{
-	cv::imshow("Map", map);
-	cv::waitKey(0);
-}
-
-
-
-
-
-
-
-
-
-
-
+	while (true)
+	{
+		cv::imshow("Map", map);
+		cv::waitKey(0);
+	}
 
 	// while(true)
 	// {

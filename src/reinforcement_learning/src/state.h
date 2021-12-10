@@ -18,15 +18,15 @@ private:
 	int y_coordinate;
 	Vec3b color_val;
 
-	//Siblings /children /connected states
+	// Siblings /children /connected states
 	vector<State *> connected_states;
 
-	//state status (current or not)(visted or not)
+	// state status (current or not)(visted or not)
 	bool current = false;
 	bool isVisted = false;
 	int VisitedCounter = 0;
 
-	//state reward of current state
+	// state reward of current state
 	int reward;
 
 	// Q properties (UP, LOW, LEFT, RIGHT)
@@ -38,24 +38,30 @@ private:
 
 public:
 	State();
-	State(int x_coordinate_, int y_coordinate_, int reward_); // Mat map // vector <State*> connections );
+	State(int x_coordinate_, int y_coordinate_, int reward_);
 	pair<int, int> get_location();
+
+	void set_connected_states(State *child);
+	void show_connected_states();
+	vector<State *> get_connected_states();
+
 	void set_color_val(int b, int g, int r);
 	Vec3b get_color_val();
+
 	void set_current_state(Mat map, bool status);
 	void set_reward(int value);
+	int get_reward();
+
 	bool get_isVisted();
 	void set_isVisted();
 	void set_VisitedCounter();
 	void reset_VisitedCounter();
-	State *best_choice();
 	int get_VisitedCounter();
+
+	State *best_choice();
 	void set_QValues(int index, double q_val);
 	vector<double> get_QValues();
 	vector<double> get_valid_Qval();
-	int get_reward();
-	void set_connected_states(State *child);
-	void show_connected_states();
-	vector<State *> get_connected_states();
+
 	~State();
 };

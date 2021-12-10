@@ -12,18 +12,15 @@ using namespace cv;
 
 class Envoriment
 {
-    private:
+private:
+    vector<vector<State>> envoriment;
 
-        vector<vector<State>> envoriment;
-
-    public:
-
-        Envoriment();
-        Envoriment(Mat map);
-        vector<vector<State>>* get_envoriment();
-        State* get_state(int x, int y); 
-        void reset_map(Mat map); // does not work
-        void show_envoriment();
-        ~Envoriment();
-
+public:
+    Envoriment();
+    Envoriment(Mat map);
+    vector<vector<State>> *get_envoriment();
+    State *get_state(int x, int y);
+    void reset_map(Mat map); // does not work
+    void show_envoriment();
+    ~Envoriment();
 };

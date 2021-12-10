@@ -17,8 +17,6 @@ Qlearn::Qlearn(int n_episodes_, Envoriment *states_, Agent *agent_)
     //DataCollection.open(filename, ofstream::out | ofstream::trunc);
     //DataCollection.close();
     DataCollection.open(filename);
-    
-
 }
 
 State *Qlearn::getAction()

@@ -32,7 +32,7 @@ Envoriment::Envoriment(Mat map)
 			{
 
 				State white_state(i, y, white_val);
-				white_state.set_color_val(255,255,255);
+				white_state.set_color_val(255, 255, 255);
 				state_temp.push_back(white_state);
 			}
 			// if pixel is black
@@ -41,7 +41,7 @@ Envoriment::Envoriment(Mat map)
 				;
 
 				State black_state(i, y, black_val);
-				black_state.set_color_val(0,0,0);
+				black_state.set_color_val(0, 0, 0);
 				state_temp.push_back(black_state);
 			}
 			// if pixel is red
@@ -49,7 +49,7 @@ Envoriment::Envoriment(Mat map)
 			{
 
 				State red_state(i, y, red_val);
-				red_state.set_color_val(0,0,255);
+				red_state.set_color_val(0, 0, 255);
 				state_temp.push_back(red_state);
 			}
 			// if pixel is green
@@ -57,7 +57,7 @@ Envoriment::Envoriment(Mat map)
 			{
 
 				State green_state(i, y, green_val);
-				green_state.set_color_val(0,255,0);
+				green_state.set_color_val(0, 255, 0);
 				state_temp.push_back(green_state);
 			}
 			// if pixel is blue
@@ -65,7 +65,7 @@ Envoriment::Envoriment(Mat map)
 			{
 
 				State blue_state(i, y, blue_val);
-				blue_state.set_color_val(255,0,0);
+				blue_state.set_color_val(255, 0, 0);
 				state_temp.push_back(blue_state);
 			}
 			//ROS_INFO("%i,%i",i,y);
@@ -102,10 +102,9 @@ State *Envoriment::get_state(int x, int y)
 
 void Envoriment::reset_map(Mat map)
 {
-	Vec3b red = {0,0,255};
-	Vec3b green = {0,255,0};
-	Vec3b blue = {255,0,0};
-
+	Vec3b red = {0, 0, 255};
+	Vec3b green = {0, 255, 0};
+	Vec3b blue = {255, 0, 0};
 
 	for (int i = 0; i < envoriment.size(); i++)
 	{
