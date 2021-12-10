@@ -88,7 +88,15 @@ bool State::get_isVisted()
 
 void State::set_isVisted()
 {
-	isVisted = true;
+	if(isVisted == false)
+	{
+		isVisted = true;
+	}
+	else if(isVisted == true)
+	{
+		isVisted = false;
+	}
+	
 }
 
 void State::set_VisitedCounter()

@@ -110,7 +110,7 @@ void Envoriment::reset_map(Mat map)
 	{
 		for (int j = 0; j < envoriment[0].size(); j++)
 		{ // if state was original a red, green or blue state
-
+			envoriment[i][j].set_isVisted();
 			envoriment[i][j].reset_VisitedCounter();
 
 			if (envoriment[i][j].get_color_val() == red || envoriment[i][j].get_color_val() == green || envoriment[i][j].get_color_val() == blue)
