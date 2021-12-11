@@ -3,12 +3,12 @@
 using namespace cv;
 using namespace std;
 
-RRT::RRT(Mat *map, RRTPoint start)
+RRT::RRT(Mat *map, RRTPoint start, int step_size_)
 {
-    init(map, start);
+    init(map, start, step_size_);
 }
 
-void RRT::init(cv::Mat *map, RRTPoint start)
+void RRT::init(cv::Mat *map, RRTPoint start, int step_size_)
 {
     this->map = map;
 
@@ -16,6 +16,8 @@ void RRT::init(cv::Mat *map, RRTPoint start)
 
     nodes = vector<RRTPoint>();
     nodes.push_back(start);
+
+    step_size = step_size;
 }
 
 RRTPoint RRT::random_point()
@@ -62,7 +64,8 @@ int RRT::closest(RRTPoint *p)
     return min_index;
 }
 
-bool RRT::connect(RRTPoint end, bool vis)
+bool RRT::connect(RRTPoint end, bool vis = false, int *node_amount = nullptr,
+                  float *distance = nullptr)
 {
     for (int i = 0; i < iterations; i++)
     {
@@ -81,7 +84,7 @@ bool RRT::connect(RRTPoint end, bool vis)
             int step = std::min(step_size, (int)q.dist(q_near));
 
             q_new = RRTPoint(q_near->get_x() + cos(angle) * step,
-                                      q_near->get_y() + sin(angle) * step);
+                             q_near->get_y() + sin(angle) * step);
         }
 
         q_new.set_parent(q_near_index);
@@ -101,7 +104,7 @@ bool RRT::connect(RRTPoint end, bool vis)
             visualize();
 
             q_near->mark(&map_vis, Vec3b(0, 0, 255));
-            //q.mark(&map_vis, Vec3b(255, 0, 255));
+            // q.mark(&map_vis, Vec3b(255, 0, 255));
             q_new.mark(&map_vis, Vec3b(255, 0, 0));
             waitKey();
         }
@@ -111,18 +114,29 @@ bool RRT::connect(RRTPoint end, bool vis)
         if (q_new.get_x() == end.get_x() && q_new.get_y() == end.get_y())
         {
             visualize();
-            RRTPoint* p = &nodes.back();
-            float distance = 0.0f;
-            while (p != &nodes.front()) {
-                RRTPoint* p_new = &nodes[p->get_parent()];
+            RRTPoint *p = &nodes.back();
+            float distance_sum = 0.0f;
+            while (p != &nodes.front())
+            {
+                RRTPoint *p_new = &nodes[p->get_parent()];
                 Point p1(p->get_x(), p->get_y());
                 Point p2(p_new->get_x(), p_new->get_y());
                 line(map_vis, p1, p2, Vec3b(0, 0, 255), 1);
-                distance+= p->dist(p_new);
+                distance_sum += p->dist(p_new);
                 p = p_new;
             }
             imshow("Visual", map_vis);
-            ROS_INFO("Distance: %f", distance);
+
+            imwrite(ros::package::getPath("rob") + "/test.png", map_vis);
+            ROS_INFO("Distance: %f", distance_sum);
+            if (node_amount != nullptr)
+            {
+                *node_amount = nodes.size();
+            }
+            if (distance != nullptr)
+            {
+                *distance = distance_sum;
+            }
             return true;
         }
     }

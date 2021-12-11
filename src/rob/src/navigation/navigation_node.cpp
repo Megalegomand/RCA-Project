@@ -3,10 +3,12 @@
 #include "rrt.h"
 #include "rrt_point.h"
 #include "string"
+#include <fstream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+using namespace std;
 using namespace cv;
 
 bool mouse_waiting = false;
@@ -36,6 +38,21 @@ void mouse_callback(int event, int x, int y, int flags, void *userdata)
     }
 }
 
+template <typename T> struct comma_separator : std::numpunct<T>
+{
+    typename std::numpunct<T>::char_type do_decimal_point() const
+    {
+        return ',';
+    }
+};
+
+template <typename T>
+std::basic_ostream<T> &comma_sep(std::basic_ostream<T> &os)
+{
+    os.imbue(std::locale(std::locale(""), new comma_separator<T>));
+    return os;
+}
+
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "navigation_node");
@@ -52,15 +69,66 @@ int main(int argc, char *argv[])
 
     ROS_INFO("Map size: (%i, %i)", map.cols, map.rows);
 
-    RRTPoint start = wait_mouse();
-    RRT rrt(&map, start);
-    while (true)
+    // RRTPoint start = wait_mouse();
+    RRTPoint start(10, 10);
+    RRTPoint end(470, 310);
+    RRTPoint end2(470, 10);
+
+    for (float s = 0.01; s < 0.06; s += 0.01)
+    {
+        int step_size = map.rows * s + 0.5;
+        std::ofstream csv;
+        csv.open(ros::package::getPath("rob") + "/test" +
+                 to_string(step_size) + ".csv");
+        csv << step_size << endl;
+        csv << comma_sep << s << endl;
+        csv << endl;
+
+        for (int i = 0; i < 100; i++)
+        {
+            RRT rrt(&map, start, step_size);
+            float distance;
+            int node_amount;
+            rrt.connect(end, false, &node_amount, &distance);
+            csv << node_amount << ";" << comma_sep << distance << std::endl;
+
+            // ROS_INFO("%i", rrt.connect(end, false));
+        }
+        csv.close();
+    }
+
+    int step_size = map.rows * 0.03 + 0.5;
+    std::ofstream csv;
+    csv.open(ros::package::getPath("rob") + "/test_double.csv");
+    csv << step_size << endl;
+    csv << endl;
+
+    for (int i = 0; i < 100; i++)
+    {
+        float distance;
+        int node_amount;
+        RRT rrt2(&map, start, step_size);
+        rrt2.connect(end2, false, &node_amount, &distance);
+        csv << node_amount << ";";
+
+        RRT rrt(&map, start, step_size);
+        rrt.connect(end, false, &node_amount, &distance);
+        csv << node_amount << ";";
+        rrt.connect(end2, false, &node_amount, &distance);
+        csv << node_amount << endl;
+
+        // ROS_INFO("%i", rrt.connect(end, false));
+    }
+    csv.close();
+
+    cv::waitKey();
+    /*while (true)
     {
         RRTPoint end = wait_mouse();
         ROS_INFO("%i", rrt.connect(end, false));
 
         cv::waitKey();
-    }
+    }*/
 
     return 0;
 }
