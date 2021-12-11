@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
 	Envoriment big_world(map);
 	Agent agent(&big_world);
-	Qlearn reinlearn(1000, &big_world, &agent);
+	Qlearn reinlearn(50000, &big_world, &agent);
 	big_world.show_envoriment();
 	big_world.get_state(1, 1)->show_connected_states();
 	agent.set_random_starting_state(map);

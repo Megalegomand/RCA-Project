@@ -96,7 +96,10 @@ State *Qlearn::doAction(Mat map)
     // cout << "x: " << robot->get_agent_location()->get_location().first << endl;
     // cout << "y: " << robot->get_agent_location()->get_location().second << endl;
     double reward;
-
+    if(robot->get_agent_location()->get_color_val() == Vec3b(255,0,0))
+    {
+        blue_marble_counter++;
+    }
     if (robot->get_agent_location()->get_VisitedCounter() > 1)
     {
         reward = 0;
@@ -147,6 +150,7 @@ double Qlearn::doEpisode(Mat map)
 {
     State *start_state = robot->get_starting_state();
     int steps = 0;
+    int blue_marble_counter = 0;
 
     int initReward = robot->get_agent_location()->get_reward();
     //cout << "State reward:  " << initReward << endl;
@@ -156,8 +160,14 @@ double Qlearn::doEpisode(Mat map)
     {
         doAction(map);
         steps++;
-
-        if (steps == maxSteps)
+        if(blue_marble_counter == 5)
+        {
+            blue_marble_counter = 0;
+            double mr = maxReward;
+            maxReward = 0;
+            return mr;
+        }
+        else if (steps == maxSteps)
         {
             //cout << "Episode terminated successfully" << endl;
             //cout << "Maximum Reward: " << maxReward << endl;

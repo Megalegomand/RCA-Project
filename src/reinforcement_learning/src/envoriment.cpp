@@ -13,11 +13,11 @@ Envoriment::Envoriment(Mat map)
 	int rows = map.rows;
 	int cols = map.cols;
 
-	int white_val = 1;
+	int white_val = -1;
 	int black_val = 0;
 	int red_val = -8;
-	int green_val = 10;
-	int blue_val = 80;
+	int green_val = 80;
+	int blue_val = 200;
 
 	for (int i = 0; i < rows; i++)
 	{
