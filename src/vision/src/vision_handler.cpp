@@ -104,7 +104,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         }
 
         imshow("Blur", img);
-        imwrite("/home/philip/Pictures/7x7 matrix.png",img);
+        //imwrite("/home/philip/Pictures/7x7 matrix.png",img);
         //return;
     }
 
@@ -117,7 +117,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     double known_radius = 0.5;
     string distancestring;
     double distance;
-    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 200, 13.5,
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 35, 25,
                  img.cols/16, 7/8* img.cols);
 
     for (size_t i = 0; i < circles.size(); i++)
@@ -130,18 +130,18 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         circle(img, center, radius, Scalar(0, 255, 255), 3, 8, 0);
         distance = (2 * known_radius * camera_matrix.at<double>(1, 1)) / (radius * 2);
         distancestring = to_string(distance);
-        putText(img,               //target image
+       /* putText(img,               //target image
                 distancestring,              //text
                 center, //center of circle
                 cv::FONT_HERSHEY_DUPLEX,
                 0.5,
                 CV_RGB(118, 185, 0), //font color
-                2);
+                2);*/
     }
     namedWindow("circles", 1);
 
     imshow("circles", img);
-    //imwrite("/home/philip/Pictures/Test samlwrld.png",img);
+    imwrite("/home/philip/Pictures/Test param1v3.png",img);
 
     waitKey(500);
 }
