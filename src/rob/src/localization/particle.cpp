@@ -79,11 +79,24 @@ double Particle::get_likelihood(const LaserScanConstPtr &scan)
         // measurement), parent->real2map_y(y + sin(meas_angle + angle) *
         // measurement)); vis_map.at<Vec3b>(p3) = Vec3b(255, 0, 0);
 
-        if (scan->ranges[i] > scan->range_max ||
-            scan->ranges[i] < scan->range_min)
+        if (measurement >= scan->range_max)
         {
-            continue;
+            measurement = scan->range_max;
         }
+        else if (measurement <= scan->range_min)
+        {
+            measurement = scan->range_min;
+        }
+        
+        if (estimation >= scan->range_max)
+        {
+            estimation = scan->range_max;
+        }
+        else if (estimation <= scan->range_min)
+        {
+            estimation = scan->range_min;
+        }
+
         likelihood *= exp(-pow((estimation - measurement), 2) /
                           pow(LASER_STD, 2) / 2.0) /
                       (LASER_STD * sqrt(2 * M_PI));

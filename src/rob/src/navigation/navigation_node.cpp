@@ -3,10 +3,12 @@
 #include "rrt.h"
 #include "rrt_point.h"
 #include "string"
+#include <fstream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+using namespace std;
 using namespace cv;
 
 bool mouse_waiting = false;
@@ -52,15 +54,41 @@ int main(int argc, char *argv[])
 
     ROS_INFO("Map size: (%i, %i)", map.cols, map.rows);
 
-    RRTPoint start = wait_mouse();
-    RRT rrt(&map, start);
-    while (true)
+    // RRTPoint start = wait_mouse();
+    RRTPoint start(10, 10);
+    RRTPoint end(470, 310);
+
+    for (float s = 0.01; s <= 0.05; s += 0.01)
+    {
+        int step_size = map.cols * s + 0.5;
+        std::ofstream csv;
+        csv.open(ros::package::getPath("rob") + "/test" + to_string(step_size) + ".csv");
+        csv << step_size << endl;
+        csv << s << endl;
+        csv << endl;
+
+        for (int i = 0; i < 100; i++)
+        {
+            RRT rrt(&map, start, step_size);
+            float distance;
+            int node_amount;
+            rrt.connect(end, false, &node_amount, &distance);
+            csv << node_amount << "," << distance << std::endl;
+
+            // ROS_INFO("%i", rrt.connect(end, false));
+        }
+        csv.close();
+    }
+    
+
+    cv::waitKey();
+    /*while (true)
     {
         RRTPoint end = wait_mouse();
         ROS_INFO("%i", rrt.connect(end, false));
 
         cv::waitKey();
-    }
+    }*/
 
     return 0;
 }
