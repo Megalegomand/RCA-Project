@@ -1,7 +1,7 @@
 <launch>
     <node name="vision_node" pkg="vision" type="vision_node" output="screen">
         <param name="/undistort" type="bool" value="true" />
-        <param name="/blur_type" type="string" value="gaussian" />
-        <param name="/blur_size" type="int" value="3" />
+        <param name="/blur_type" type="string" value="median" />
+        <param name="/blur_size" type="int" value="5" />
     </node>
 </launch>

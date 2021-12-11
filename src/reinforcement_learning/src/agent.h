@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ros/ros.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -12,53 +13,35 @@
 using namespace std;
 using namespace cv;
 
-enum class Action { UP, DOWN, LEFT, RIGHT };
+enum class Action
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
 
 class Agent
 {
-	
+
 private:
 	// Envoriment Parameters
-	Envoriment* envoriment;
+	Envoriment *envoriment;
 	int n_states;
-	State* current_state;
-	State* starting_state;
-
-	// learning parameters
-	float lr = 0.001;
-    float gamma = 0.99;
-    float exploration_proba = 1.0;
-    float exploration_proba_decay = 0.005;
-    float batch_size = 32;
-
-	// Memory / buffer
-	vector<State*> memory;
-	int memory_size = 2000;
-
-	// Possible actions
-	
+	pair<int, int> current_state;
+	State *starting_state;
 
 	// Agents position and color (current_State)
-	vector <int> agent_color ={255,0,255}; // magenta color
-
+	vector<int> agent_color = {255, 0, 255}; // magenta color
 
 public:
-
-    Agent();
-    Agent(Envoriment *map);
+	Agent();
+	Agent(Envoriment *map);
+	State *get_current_state();
 	void set_current_state(Mat map, int x, int y);
 	void set_random_starting_state(Mat map);
-	void take_action(Mat map, Action action); // i Q learn
-	float set_exploration_proba();
-	float get_lr();
-	float get_gamma();
-	float get_exploration_proba();
-	float get_exploration_proba_decay();
-	float get_batch_size();
-	State* get_starting_state();
-	State* get_agent_location();
-	void store_episode();
-	/*void train(Qlearn* algo, int number_of_episode, int interations_pr_epi);*/
-    ~Agent();
-
+	void take_action(Mat map, Action action);
+	State *get_starting_state();
+	State *get_agent_location();
+	~Agent();
 };

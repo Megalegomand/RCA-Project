@@ -1,0 +1,3 @@
+<launch>
+    <node name="reinforcement_learning_node" pkg="reinforcement_learning" type="reinforcement_learning_node" />
+</launch>
