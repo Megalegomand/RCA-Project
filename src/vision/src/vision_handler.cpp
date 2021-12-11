@@ -104,8 +104,8 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         }
 
         imshow("Blur", img);
-        /*imwrite("/home/philip/Pictures/Blurres.png",img);
-        return;*/
+        imwrite("/home/philip/Pictures/7x7 matrix.png",img);
+        //return;
     }
 
     // Turn img gray for Hough
