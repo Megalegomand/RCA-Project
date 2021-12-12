@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     MCL mcl(&map);
     mcl.visualize();
-    mcl.randomize_particles();
+    mcl.init_particles();
 
     ros::spin();
     /*

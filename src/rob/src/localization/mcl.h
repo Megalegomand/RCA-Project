@@ -1,9 +1,13 @@
 #pragma once
+#include "fstream"
+#include "gazebo_msgs/GetModelState.h"
 #include "math.h"
 #include "nav_msgs/Odometry.h"
 #include "particle.h"
+#include "ros/package.h"
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
+#include "tf/transform_datatypes.h"
 #include "vector"
 #include <message_filters/subscriber.h>
 #include <message_filters/sync_policies/approximate_time.h>
@@ -14,7 +18,6 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <random>
 #include <stdlib.h>
-#include "tf/transform_datatypes.h"
 
 #define REAL_WIDTH 84.67
 #define REAL_HEIGHT 56.45
@@ -36,7 +39,12 @@ class MCL
     typedef message_filters::Synchronizer<ParticleSyncPolicy> Sync;
     boost::shared_ptr<Sync> sync;
 
+    std::ofstream csv;
+
     cv::Mat *map;
+    cv::Mat loc_map;
+    cv::Point prev_real;
+    cv::Point prev_est;
     std::vector<Particle> particles;
     int particle_amount = 10000;
     float map2real_c;
@@ -48,6 +56,7 @@ class MCL
   public:
     MCL(cv::Mat *map);
     void randomize_particles();
+    void init_particles();
     void visualize();
     void callback(const sensor_msgs::LaserScanConstPtr &scan,
                   const nav_msgs::OdometryConstPtr &odom);

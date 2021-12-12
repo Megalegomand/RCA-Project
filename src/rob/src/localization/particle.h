@@ -34,5 +34,8 @@ public:
     void update_pose(float diff_x, float diff_y, float diff_angle);
     void mark(cv::Mat* vis_map);
     double get_likelihood(const sensor_msgs::LaserScanConstPtr& scan);
+    float get_dist(float x_, float y_);
+    float get_x();
+    float get_y();
     ~Particle();
 };

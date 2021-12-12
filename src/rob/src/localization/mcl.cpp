@@ -12,7 +12,11 @@ MCL::MCL(Mat *map)
     // rw / mw = m2r = r / m => m = r / m2r
 
     this->map = map;
+    loc_map = map->clone();
     particles = vector<Particle>();
+
+    prev_real = Point2i(real2map_x(0.0), real2map_y(0.0));
+    prev_est = Point2i(real2map_x(0.0), real2map_y(0.0));
 
     // lidar_sub =
     //    nh.subscribe("/robot/laser/scan", 1, &MCL::lidar_callback, this);
@@ -22,6 +26,8 @@ MCL::MCL(Mat *map)
 
     sync.reset(new Sync(ParticleSyncPolicy(10), lidar_sub, odom_sub));
     sync->registerCallback(boost::bind(&MCL::callback, this, _1, _2));
+
+    csv.open(ros::package::getPath("rob") + "/local.csv");
 }
 
 void MCL::randomize_particles()
@@ -51,6 +57,14 @@ void MCL::randomize_particles()
     }
 }
 
+void MCL::init_particles()
+{
+    for (int i = 0; i < particle_amount; i++)
+    {
+        particles.push_back(Particle(0.0, 0.0, 0.0, map, this));
+    }
+}
+
 void MCL::visualize()
 {
     Mat vis = map->clone();
@@ -60,6 +74,21 @@ void MCL::visualize()
     }
     imshow("Localization", vis);
     waitKey(10);
+}
+
+template <typename T> struct comma_separator : std::numpunct<T>
+{
+    typename std::numpunct<T>::char_type do_decimal_point() const
+    {
+        return ',';
+    }
+};
+
+template <typename T>
+std::basic_ostream<T> &comma_sep(std::basic_ostream<T> &os)
+{
+    os.imbue(std::locale(std::locale(""), new comma_separator<T>));
+    return os;
 }
 
 void MCL::callback(const sensor_msgs::LaserScanConstPtr &scan,
@@ -87,7 +116,7 @@ void MCL::callback(const sensor_msgs::LaserScanConstPtr &scan,
     normal_distribution<double> angle_dist(diff_angle, ANGLE_STD);
 
     // Motion update
-    for (Particle& p : particles)
+    for (Particle &p : particles)
     {
         p.update_pose(x_dist(dre), y_dist(dre), angle_dist(dre));
     }
@@ -95,17 +124,46 @@ void MCL::callback(const sensor_msgs::LaserScanConstPtr &scan,
     // Sensor update
     double weight_sum = 0.0f;
     vector<double> weights;
-    for (Particle& p : particles)
+    for (Particle &p : particles)
     {
         double weight = p.get_likelihood(scan);
         weight_sum += weight;
         weights.push_back(weight);
     }
 
+    float weight_max = 0.0f;
+    Particle *best_particle;
     for (int i = 0; i < weights.size(); i++)
     {
         weights[i] *= 1 / weight_sum;
         particles[i].norm_weight = weights[i];
+        if (weights[i] > weight_max)
+        {
+            weight_max = weights[i];
+            best_particle = &particles[i];
+        }
+    }
+
+    gazebo_msgs::GetModelState robot_state;
+    robot_state.request.model_name = "pioneer2dx";
+    if (ros::service::call("/gazebo/get_model_state", robot_state))
+    {
+        double dist =
+            best_particle->get_dist(robot_state.response.pose.position.x,
+                                    robot_state.response.pose.position.y);
+        ROS_INFO("dist: %f", dist);
+        csv << comma_sep << dist << endl;
+
+        Point2i real = Point2i(real2map_x(robot_state.response.pose.position.x), real2map_y(robot_state.response.pose.position.y));
+        Point2i est = Point2i(real2map_x(best_particle->get_x()), real2map_y(best_particle->get_y()));
+
+        line(loc_map, est, prev_est, Vec3b(255,0,0));
+        line(loc_map, real, prev_real, Vec3b(0,0,255));
+        
+        imwrite(ros::package::getPath("rob") + "/local.png", loc_map);
+
+        prev_real = real;
+        prev_est = est;
     }
 
     resample(weights);

@@ -120,6 +120,21 @@ void Particle::update_pose(float diff_x, float diff_y, float diff_angle)
     angle += angle_dist(dre);
 }
 
+float Particle::get_dist(float x_, float y_)
+{
+    return sqrt((x - x_) * (x - x_) + (y - y_) * (y - y_));
+}
+
+float Particle::get_x()
+{
+    return x;
+}
+
+float Particle::get_y()
+{
+    return y;
+}
+
 Particle::~Particle()
 {
 }

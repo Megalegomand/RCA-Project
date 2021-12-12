@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   roslib
   message_filters
+  gazebo_msgs
 )
 
 find_package( OpenCV REQUIRED )
@@ -150,6 +151,11 @@ file (GLOB LOC_SRC
 )
 add_executable(${PROJECT_NAME}_localization_node ${LOC_SRC})
 
+file (GLOB EX_SRC
+    src/exploration/*.cpp
+    src/exploration/*.h
+)
+add_executable(${PROJECT_NAME}_exploration_node ${EX_SRC})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -164,6 +170,7 @@ add_executable(${PROJECT_NAME}_localization_node ${LOC_SRC})
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_navigation_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(${PROJECT_NAME}_localization_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_exploration_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
@@ -175,9 +182,13 @@ target_link_libraries(${PROJECT_NAME}_navigation_node
 target_link_libraries(${PROJECT_NAME}_localization_node
   ${catkin_LIBRARIES}
 )
+target_link_libraries(${PROJECT_NAME}_exploration_node
+  ${catkin_LIBRARIES}
+)
 
 target_link_libraries(${PROJECT_NAME}_navigation_node ${OpenCV_LIBS} )
 target_link_libraries(${PROJECT_NAME}_localization_node ${OpenCV_LIBS} )
+target_link_libraries(${PROJECT_NAME}_exploration_node ${OpenCV_LIBS} )
 
 #############
 ## Install ##
