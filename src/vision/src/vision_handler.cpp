@@ -130,18 +130,18 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         circle(img, center, radius, Scalar(0, 255, 255), 3, 8, 0);
         distance = (2 * known_radius * camera_matrix.at<double>(1, 1)) / (radius * 2);
         distancestring = to_string(distance);
-       /* putText(img,               //target image
+       putText(img,               //target image
                 distancestring,              //text
                 center, //center of circle
                 cv::FONT_HERSHEY_DUPLEX,
                 0.5,
                 CV_RGB(118, 185, 0), //font color
-                2);*/
+                2);
     }
     namedWindow("circles", 1);
 
     imshow("circles", img);
-    imwrite("/home/philip/Pictures/testbigwrldv1.png",img);
+    imwrite("/home/philip/Pictures/big dist.png",img);
 
     waitKey(500);
 }
