@@ -117,7 +117,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     double known_radius = 0.5;
     string distancestring;
     double distance;
-    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 35, 25,
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 110, 13.5,
                  img.cols/16, 7/8* img.cols);
 
     for (size_t i = 0; i < circles.size(); i++)
@@ -141,7 +141,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     namedWindow("circles", 1);
 
     imshow("circles", img);
-    imwrite("/home/philip/Pictures/Test param1v3.png",img);
+    imwrite("/home/philip/Pictures/testbigwrldv1.png",img);
 
     waitKey(500);
 }
