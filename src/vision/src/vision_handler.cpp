@@ -56,7 +56,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         return;
     }
 
-    Mat img = imread("/homes/philip/Pictures/Test smalwrld.png"); //cv_ptr->image.clone();
+    Mat img = cv_ptr->image.clone();
 
     imshow("Test12", img);
     /*imwrite("/home/philip/Pictures/Test.png",img);
@@ -104,8 +104,8 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         }
 
         imshow("Blur", img);
-        /*imwrite("/home/philip/Pictures/Blurres.png",img);
-        return;*/
+        //imwrite("/home/philip/Pictures/7x7 matrix.png",img);
+        //return;
     }
 
     // Turn img gray for Hough
@@ -117,7 +117,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     double known_radius = 0.5;
     string distancestring;
     double distance;
-    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 100, 13.5,
+    HoughCircles(img, circles, HOUGH_GRADIENT, 1, img.cols / 4, 110, 13.5,
                  img.cols/16, 7/8* img.cols);
 
     for (size_t i = 0; i < circles.size(); i++)
@@ -130,7 +130,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
         circle(img, center, radius, Scalar(0, 255, 255), 3, 8, 0);
         distance = (2 * known_radius * camera_matrix.at<double>(1, 1)) / (radius * 2);
         distancestring = to_string(distance);
-        putText(img,               //target image
+       putText(img,               //target image
                 distancestring,              //text
                 center, //center of circle
                 cv::FONT_HERSHEY_DUPLEX,
@@ -141,7 +141,7 @@ void VisHandler::camera_callback(const ImageConstPtr &call_img)
     namedWindow("circles", 1);
 
     imshow("circles", img);
-    imwrite("/home/philip/Pictures/Test samlwrld.png",img);
+    imwrite("/home/philip/Pictures/big dist.png",img);
 
     waitKey(500);
 }

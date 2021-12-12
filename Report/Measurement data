@@ -1,0 +1,11 @@
+Big World:
+Bot (x,y,z): (-11.309424, 8.715317, -0.000002)
+Marble (x,y,z): (-7.794060, 8.660770, 0.499509)
+Measurement: 3.22
+Actual distance: 3.5511
+
+
+Small world:
+Distance: 4.5-5.3
+Bot(x,y,z): (0,0,0)
+Marble(x,y,z): (5,0,0.5)

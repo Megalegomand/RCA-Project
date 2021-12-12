@@ -35,6 +35,7 @@ private:
 	double max_exploration_rate = 1.0;
 	//steps pr episode
 	int maxSteps = 10000;
+	int blue_marble_counter = 0;
 
 	// Results
 	double maxReward;
